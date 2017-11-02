@@ -1,0 +1,21 @@
+// Joshua Ciffer 11/2/2017 //
+
+package bank.account ;
+
+public class AccountNotFoundException extends Exception {
+	
+	public AccountNotFoundException() {
+		System.out.println("\nThe Account You Entered Does Not Exist. Please Create An Account.\n") ;
+	}
+	
+	public static void THROW(int accountNumber) throws AccountNotFoundException {
+		try {
+			if (!BankAccount.ACCOUNT_EXISTS(accountNumber)) {
+				throw new AccountNotFoundException() ;
+			}
+		} catch (NullPointerException e) {
+			throw new AccountNotFoundException() ;
+		}
+	}
+
+}

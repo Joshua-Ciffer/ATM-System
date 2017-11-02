@@ -3,10 +3,10 @@
  * -
  */
 
-package bank ;
-import bank.Exceptions.InvalidPinException ;
-import bank.Exceptions.PinMismatchException ;
-import bank.Exceptions.IncorrectPinException ;
+package bank.pin ;
+import bank.pin.InvalidPinException ;
+import bank.pin.PinMismatchException ;
+import bank.pin.IncorrectPinException ;
 
 public class Pin {
 	

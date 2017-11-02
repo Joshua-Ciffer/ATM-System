@@ -3,7 +3,8 @@
  * - GET_ACCOUNT() method when written using exception THROW() methods produces StackOverFlowError
  */
 
-package bank ;
+package bank.account ;
+import bank.pin.Pin ;
 import java.util.Map ;
 import java.util.HashMap ;
 import java.math.BigDecimal ;
@@ -11,12 +12,12 @@ import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter; 
-import bank.Exceptions.AccountNotFoundException ;
-import bank.Exceptions.IncorrectPinException ;
-import bank.Exceptions.NegativeAmountException ;
-import bank.Exceptions.InsufficientBalanceException ;
-import bank.Exceptions.InvalidPinException ;
-import bank.Exceptions.PinMismatchException ;
+import bank.account.AccountNotFoundException ;
+import bank.pin.IncorrectPinException ;
+import bank.account.NegativeAmountException ;
+import bank.account.InsufficientBalanceException ;
+import bank.pin.InvalidPinException ;
+import bank.pin.PinMismatchException ;
 
 public class BankAccount {
 
@@ -29,6 +30,7 @@ public class BankAccount {
 	private BigDecimal accountBalance ;
 	private boolean accountExists ;
 	
+	@SuppressWarnings("deprecation")
 	public BankAccount() { 
 		this.ACCOUNT_NUMBER = 000_000 ;		// Default Account Number
 		this.accountName = "" ;		// Blank Name

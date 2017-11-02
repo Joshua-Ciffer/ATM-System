@@ -3,23 +3,22 @@
  * -
  */
 
-package bank ;
-import bank.BankAccount ;
+package bank.account ;
 import java.util.Scanner ;
 import java.util.InputMismatchException ;
-import bank.Exceptions.AccountNotFoundException ;
-import bank.Exceptions.IncorrectPinException ;
-import bank.Exceptions.NegativeAmountException ;
-import bank.Exceptions.InsufficientBalanceException ;
-import bank.Exceptions.InvalidPinException ;
-import bank.Exceptions.PinMismatchException ;
+import bank.account.AccountNotFoundException ;
+import bank.pin.IncorrectPinException ;
+import bank.account.NegativeAmountException ;
+import bank.account.InsufficientBalanceException ;
+import bank.pin.InvalidPinException ;
+import bank.pin.PinMismatchException ;
 
 public class Interface {
 	
 	private static Scanner userInput ;
 	private static String accountName, accountPin, confirmPin, newPin, closeAccountConfirm ;
 	private static short menuOption ;
-	private static int accountNumber, transferingAccount, receivingAccount ;
+	private static int accountNumber, transfferingAccount, receivingAccount ;
 	private static double accountBalance, depositAmount, withdrawalAmount, transferAmount ;
 	private static boolean deleteAccount ;
 	
@@ -290,7 +289,7 @@ public class Interface {
 	}
 
 	private static void MAKE_A_TRANSFER() {
-		transferingAccount = accountNumber ;
+		transfferingAccount = accountNumber ;
 		System.out.print("\n") ;
 		do {	// Begin Receiving Account Number Loop
 			System.out.print("Enter The Account Number You Want To Transfer To: #") ;
@@ -309,7 +308,7 @@ public class Interface {
 				try {
 					transferAmount = userInput.nextDouble() ;
 					NegativeAmountException.THROW(transferAmount) ;
-					InsufficientBalanceException.THROW(transferingAccount, accountPin, transferAmount) ;
+					InsufficientBalanceException.THROW(transfferingAccount, accountPin, transferAmount) ;
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 					userInput.next() ;
@@ -320,7 +319,7 @@ public class Interface {
 					break ;
 				}
 				try {
-					BankAccount.TRANSFER(transferingAccount, accountPin, receivingAccount, transferAmount) ;
+					BankAccount.TRANSFER(transfferingAccount, accountPin, receivingAccount, transferAmount) ;
 				} catch (Exception e) {
 					e.printStackTrace() ;
 				}
