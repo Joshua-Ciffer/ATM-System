@@ -1,16 +1,19 @@
-// Joshua Ciffer 10/30/2017 //
-/* Bugs
- * - GET_ACCOUNT() method when written using exception THROW() methods produces StackOverFlowError
- */
+//============================================================================//
+// Name        : BankAccount.java											  //
+// Author      : Joshua Ciffer												  //
+// Date        : 11/15/2017													  //
+// Bugs   	   : - GET_ACCOUNT() method when written using exception THROW()  //
+//		methods produces StackOverFlowError. 							      //
+//============================================================================//
 
 package bank.account ;
-import bank.pin.Pin ;
 import java.util.HashMap ;
 import java.math.BigDecimal ;
 import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
-import java.time.format.DateTimeFormatter; 
+import java.time.format.DateTimeFormatter ;
+import bank.pin.Pin ;
 import bank.account.AccountNotFoundException ;
 import bank.pin.IncorrectPinException ;
 import bank.account.NegativeAmountException ;
