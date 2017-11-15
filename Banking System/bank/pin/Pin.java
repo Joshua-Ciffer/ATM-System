@@ -8,7 +8,7 @@ import bank.pin.InvalidPinException ;
 import bank.pin.PinMismatchException ;
 import bank.pin.IncorrectPinException ;
 
-public class Pin {
+final public class Pin {
 	
 	private static String formattedPin ;
 	private static short unformattedPin ;
