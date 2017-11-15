@@ -5,7 +5,6 @@
 
 package bank.account ;
 import bank.pin.Pin ;
-import java.util.Map ;
 import java.util.HashMap ;
 import java.math.BigDecimal ;
 import java.text.NumberFormat ;
@@ -21,7 +20,7 @@ import bank.pin.PinMismatchException ;
 
 public class BankAccount {
 
-	private static Map<Integer, BankAccount> ACCOUNT_MAP = new HashMap<Integer, BankAccount>() ;
+	private static HashMap<Integer, BankAccount> ACCOUNT_MAP = new HashMap<Integer, BankAccount>() ;
 	private static NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US) ;
 	private static DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a") ;
 	final private int ACCOUNT_NUMBER ;
