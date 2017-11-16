@@ -5,8 +5,6 @@
 //============================================================================//
 
 package bank.account ;
-import java.lang.Exception ;
-import java.lang.NullPointerException ;
 import bank.account.BankAccount ;
 
 final public class AccountNotFoundException extends Exception {
@@ -17,7 +15,7 @@ final public class AccountNotFoundException extends Exception {
 	
 	public static void THROW(int accountNumber) throws AccountNotFoundException {
 		try {
-			if (!BankAccount.ACCOUNT_EXISTS(accountNumber)) {
+			if (BankAccount.ACCOUNT_EXISTS(accountNumber) == false) {
 				throw new AccountNotFoundException() ;
 			}
 		} catch (NullPointerException e) {

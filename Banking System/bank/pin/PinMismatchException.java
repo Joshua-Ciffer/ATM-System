@@ -1,9 +1,12 @@
-// Joshua Ciffer 11/2/2017 //
+//============================================================================//
+// Name        : PinMismatchException.java									  //
+// Author      : Joshua Ciffer												  //
+// Date        : 11/15/2017													  //
+//============================================================================//
 
-package bank.pin;
+package bank.pin ;
 
-
-public class PinMismatchException extends Exception {
+final public class PinMismatchException extends Exception {
 
 	public PinMismatchException() {
 		System.out.println("\nThe Pins You Entered Do Not Match.\n") ;
@@ -12,7 +15,7 @@ public class PinMismatchException extends Exception {
 	public static void THROW(String pin, String confirmPin) throws InvalidPinException, PinMismatchException {
 		InvalidPinException.THROW(pin) ;
 		InvalidPinException.THROW(confirmPin) ;
-		if (!pin.equalsIgnoreCase(confirmPin)) {
+		if (pin.equalsIgnoreCase(confirmPin) == false) {
 			throw new PinMismatchException() ;
 		}
 	}

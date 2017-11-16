@@ -1,19 +1,22 @@
-// Joshua Ciffer 10/30/2017 //
-/* Bugs
- * -
- */
+//============================================================================//
+// Name        : Interface.java												  //
+// Author      : Joshua Ciffer												  //
+// Date        : 11/15/2017													  //
+// Bugs		   : - Exception is thrown when withdrawing amount greater than   //
+//		the account balance. 												  //
+//============================================================================//
 
 package bank.account ;
 import java.util.Scanner ;
 import java.util.InputMismatchException ;
 import bank.account.AccountNotFoundException ;
-import bank.pin.IncorrectPinException ;
 import bank.account.NegativeAmountException ;
 import bank.account.InsufficientBalanceException ;
 import bank.pin.InvalidPinException ;
 import bank.pin.PinMismatchException ;
+import bank.pin.IncorrectPinException ;
 
-public class Interface {
+final public class Interface {
 	
 	private static Scanner userInput ;
 	private static String accountName, accountPin, confirmPin, newPin, closeAccountConfirm ;
@@ -29,7 +32,7 @@ public class Interface {
 	private static void MAIN_MENU() {
 		do {	// Begin Main Menu Loop
 			userInput = new Scanner(System.in) ;
-			System.out.println("----Bank Main Menu-----") ;
+			System.out.println("-----Bank Main Menu-----") ;
 			System.out.println("-(1) Login") ;
 			System.out.println("-(2) Create Account") ;
 			System.out.println("-(3) List Accounts (DEBUG USE)") ;
@@ -66,7 +69,7 @@ public class Interface {
 			}	// End Menu Switch Statement
 			break ;
 		} while (true) ;	// End Main Menu Loop
-	}
+	}	// End MAIN_MENU()
 
 	private static void CREATE_ACCOUNT() {
 		userInput.nextLine() ;
@@ -130,7 +133,7 @@ public class Interface {
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
-	}
+	}	// End CREATE_ACCOUNT()
 
 	private static void LOGIN() {
 		do {	// Begin Account Number Loop
@@ -165,13 +168,13 @@ public class Interface {
 			} while (true) ;	// End Account Pin Loop
 			break ;
 		} while (true) ;	// End Account Number Loop
-	}
+	}	// End LOGIN()
 
 	private static void LIST_ACCOUNTS() {
 		System.out.println("\n---Account List---") ;
 		BankAccount.LIST_ACCOUNTS() ;
 		System.out.print("\n") ;
-	}
+	}	// End LIST_ACCOUNTS()
 	
 	private static void ACCOUNT_MENU() {
 		System.out.print("\n") ;
@@ -237,7 +240,7 @@ public class Interface {
 			}	// End Account Menu Switch Statement
 			break ;
 		} while (true) ;	// End Account Menu Loop
-	}
+	}	// End ACCOUNT_MENU()
 	
 	private static void MAKE_A_DEPOSIT() {
 		System.out.print("\n") ;
@@ -260,7 +263,7 @@ public class Interface {
 			}
 			break ;
 		} while (true) ;	// End Deposit Amount Loop
-	}
+	}	// End MAKE_A_DEPOSIT()
 
 	private static void MAKE_A_WITHDRAWAL() {
 		System.out.print("\n") ;
@@ -270,7 +273,6 @@ public class Interface {
 				withdrawalAmount = userInput.nextDouble() ;
 				NegativeAmountException.THROW(withdrawalAmount) ;
 				InsufficientBalanceException.THROW(accountNumber, accountPin, withdrawalAmount) ;
-				break ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 				userInput.next() ;
@@ -280,13 +282,14 @@ public class Interface {
 			} catch (InsufficientBalanceException e) {
 				break ;
 			}
+			try {
+				BankAccount.GET_ACCOUNT(accountNumber, accountPin).withdraw(withdrawalAmount) ;
+				break ;
+			} catch (Exception e) {
+				e.printStackTrace() ;
+			}
 		} while (true) ;	// End Withdrawal Amount Loop
-		try {
-			BankAccount.GET_ACCOUNT(accountNumber, accountPin).withdraw(withdrawalAmount) ;
-		} catch (Exception e) {
-			e.printStackTrace() ;
-		}
-	}
+	}	// End MAKE_A_WITHDRAWAL()
 
 	private static void MAKE_A_TRANSFER() {
 		transfferingAccount = accountNumber ;
@@ -327,7 +330,7 @@ public class Interface {
 			} while (true) ;	// End Transfer Amount Loop
 			break ;
 		} while (true) ;	// End Receiving Account Number Loop
-	}
+	}	// End MAKE_A_TRANSFER()
 
 	private static void CHECK_BALANCE() {
 		try {
@@ -335,11 +338,11 @@ public class Interface {
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}
-	}
+	}	// End CHECK_BALANCE()
 	
 	private static void CHANGE_PIN() {
-		userInput.nextLine() ;
 		System.out.print("\n") ;
+		userInput.nextLine() ;
 		do {	// Begin Account Pin Loop
 			System.out.print("Enter Your Account Pin: ") ;
 			try {
@@ -373,7 +376,6 @@ public class Interface {
 						PinMismatchException.THROW(newPin, confirmPin) ;
 					} catch (InputMismatchException e) {
 						System.out.println("\nPlease Confirm Your New Pin.\n") ;
-						System.out.println("foo3");
 						userInput.next() ;
 						continue ;
 					} catch (InvalidPinException e) {
@@ -393,7 +395,7 @@ public class Interface {
 			} while (true) ;	// End Create Pin Loop	
 			break ;
 		} while (true) ;	// End Account Pin Loop
-	}
+	}	// End CHANGE_PIN()
 	
 	private static void ACCOUNT_HISTORY() {
 		try {
@@ -401,7 +403,7 @@ public class Interface {
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
-	}
+	}	// End ACCOUNT_HISTORY()
 	
 	private static void CLOSE_ACCOUNT() {
 		userInput.nextLine() ;
@@ -429,12 +431,12 @@ public class Interface {
 				break ;
 			}
 		} while (true) ;	// End Confirm Loop
-	}
+	}	// End CLOSE_ACCOUNT()
 	
 	private static void EXIT() {
 		userInput.close() ;
 		userInput = null ;
 		System.exit(0) ;
-	}
+	}	// End EXIT()
 
 }	// End Interface Class

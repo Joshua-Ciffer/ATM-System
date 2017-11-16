@@ -5,7 +5,6 @@
 //============================================================================//
 
 package bank.account ;
-import java.lang.Exception ;
 
 final public class NegativeAmountException extends Exception {
 

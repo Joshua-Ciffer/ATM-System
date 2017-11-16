@@ -1,10 +1,12 @@
-// Joshua Ciffer 11/2/2017 //
+//============================================================================//
+// Name        : InvalidPinException.java									  //
+// Author      : Joshua Ciffer												  //
+// Date        : 11/15/2017													  //
+//============================================================================//
 
-package bank.pin;
-import java.lang.Short ;
-import java.lang.NumberFormatException ;
+package bank.pin ;
 
-public class InvalidPinException extends Exception {
+final public class InvalidPinException extends Exception {
 
 	public InvalidPinException() {
 		System.out.println("\nPlease Enter A Valid 4 Digit Pin.\n") ;

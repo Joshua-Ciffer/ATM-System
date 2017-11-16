@@ -3,7 +3,9 @@
 // Author      : Joshua Ciffer												  //
 // Date        : 11/15/2017													  //
 // Bugs   	   : - GET_ACCOUNT() method when written using exception THROW()  //
-//		methods produces StackOverFlowError. 							      //
+//		methods produces StackOverFlowError. 								  //
+//				 - Exception is thrown when withdrawal amount is greater than //
+//		account balance.													  //
 //============================================================================//
 
 package bank.account ;
@@ -13,13 +15,13 @@ import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter ;
-import bank.pin.Pin ;
 import bank.account.AccountNotFoundException ;
-import bank.pin.IncorrectPinException ;
 import bank.account.NegativeAmountException ;
 import bank.account.InsufficientBalanceException ;
+import bank.pin.Pin ;
 import bank.pin.InvalidPinException ;
 import bank.pin.PinMismatchException ;
+import bank.pin.IncorrectPinException ;
 
 public class BankAccount {
 
@@ -32,6 +34,7 @@ public class BankAccount {
 	private BigDecimal accountBalance ;
 	private boolean accountExists ;
 	
+	@SuppressWarnings("deprecation")
 	public BankAccount() { 
 		this.ACCOUNT_NUMBER = 000_000 ;		// Default Account Number
 		this.accountName = "" ;		// Blank Name
@@ -42,6 +45,7 @@ public class BankAccount {
 		this.accountExists = false ;	
 	}
 
+	@SuppressWarnings("deprecation")
 	private BankAccount(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, BigDecimal accountBalance) {
 		this.ACCOUNT_NUMBER = ACCOUNT_NUMBER ;
 		this.accountName = accountName ;
@@ -135,6 +139,7 @@ public class BankAccount {
 		ACCOUNT_MAP.get(transferingAccount).accountBalance = ACCOUNT_MAP.get(transferingAccount).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
 		ACCOUNT_MAP.get(receivingAccount).accountBalance = ACCOUNT_MAP.get(receivingAccount).accountBalance.add(new BigDecimal(transferAmount)) ;
 		ACCOUNT_MAP.get(transferingAccount).accountHistory = ACCOUNT_MAP.get(transferingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
+		ACCOUNT_MAP.get(receivingAccount).accountHistory = ACCOUNT_MAP.get(receivingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
 		System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(ACCOUNT_MAP.get(transferingAccount).accountBalance) + "\n") ;
 	}
 	

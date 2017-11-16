@@ -1,7 +1,8 @@
-// Joshua Ciffer 10/30/2017 //
-/* Bugs
- * -
- */
+//============================================================================//
+// Name        : Pin.java													  //
+// Author      : Joshua Ciffer												  //
+// Date        : 11/15/2017													  //
+//============================================================================//
 
 package bank.pin ;
 import bank.pin.InvalidPinException ;
@@ -37,7 +38,7 @@ final public class Pin {
 	
 	public boolean equals(Object confirmPin) {	  // Takes an Object as a parameter to properly override the super class equals method
 		Pin comparingPin = (Pin)confirmPin ;	// Casts Object to type Pin
-		if (this.pin.toString().equalsIgnoreCase(comparingPin.toString())) {
+		if (this.toString().equalsIgnoreCase(comparingPin.toString())) {
 			return true ;
 		} else {
 			return false ;
