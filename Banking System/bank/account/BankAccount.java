@@ -35,7 +35,7 @@ public class BankAccount {
 	private boolean accountExists ;
 	
 	public BankAccount() { 
-		this.ACCOUNT_NUMBER = 000_000 ;		// Default Account Number
+		this.ACCOUNT_NUMBER = 000_000 ;	    // Default Account Number
 		this.accountName = "" ;		// Blank Name
 		this.accountHistory = "" ;
 		this.accountPin = new Pin() ;	// Default Pin 0000
