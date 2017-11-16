@@ -34,7 +34,6 @@ public class BankAccount {
 	private BigDecimal accountBalance ;
 	private boolean accountExists ;
 	
-	@SuppressWarnings("deprecation")
 	public BankAccount() { 
 		this.ACCOUNT_NUMBER = 000_000 ;		// Default Account Number
 		this.accountName = "" ;		// Blank Name
@@ -45,7 +44,6 @@ public class BankAccount {
 		this.accountExists = false ;	
 	}
 
-	@SuppressWarnings("deprecation")
 	private BankAccount(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, BigDecimal accountBalance) {
 		this.ACCOUNT_NUMBER = ACCOUNT_NUMBER ;
 		this.accountName = accountName ;

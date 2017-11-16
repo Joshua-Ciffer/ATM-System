@@ -1,7 +1,7 @@
 // Joshua Ciffer 11/2/2017 //
 
 package bank.gui;
-import javax.swing.JButton;
+import javax.swing.JButton ;
 import javax.swing.JFrame ;
 
 public class MainMenu extends JFrame {
