@@ -21,7 +21,7 @@ final public class Interface {
 	private static Scanner userInput ;
 	private static String accountName, accountPin, confirmPin, newPin, closeAccountConfirm ;
 	private static short menuOption ;
-	private static int accountNumber, transfferingAccount, receivingAccount ;
+	private static int accountNumber, transferringAccount, receivingAccount ;
 	private static double accountBalance, depositAmount, withdrawalAmount, transferAmount ;
 	private static boolean deleteAccount ;
 	
@@ -292,7 +292,7 @@ final public class Interface {
 	}	// End MAKE_A_WITHDRAWAL()
 
 	private static void MAKE_A_TRANSFER() {
-		transfferingAccount = accountNumber ;
+		transferringAccount = accountNumber ;
 		System.out.print("\n") ;
 		do {	// Begin Receiving Account Number Loop
 			System.out.print("Enter The Account Number You Want To Transfer To: #") ;
@@ -311,7 +311,7 @@ final public class Interface {
 				try {
 					transferAmount = userInput.nextDouble() ;
 					NegativeAmountException.THROW(transferAmount) ;
-					InsufficientBalanceException.THROW(transfferingAccount, accountPin, transferAmount) ;
+					InsufficientBalanceException.THROW(transferringAccount, accountPin, transferAmount) ;
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 					userInput.next() ;
@@ -322,7 +322,7 @@ final public class Interface {
 					break ;
 				}
 				try {
-					BankAccount.TRANSFER(transfferingAccount, accountPin, receivingAccount, transferAmount) ;
+					BankAccount.TRANSFER(transferringAccount, accountPin, receivingAccount, transferAmount) ;
 				} catch (Exception e) {
 					e.printStackTrace() ;
 				}
