@@ -7,11 +7,11 @@
 package bank.gui ;
 import javax.swing.JFrame ;
 import java.awt.GridLayout ;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JLabel ;
 import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
+import java.awt.event.ActionEvent ;
+import java.awt.event.ActionListener ;
 
 public class MainMenu extends JFrame {
 	
