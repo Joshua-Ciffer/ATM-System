@@ -10,10 +10,11 @@ import java.awt.GridLayout ;
 import javax.swing.JLabel ;
 import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
+import bank.account.BankAccount ;
 import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 
-public class MainMenu extends JFrame {
+final public class MainMenu extends JFrame {
 	
 	private GridLayout mainMenuLayout ;
 	private JLabel mainMenuLabel ;
@@ -21,17 +22,23 @@ public class MainMenu extends JFrame {
 	
 	 
 	public static void main(String[] args) {
+		try {
+			BankAccount.CREATE_ACCOUNT(0, "Josh", "1234", "1234", 523) ;
+		} catch (Exception e) {
+			e.printStackTrace() ;
+		}
+		BankAccount.LIST_ACCOUNTS() ;
 		new MainMenu() ;
 	}
 	
  	public MainMenu() {
-		menuFrameSetup() ;
+		frameSetup() ;
 		layoutSetup() ;
 		componentSetup() ;
 		
 	}
 	
-	private void menuFrameSetup() {
+	private void frameSetup() {
 		setVisible(true) ;
 		setTitle("Bank Main Menu") ;
 		setSize(500, 500) ;
@@ -61,6 +68,7 @@ public class MainMenu extends JFrame {
 		add(exitButton) ;
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new Login() ;
 				System.out.println("Login Pressed") ;
 			}
 		}) ;
