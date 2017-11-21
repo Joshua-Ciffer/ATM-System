@@ -1,7 +1,7 @@
 //============================================================================//
-// Name        : Login.java         	     								  //
-// Author      : Joshua Ciffer												  //
-// Date        : 11/19/2017													  //
+// Name        : Login.java                                                   //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/21/2017                                                   //
 //============================================================================//
 
 package bank.gui ; 
@@ -18,6 +18,8 @@ import javax.swing.JPasswordField ;
 
 final class Login extends JPanel {
 
+	public JFrame testFrame = new JFrame() ;
+	
 	private GridLayout loginLayout ;
 	private JLabel loginLabel ;
 	private JTextField accountNumberField ;

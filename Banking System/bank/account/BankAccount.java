@@ -66,7 +66,7 @@ public class BankAccount {
 		}
 	}
 	
-	private static int GENERATE_ACCOUNT_NUMBER(int accountNumber) {
+	final private static int GENERATE_ACCOUNT_NUMBER(int accountNumber) {
 		do {
 			accountNumber = (int)(Math.random() * 1_000_000) ;	  // Generates 6 digit Account Number
 			if (accountNumber < 100_000 || accountNumber > 999_999) {
@@ -80,13 +80,13 @@ public class BankAccount {
 		return accountNumber ;
 	}
 	
-	public static void CLOSE_ACCOUNT(int accountNumber) throws AccountNotFoundException {
+	final public static void CLOSE_ACCOUNT(int accountNumber) throws AccountNotFoundException {
 		AccountNotFoundException.THROW(accountNumber) ;
 		ACCOUNT_MAP.remove(accountNumber) ;
 		System.out.println("\nYour Account Has Been Closed.\n") ;
 	}
 	
-	public static BankAccount GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, InvalidPinException, IncorrectPinException {
+	final public static BankAccount GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, InvalidPinException, IncorrectPinException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
 				return ACCOUNT_MAP.get(accountNumber) ;
@@ -105,7 +105,7 @@ public class BankAccount {
 	//	return ACCOUNT_MAP.get(accountNumber) ;
 	// }
 	
-	public static boolean ACCOUNT_EXISTS(int accountNumber) throws AccountNotFoundException {
+	final public static boolean ACCOUNT_EXISTS(int accountNumber) throws AccountNotFoundException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			if (ACCOUNT_MAP.get(accountNumber).accountExists) {
 				return true ;
@@ -117,18 +117,18 @@ public class BankAccount {
 		}
 	}
 
-	public static void LIST_ACCOUNTS() {	// DEBUG USE
+	final public static void LIST_ACCOUNTS() {	// DEBUG USE
 		BankAccount[] listOfAccounts = ACCOUNT_MAP.values().toArray(new BankAccount[ACCOUNT_MAP.size()]) ;	 // HashMap to Collection, to BankAccount[]
 		for (BankAccount ba : listOfAccounts) {
 			System.out.println(ba.toString()) ;
 		}
 	}
 	
-	public static String TO_CURRENCY_FORMAT(BigDecimal amount) {
+	final public static String TO_CURRENCY_FORMAT(BigDecimal amount) {
 		return US_DOLLARS.format(amount) ;
 	}
 	
-	public static void TRANSFER(int transferingAccount, String accountPin, int receivingAccount, double transferAmount) throws AccountNotFoundException, InvalidPinException, IncorrectPinException, NegativeAmountException, InsufficientBalanceException {
+	final public static void TRANSFER(int transferingAccount, String accountPin, int receivingAccount, double transferAmount) throws AccountNotFoundException, InvalidPinException, IncorrectPinException, NegativeAmountException, InsufficientBalanceException {
 		AccountNotFoundException.THROW(transferingAccount) ;
 		AccountNotFoundException.THROW(receivingAccount) ;
 		IncorrectPinException.THROW(transferingAccount, accountPin) ;
@@ -141,14 +141,14 @@ public class BankAccount {
 		System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(ACCOUNT_MAP.get(transferingAccount).accountBalance) + "\n") ;
 	}
 	
-	public void deposit(double depositAmount) throws NegativeAmountException {
+	final public void deposit(double depositAmount) throws NegativeAmountException {
 		NegativeAmountException.THROW(depositAmount) ; 
 		this.accountBalance = this.accountBalance.add(new BigDecimal(depositAmount)) ;
 		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Deposited " + TO_CURRENCY_FORMAT(new BigDecimal(depositAmount)) + "\n" ;
 		System.out.println("\nDeposited " + TO_CURRENCY_FORMAT(new BigDecimal(depositAmount)) + " To Your Account. Your Balance Is Now " + TO_CURRENCY_FORMAT(this.accountBalance) + "\n") ;
 	}
 	
-	public void withdraw(double withdrawalAmount) throws NegativeAmountException, InsufficientBalanceException {
+	final public void withdraw(double withdrawalAmount) throws NegativeAmountException, InsufficientBalanceException {
 		NegativeAmountException.THROW(withdrawalAmount) ;
 		InsufficientBalanceException.THROW(this.ACCOUNT_NUMBER, this.accountPin.getPin(), withdrawalAmount) ;
 		this.accountBalance = this.accountBalance.subtract(new BigDecimal(withdrawalAmount)) ;
@@ -156,7 +156,7 @@ public class BankAccount {
 		System.out.println("\nWithdrew " + TO_CURRENCY_FORMAT(new BigDecimal(withdrawalAmount)) + " From Your Account. Your Balance Is Now " + TO_CURRENCY_FORMAT(this.accountBalance) + "\n") ;
 	}
 	
-	public void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IncorrectPinException, InvalidPinException, PinMismatchException {
+	final public void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IncorrectPinException, InvalidPinException, PinMismatchException {
 		this.accountPin.changePin(this.ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
 		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed\n" ; 
 		System.out.println("\nYour Pin Has Been Changed.\n") ;
@@ -175,27 +175,27 @@ public class BankAccount {
 		return "#" + this.ACCOUNT_NUMBER + ", " + this.accountName + ", " + TO_CURRENCY_FORMAT(this.accountBalance) + ", " + this.accountPin.toString() ;
 	}
 	
-	public int getAccountNumber() {
+	final public int getAccountNumber() {
 		return this.ACCOUNT_NUMBER ;
 	}
 	
-	public String getAccountName() {
+	final public String getAccountName() {
 		return this.accountName ;
 	}
 	
-	public String getAccountHistory() {
+	final public String getAccountHistory() {
 		return this.accountHistory ;
 	}
 	
-	public Pin getAccountPin() {
+	final public Pin getAccountPin() {
 		return this.accountPin ;
 	}
 	
-	public BigDecimal getAccountBalance() {
+	final public BigDecimal getAccountBalance() {
 		return this.accountBalance ;
 	}
 	
-	public boolean getAccountExists() {
+	final public boolean getAccountExists() {
 		return this.accountExists ;
 	}
 	
