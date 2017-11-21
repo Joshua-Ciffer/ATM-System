@@ -8,13 +8,14 @@ package bank.gui ;
 import javax.swing.JFrame ;
 import java.awt.GridLayout ;
 import javax.swing.JLabel ;
+import javax.swing.JPanel;
 import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
 import bank.account.BankAccount ;
 import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 
-final public class MainMenu extends JFrame {
+final public class MainMenu extends JPanel {
 	
 	private GridLayout mainMenuLayout ;
 	private JLabel mainMenuLabel ;

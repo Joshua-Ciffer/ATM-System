@@ -10,12 +10,13 @@ import java.awt.GridLayout ;
 import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 import javax.swing.JLabel ;
+import javax.swing.JPanel;
 import javax.swing.JButton ;
 import javax.swing.JTextField ;
 import bank.account.BankAccount ;
 import javax.swing.JPasswordField ;
 
-public final class Login extends JFrame {
+public final class Login extends JPanel {
 
 	private GridLayout loginLayout ;
 	private JLabel loginLabel ;
