@@ -1,9 +1,9 @@
 //============================================================================//
-// Name        : Interface.java												  //
-// Author      : Joshua Ciffer												  //
-// Date        : 11/16/2017													  //
+// Name        : Interface.java                                               //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/16/2017                                                   //
 // Bugs		   : - Exception is thrown when withdrawing amount greater than   //
-//		the account balance. 												  //
+//		the account balance.                                                  //
 //============================================================================//
 
 package bank.account ;

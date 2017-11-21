@@ -16,7 +16,7 @@ import javax.swing.JTextField ;
 import bank.account.BankAccount ;
 import javax.swing.JPasswordField ;
 
-public final class Login extends JPanel {
+final class Login extends JPanel {
 
 	private GridLayout loginLayout ;
 	private JLabel loginLabel ;
@@ -32,10 +32,7 @@ public final class Login extends JPanel {
 	
 	private void frameSetup() {
 		setVisible(true) ;
-		setTitle("Login") ;
 		setSize(500, 500) ;
-		setResizable(false) ;
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE) ;
 		setLayout(loginLayout = new GridLayout()) ;
 	} 
 	

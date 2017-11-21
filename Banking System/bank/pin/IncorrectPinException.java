@@ -1,7 +1,7 @@
 //============================================================================//
-// Name        : IncorrectPinException.java									  //
-// Author      : Joshua Ciffer												  //
-// Date        : 11/15/2017													  //
+// Name        : IncorrectPinException.java                                   //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/15/2017                                                   //
 //============================================================================//
 
 package bank.pin ;

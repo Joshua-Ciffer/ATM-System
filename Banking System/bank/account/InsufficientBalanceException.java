@@ -1,7 +1,7 @@
 //============================================================================//
-// Name        : InsufficientBalanceException.java							  //
-// Author      : Joshua Ciffer												  //
-// Date        : 11/15/2017													  //
+// Name        : InsufficientBalanceException.java                            //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/15/2017                                                   //
 //============================================================================//
 
 package bank.account ;

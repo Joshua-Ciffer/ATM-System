@@ -1,5 +1,5 @@
 //============================================================================//
-// Name        : MainMenu.java              								  //
+// Name        : MainMenu.java                                                //
 // Author      : Joshua Ciffer												  //
 // Date        : 11/15/2017													  //
 //============================================================================//
@@ -41,10 +41,7 @@ final public class MainMenu extends JPanel {
 	
 	private void frameSetup() {
 		setVisible(true) ;
-		setTitle("Bank Main Menu") ;
 		setSize(500, 500) ;
-		setResizable(false) ;
-		setDefaultCloseOperation(EXIT_ON_CLOSE) ;
 		setLayout(mainMenuLayout = new GridLayout()) ;
 	}
 	
@@ -69,6 +66,7 @@ final public class MainMenu extends JPanel {
 		add(exitButton) ;
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false) ;
 				new Login() ;
 				System.out.println("Login Pressed") ;
 			}

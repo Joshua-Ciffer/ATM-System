@@ -1,11 +1,11 @@
 //============================================================================//
-// Name        : BankAccount.java											  //
-// Author      : Joshua Ciffer												  //
-// Date        : 11/15/2017													  //
+// Name        : BankAccount.java                                             //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/15/2017                                                   //
 // Bugs   	   : - GET_ACCOUNT() method when written using exception THROW()  //
-//		methods produces StackOverFlowError. 								  //
+//		methods produces StackOverFlowError.                                  //
 //				 - Exception is thrown when withdrawal amount is greater than //
-//		account balance.													  //
+//		account balance.                                                      //
 //============================================================================//
 
 package bank.account ;
