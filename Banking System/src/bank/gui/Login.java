@@ -13,64 +13,54 @@ import javax.swing.JLabel ;
 import javax.swing.JPanel;
 import javax.swing.JButton ;
 import javax.swing.JTextField ;
-import bank.account.BankAccount ;
 import javax.swing.JPasswordField ;
 
 final class Login extends JPanel {
 
+	//DEBUG FRAME
 	public JFrame testFrame = new JFrame() ;
-	
-	private GridLayout loginLayout ;
 	private JLabel loginLabel ;
 	private JTextField accountNumberField ;
 	private JPasswordField accountPinField ;
-	private JButton loginButton, backButton ;
+	private JButton backButton, loginButton ;
 	
-	public Login() {
-		frameSetup() ;
-		layoutSetup() ;
-		componentSetup() ;
+	public static void main(String[] args) {
+		new Login() ;
 	}
 	
-	private void frameSetup() {
-		setVisible(true) ;
-		setSize(500, 500) ;
-		setLayout(loginLayout = new GridLayout()) ;
-	} 
-	
-	private void layoutSetup() {
-		loginLayout.setColumns(1) ;
-		loginLayout.setRows(4) ;
-		loginLayout.setVgap(50) ;
+	public Login() {
+		super(null) ;
+		this.componentSetup() ;
+		this.testFrameSetup() ;
 	}
 	
 	private void componentSetup() {
-		loginLabel = new JLabel("Login") ;
-		accountNumberField = new JTextField() ;
-		accountPinField = new JPasswordField() ;
-		loginButton = new JButton("Login") ;
-		backButton = new JButton("Back") ;
-		add(loginLabel) ;
-		add(accountNumberField) ;
-		add(accountPinField) ;
-		add(loginButton) ;
-		add(backButton) ;
-		loginButton.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-				try {
-					System.out.println(BankAccount.GET_ACCOUNT(Integer.parseInt(accountNumberField.getText()), accountPinField.getText()).toString()) ;
-				} catch (Exception e1) {
-					e1.printStackTrace() ;
-				}
-			}
-		}) ;
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Back Pressed") ;
-				setVisible(false) ;
-			}
-		}) ;
+		this.loginLabel = new JLabel("Login") ;
+		this.accountNumberField = new JTextField("Account Number") ;
+		this.accountPinField = new JPasswordField("Accoutn Pin") ;
+		this.backButton = new JButton("Back") ;
+		this.loginButton = new JButton("Login") ;
+		
+		
+		
+		
+		
+		this.add(loginLabel) ;
+		this.add(accountNumberField) ;
+		this.add(accountPinField) ;
+		this.add(backButton) ;
+		this.add(loginButton) ;
+	}
+	
+	// DEBUG USE
+	public void testFrameSetup() {
+		testFrame = new JFrame() ;
+		testFrame.setVisible(true) ;
+		testFrame.setTitle("ATM") ;
+		testFrame.setSize(500, 500) ;
+		testFrame.setResizable(false) ;
+		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+		testFrame.getContentPane().add(this) ;
 	}
 	
 }

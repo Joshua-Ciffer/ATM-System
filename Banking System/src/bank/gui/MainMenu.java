@@ -4,6 +4,8 @@
 // Date        : 11/22/2017                                                   //
 //============================================================================//
 
+//package bank.gui ;
+
 package bank.gui ;
 import javax.swing.JPanel ;
 import javax.swing.JLabel ;
@@ -25,15 +27,10 @@ final public class MainMenu extends JPanel {
 	}
 	
  	public MainMenu() {
- 		super() ;
- 		this.panelSetup() ;
+ 		super(null) ;
  		this.componentSetup() ;
  		this.testFrameSetup() ;
  	}
-	
-	private void panelSetup() {
-		this.setLayout(null) ;
-	}
 	
 	private void componentSetup() {
 		this.mainMenuLabel = new JLabel("ATM Main Menu") ;
