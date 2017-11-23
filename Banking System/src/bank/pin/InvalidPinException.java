@@ -4,7 +4,7 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package bank.pin ;
+package src.bank.pin ;
 
 final public class InvalidPinException extends Exception {
 

@@ -6,15 +6,15 @@
 //		the account balance.                                                  //
 //============================================================================//
 
-package bank.account ;
+package src.bank.account ;
 import java.util.Scanner ;
 import java.util.InputMismatchException ;
-import bank.account.AccountNotFoundException ;
-import bank.account.NegativeAmountException ;
-import bank.account.InsufficientBalanceException ;
-import bank.pin.InvalidPinException ;
-import bank.pin.PinMismatchException ;
-import bank.pin.IncorrectPinException ;
+import src.bank.account.AccountNotFoundException ;
+import src.bank.account.NegativeAmountException ;
+import src.bank.account.InsufficientBalanceException ;
+import src.bank.pin.InvalidPinException ;
+import src.bank.pin.PinMismatchException ;
+import src.bank.pin.IncorrectPinException ;
 
 final public class Interface {
 	

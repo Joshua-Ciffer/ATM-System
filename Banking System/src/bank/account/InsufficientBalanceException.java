@@ -4,9 +4,9 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package bank.account ;
+package src.bank.account ;
 import java.math.BigDecimal ;
-import bank.account.BankAccount ;
+import src.bank.account.BankAccount ;
 
 final public class InsufficientBalanceException extends Exception {
 

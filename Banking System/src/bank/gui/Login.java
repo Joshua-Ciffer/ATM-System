@@ -4,7 +4,7 @@
 // Date        : 11/21/2017                                                   //
 //============================================================================//
 
-package bank.gui ; 
+package src.bank.gui ; 
 import javax.swing.JFrame ;
 import java.awt.GridLayout ;
 import java.awt.event.ActionEvent ;

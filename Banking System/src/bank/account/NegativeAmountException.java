@@ -4,7 +4,7 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package bank.account ;
+package src.bank.account ;
 
 final public class NegativeAmountException extends Exception {
 

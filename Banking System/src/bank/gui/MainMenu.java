@@ -6,7 +6,7 @@
 
 //package bank.gui ;
 
-package bank.gui ;
+package src.bank.gui ;
 import javax.swing.JPanel ;
 import javax.swing.JLabel ;
 import javax.swing.JButton ;

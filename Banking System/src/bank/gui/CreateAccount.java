@@ -1,4 +1,4 @@
-package bank.gui;
+package src.bank.gui;
 
 
 public final class CreateAccount {

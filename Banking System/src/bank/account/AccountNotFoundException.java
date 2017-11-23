@@ -4,8 +4,8 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package bank.account ;
-import bank.account.BankAccount ;
+package src.bank.account ;
+import src.bank.account.BankAccount ;
 
 final public class AccountNotFoundException extends Exception {
 	
