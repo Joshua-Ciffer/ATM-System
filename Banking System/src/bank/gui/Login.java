@@ -1,25 +1,24 @@
 //============================================================================//
 // Name        : Login.java                                                   //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/21/2017                                                   //
+// Date        : 11/22/2017                                                   //
 //============================================================================//
 
 package src.bank.gui ; 
 import javax.swing.JFrame ;
-import java.awt.GridLayout ;
-import java.awt.event.ActionEvent ;
-import java.awt.event.ActionListener ;
 import javax.swing.JLabel ;
 import javax.swing.JPanel;
+import java.awt.Font;
 import javax.swing.JButton ;
 import javax.swing.JTextField ;
 import javax.swing.JPasswordField ;
+import javax.swing.SwingConstants;
 
 final class Login extends JPanel {
 
 	//DEBUG FRAME
 	public JFrame testFrame = new JFrame() ;
-	private JLabel loginLabel ;
+	private JLabel loginLabel, accountNumberLabel, accountPinLabel ;
 	private JTextField accountNumberField ;
 	private JPasswordField accountPinField ;
 	private JButton backButton, loginButton ;
@@ -35,18 +34,39 @@ final class Login extends JPanel {
 	}
 	
 	private void componentSetup() {
-		this.loginLabel = new JLabel("Login") ;
-		this.accountNumberField = new JTextField("Account Number") ;
-		this.accountPinField = new JPasswordField("Accoutn Pin") ;
-		this.backButton = new JButton("Back") ;
-		this.loginButton = new JButton("Login") ;
+		loginLabel = new JLabel("Login") ;
+		loginLabel.setBounds(150, 10, 200, 50) ;
+		loginLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		loginLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
 		
+		accountNumberLabel = new JLabel("Account Number:") ;
+		accountNumberLabel.setSize(200, 50) ;
+		accountNumberLabel.setLocation(75, 85) ;
+		accountNumberLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
 		
+		accountPinLabel = new JLabel("Account Pin:") ;
+		accountPinLabel.setSize(200, 50) ;
+		accountPinLabel.setLocation(75, 185) ;
+		accountPinLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
 		
+		accountNumberField = new JTextField() ;
+		accountNumberField.setBounds(225, 85, 200, 50) ;
+		accountNumberField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
 		
+		accountPinField = new JPasswordField() ;
+		accountPinField.setBounds(225, 185, 200, 50) ;
+		accountPinField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		
+		backButton = new JButton("Back") ;
+		backButton.setBounds(75, 285, 150, 50) ;
+		
+		loginButton = new JButton("Login") ;
+		loginButton.setBounds(275, 285, 150, 50) ;
 		
 		this.add(loginLabel) ;
+		this.add(accountNumberLabel) ;
 		this.add(accountNumberField) ;
+		this.add(accountPinLabel) ;
 		this.add(accountPinField) ;
 		this.add(backButton) ;
 		this.add(loginButton) ;
@@ -62,5 +82,4 @@ final class Login extends JPanel {
 		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
 		testFrame.getContentPane().add(this) ;
 	}
-	
 }

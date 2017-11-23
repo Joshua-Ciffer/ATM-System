@@ -4,8 +4,6 @@
 // Date        : 11/22/2017                                                   //
 //============================================================================//
 
-//package bank.gui ;
-
 package src.bank.gui ;
 import javax.swing.JPanel ;
 import javax.swing.JLabel ;
@@ -33,29 +31,29 @@ final public class MainMenu extends JPanel {
  	}
 	
 	private void componentSetup() {
-		this.mainMenuLabel = new JLabel("ATM Main Menu") ;
-		this.mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
- 		this.mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
- 		this.mainMenuLabel.setBounds(150, 10, 200, 50) ;
-		this.loginButton = new JButton("Login") ;
-		this.loginButton.setBounds(150, 85, 200, 50) ;
-		this.loginButton.addActionListener(new ActionListener() {
+		mainMenuLabel = new JLabel("ATM Main Menu") ;
+		mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+ 		mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
+ 		mainMenuLabel.setBounds(150, 10, 200, 50) ;
+		loginButton = new JButton("Login") ;
+		loginButton.setBounds(150, 85, 200, 50) ;
+		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
 				new Login() ;
 			}
 		}) ;
-		this.createAccountButton = new JButton("Create Account") ;
-		this.createAccountButton.setBounds(150, 180, 200, 50) ;
-		this.createAccountButton.addActionListener(new ActionListener() {
+		createAccountButton = new JButton("Create Account") ;
+		createAccountButton.setBounds(150, 180, 200, 50) ;
+		createAccountButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Create Account Pressed") ;
 				new CreateAccount() ;
 			}
 		}) ;
-		this.exitButton = new JButton("Exit") ;
-		this.exitButton.setBounds(150, 280, 200, 50) ;
- 		this.exitButton.addActionListener(new ActionListener() {
+		exitButton = new JButton("Exit") ;
+		exitButton.setBounds(150, 280, 200, 50) ;
+ 		exitButton.addActionListener(new ActionListener() {
  			public void actionPerformed(ActionEvent a) {
  				System.out.println("Exit Pressed") ;
  				System.exit(0) ;
