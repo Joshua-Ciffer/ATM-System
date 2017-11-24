@@ -16,7 +16,7 @@ import javax.swing.JFrame ;
 
 final public class MainMenu extends JPanel {
 	
-	public JFrame testFrame = new JFrame() ;
+	//public JFrame testFrame = new JFrame() ;
 	private JLabel mainMenuLabel ;
 	private JButton loginButton, createAccountButton, exitButton ;
 	
@@ -27,7 +27,7 @@ final public class MainMenu extends JPanel {
  	public MainMenu() {
  		super(null) ;
  		this.componentSetup() ;
- 		this.testFrameSetup() ;
+ 		//this.testFrameSetup() ;
  	}
 	
 	private void componentSetup() {
@@ -40,7 +40,9 @@ final public class MainMenu extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
-				new Login() ;
+				//setVisible(false) ;
+				add(new Login()).setVisible(true) ;
+				
 			}
 		}) ;
 		createAccountButton = new JButton("Create Account") ;
@@ -66,13 +68,13 @@ final public class MainMenu extends JPanel {
  	}
 	
 	// DEBUG USE
-	public void testFrameSetup() {
-		testFrame = new JFrame() ;
-		testFrame.setVisible(true) ;
-		testFrame.setTitle("ATM") ;
-		testFrame.setSize(500, 500) ;
-		testFrame.setResizable(false) ;
-		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
-		testFrame.getContentPane().add(this) ;
-	}
+	//public void testFrameSetup() {
+	//	testFrame = new JFrame() ;
+	//	testFrame.setVisible(true) ;
+	//	testFrame.setTitle("ATM") ;
+	//	testFrame.setSize(500, 500) ;
+	//	testFrame.setResizable(false) ;
+	//	testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
+	//	testFrame.getContentPane().add(this) ;
+	//}
 }	// End MainMenu Class
