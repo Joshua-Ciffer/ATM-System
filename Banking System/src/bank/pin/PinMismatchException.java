@@ -6,13 +6,13 @@
 
 package src.bank.pin ;
 
-final public class PinMismatchException extends Exception {
+public final class PinMismatchException extends Exception {
 
 	public PinMismatchException() {
 		System.out.println("\nThe Pins You Entered Do Not Match.\n") ;
 	}
 	
-	public static void THROW(String pin, String confirmPin) throws InvalidPinException, PinMismatchException {
+	public static final void THROW(String pin, String confirmPin) throws InvalidPinException, PinMismatchException {
 		InvalidPinException.THROW(pin) ;
 		InvalidPinException.THROW(confirmPin) ;
 		if (pin.equalsIgnoreCase(confirmPin) == false) {

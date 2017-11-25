@@ -1,14 +1,14 @@
 //============================================================================//
 // Name        : IncorrectPinException.java                                   //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/15/2017                                                   //
+// Date        : 11/23/2017                                                   //
 //============================================================================//
 
 package src.bank.pin ;
 import src.bank.account.BankAccount ;
 import src.bank.account.AccountNotFoundException ;
 
-final public class IncorrectPinException extends Exception {
+public final class IncorrectPinException extends Exception {
 
 	public IncorrectPinException() {
 		System.out.println("\nThe Pin You Entered Is Incorrect.\n") ;

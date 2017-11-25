@@ -40,8 +40,8 @@ final public class MainMenu extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
-				//setVisible(false) ;
-				add(new Login()).setVisible(true) ;
+				setVisible(false) ;
+				add(new Login()) ;
 				
 			}
 		}) ;
