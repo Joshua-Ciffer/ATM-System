@@ -6,7 +6,7 @@
 
 package src.atm.pin ;
 
-final public class InvalidPinException extends Exception {
+public final class InvalidPinException extends Exception {
 
 	public InvalidPinException() {
 		System.out.println("\nPlease Enter A Valid 4 Digit Pin.\n") ;
