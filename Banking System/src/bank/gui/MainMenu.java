@@ -1,7 +1,7 @@
 //============================================================================//
 // Name        : MainMenu.java                                                //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/22/2017                                                   //
+// Date        : 11/30/2017                                                   //
 //============================================================================//
 
 package src.bank.gui ;
@@ -10,71 +10,44 @@ import javax.swing.JLabel ;
 import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
 import java.awt.Font ;
-import java.awt.event.ActionListener ;
-import java.awt.event.ActionEvent ;
-import javax.swing.JFrame ;
 
-final public class MainMenu extends JPanel {
+public final class MainMenu extends JPanel {
 	
-	//public JFrame testFrame = new JFrame() ;
 	private JLabel mainMenuLabel ;
 	private JButton loginButton, createAccountButton, exitButton ;
 	
-	public static void main(String[] args) {
-		new MainMenu() ;
-	}
-	
  	public MainMenu() {
  		super(null) ;
- 		this.componentSetup() ;
- 		//this.testFrameSetup() ;
+ 		this.mainMenuLabel = new JLabel("ATM Main Menu") ;
+		this.mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+ 		this.mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
+ 		this.mainMenuLabel.setBounds(150, 10, 200, 50) ;
+		this.loginButton = new JButton("Login") ;
+		this.loginButton.setBounds(150, 85, 200, 50) ;
+		this.createAccountButton = new JButton("Create Account") ;
+		this.createAccountButton.setBounds(150, 180, 200, 50) ;
+		this.exitButton = new JButton("Exit") ;
+		this.exitButton.setBounds(150, 280, 200, 50) ;
+ 		this.add(this.mainMenuLabel) ;
+ 		this.add(this.loginButton) ;
+ 		this.add(this.createAccountButton) ;
+ 		this.add(this.exitButton) ;
  	}
 	
-	private void componentSetup() {
-		mainMenuLabel = new JLabel("ATM Main Menu") ;
-		mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
- 		mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
- 		mainMenuLabel.setBounds(150, 10, 200, 50) ;
-		loginButton = new JButton("Login") ;
-		loginButton.setBounds(150, 85, 200, 50) ;
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				System.out.println("Login Pressed") ;
-				setVisible(false) ;
-				add(new Login()) ;
-				
-			}
-		}) ;
-		createAccountButton = new JButton("Create Account") ;
-		createAccountButton.setBounds(150, 180, 200, 50) ;
-		createAccountButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				System.out.println("Create Account Pressed") ;
-				new CreateAccount() ;
-			}
-		}) ;
-		exitButton = new JButton("Exit") ;
-		exitButton.setBounds(150, 280, 200, 50) ;
- 		exitButton.addActionListener(new ActionListener() {
- 			public void actionPerformed(ActionEvent a) {
- 				System.out.println("Exit Pressed") ;
- 				System.exit(0) ;
- 			}
- 		});
- 		this.add(mainMenuLabel) ;
- 		this.add(loginButton) ;
- 		this.add(createAccountButton) ;
- 		this.add(exitButton) ;
+ 	public JLabel getMainMenuLabel() {
+ 		return this.mainMenuLabel ;
  	}
-	
-	// DEBUG USE
-	//public void testFrameSetup() {
-	//	testFrame = new JFrame() ;
-	//	testFrame.setVisible(true) ;
-	//	testFrame.setTitle("ATM") ;
-	//	testFrame.setSize(500, 500) ;
-	//	testFrame.setResizable(false) ;
-	//	testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
-	//	testFrame.getContentPane().add(this) ;
-	//}
-}	// End MainMenu Class
+ 	
+ 	public JButton getLoginButton() {
+ 		return this.loginButton ;
+ 	}
+ 	
+ 	public JButton getCreateAccountButton() {
+ 		return this.createAccountButton ;
+ 	}
+ 	
+ 	public JButton getExitButton() {
+ 		return this.exitButton ;
+ 	}
+ 	
+}

@@ -6,6 +6,8 @@
 
 package src.bank.gui ;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame ;
 import javax.swing.JPanel;
 
@@ -29,6 +31,15 @@ public final class GUI extends JFrame {
 		this.add(mainMenuPanel) ;
 		mainMenuPanel.setVisible(false) ;
 		this.add(loginPanel) ;
+		mainMenuPanel.getLoginButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Login Pressed") ;
+				mainMenuPanel.setVisible(false) ;
+				add(loginPanel) ;
+				loginPanel.setVisible(true);
+				
+			}
+		}) ;
 		//this.add(createAccountPanel) ;
 	}
 	

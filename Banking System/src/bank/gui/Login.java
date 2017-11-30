@@ -1,25 +1,21 @@
 //============================================================================//
 // Name        : Login.java                                                   //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/22/2017                                                   //
+// Date        : 11/30/2017                                                   //
 //============================================================================//
 
 package src.bank.gui ; 
-import javax.swing.JFrame ;
-import javax.swing.JLabel ;
 import javax.swing.JPanel;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JLabel ;
+
+import java.awt.Font ;
 import javax.swing.JButton ;
 import javax.swing.JTextField ;
 import javax.swing.JPasswordField ;
 import javax.swing.SwingConstants;
 
-final class Login extends JPanel {
+public final class Login extends JPanel {
 
-	//DEBUG FRAME
-	//public JFrame testFrame = new JFrame() ;
 	private JLabel loginLabel, accountNumberLabel, accountPinLabel ;
 	private JTextField accountNumberField ;
 	private JPasswordField accountPinField ;
@@ -27,17 +23,8 @@ final class Login extends JPanel {
 	private String accountPin ;
 	private int accountNumber ;
 	
-	public static void main(String[] args) {
-		new Login() ;
-	}
-	
 	public Login() {
 		super(null) ;
-		this.componentSetup() ;
-		//this.testFrameSetup() ;
-	}
-	
-	private void componentSetup() {
 		loginLabel = new JLabel("Login") ;
 		loginLabel.setBounds(150, 10, 200, 50) ;
 		loginLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
@@ -63,25 +50,10 @@ final class Login extends JPanel {
 		
 		backButton = new JButton("Back") ;
 		backButton.setBounds(75, 285, 150, 50) ;
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				System.out.println("Back Pressed") ;
-			}
-		}) ;
+		
 		loginButton = new JButton("Login") ;
 		loginButton.setBounds(275, 285, 150, 50) ;
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				System.out.println("Login Pressed") ;
-				try {
-					accountNumber = Integer.parseInt(accountNumberField.getText()) ;
-				} catch (NumberFormatException e) {
-					
-				}
-				accountPin = String.valueOf(accountPinField.getPassword()) ;
-				System.out.println("Account Number: " + accountNumber + "\nAccount Pin: " + accountPin) ;
-			}
-		}) ;
+	
 		this.add(loginLabel) ;
 		this.add(accountNumberLabel) ;
 		this.add(accountNumberField) ;
@@ -91,14 +63,40 @@ final class Login extends JPanel {
 		this.add(loginButton) ;
 	}
 	
-	// DEBUG USE
-	//public void testFrameSetup() {
-	//	testFrame = new JFrame() ;
-	//	testFrame.setVisible(true) ;
-	//	testFrame.setTitle("ATM") ;
-	//	testFrame.setSize(500, 500) ;
-	//	testFrame.setResizable(false) ;
-	//	testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
-	//	testFrame.getContentPane().add(this) ;
-	//}
+	public JLabel getLoginLabel() {
+		return this.loginLabel ;
+	}
+	
+	public JLabel getAccountNumberLabel() {
+		return this.accountNumberLabel ;
+	}
+	
+	public JLabel getAccountPinLabel() {
+		return this.accountPinLabel ;
+	}
+	
+	public JTextField getAccountNumberField() {
+		return this.accountNumberField ;
+	}
+	
+	public JPasswordField getAccountPinField() {
+		return this.accountPinField ;
+	}
+	
+	public JButton getBackButton() {
+		return this.backButton ;
+	}
+	
+	public JButton getLoginButton() {
+		return this.loginButton ;
+	}
+	
+	public String getAccountPin() {
+		return this.accountPin ;
+	}
+	
+	public int getAccountNumber() {
+		return this.accountNumber ;
+	}
+	
 }
