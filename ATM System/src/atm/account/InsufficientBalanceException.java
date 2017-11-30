@@ -6,7 +6,7 @@
 
 package src.atm.account ;
 import java.math.BigDecimal ;
-import src.bank.account.BankAccount ;
+import src.atm.account.BankAccount ;
 
 final public class InsufficientBalanceException extends Exception {
 

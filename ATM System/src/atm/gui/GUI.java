@@ -1,13 +1,15 @@
 //============================================================================//
 // Name        : GUI.java                                                     //
-// Author      : Andrew Ciffer                                                //
-// Date        : 11/21/2017                                                   //
+// Author      : Joshua Ciffer                                                //
+// Date        : 11/30/2017                                                   //
 //============================================================================//
 
 package src.atm.gui ;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame ;
+import java.awt.event.ActionEvent ;
+import java.awt.event.ActionListener ;
+import java.awt.CardLayout ;
+import src.atm.account.BankAccount ;
 
 public final class GUI extends JFrame {
 
@@ -20,35 +22,53 @@ public final class GUI extends JFrame {
 	}
 
 	public GUI() {
-		this.frameSetup() ;
-		mainMenuPanel = new MainMenu() ;
-		loginPanel = new Login() ;
-		createAccountPanel = new CreateAccount() ;
-		//login = new Login() ;
-		//createAccount = new CreateAccount() ;
-		this.add(mainMenuPanel) ;
-		mainMenuPanel.setVisible(false) ;
-		this.add(loginPanel) ;
-		mainMenuPanel.getLoginButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				System.out.println("Login Pressed") ;
-				mainMenuPanel.setVisible(false) ;
-				add(loginPanel) ;
-				loginPanel.setVisible(true);
-				
-			}
-		}) ;
-		//this.add(createAccountPanel) ;
-	}
-	
-	private void frameSetup() {
 		this.setVisible(true) ;
 		this.setTitle("ATM") ;
 		this.setSize(500, 500) ;
 		this.setResizable(false) ;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE) ;
 		this.setLocationRelativeTo(null) ;
-		//this.setLayout(null) ;
+		this.setLayout(new CardLayout()) ;
+		this.add(mainMenuPanel = new MainMenu()) ;
+		this.add(loginPanel = new Login()) ;
+		this.add(createAccountPanel = new CreateAccount()) ;
+		mainMenuPanel.getLoginButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Login Pressed") ;
+				mainMenuPanel.setVisible(false) ;
+				loginPanel.setVisible(true) ;
+			}
+		}) ;
+		mainMenuPanel.getCreateAccountButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Create Account Pressed") ;
+				mainMenuPanel.setVisible(false) ;
+				createAccountPanel.setVisible(true) ;
+			}
+		}) ;
+		mainMenuPanel.getExitButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Exit Pressed") ;
+				System.exit(0) ;
+			}
+		}) ;
+		loginPanel.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Back Pressed") ;
+				loginPanel.setVisible(false) ;
+				mainMenuPanel.setVisible(true) ;
+			}
+		}) ;
+		loginPanel.getLoginButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Login Pressed") ;
+				try {
+					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
+				} catch (Exception e) {
+					e.printStackTrace() ;
+				}
+			}
+		}) ;
 	}
 	
 }

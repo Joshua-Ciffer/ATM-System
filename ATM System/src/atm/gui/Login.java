@@ -13,7 +13,7 @@ import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
 import java.awt.Font ;
 
-public final class Login extends JPanel {
+final class Login extends JPanel {
 
 	private JLabel loginLabel, accountNumberLabel, accountPinLabel ;
 	private JTextField accountNumberField ;
@@ -28,31 +28,31 @@ public final class Login extends JPanel {
 		loginLabel.setBounds(150, 10, 200, 50) ;
 		loginLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
 		loginLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
-		
+		loginLabel.setVerticalAlignment(SwingConstants.CENTER) ;
 		accountNumberLabel = new JLabel("Account Number:") ;
 		accountNumberLabel.setSize(200, 50) ;
 		accountNumberLabel.setLocation(75, 85) ;
 		accountNumberLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
-		
-		accountPinLabel = new JLabel("Account Pin:") ;
+		accountNumberLabel.setVerticalAlignment(SwingConstants.CENTER) ;
+		accountPinLabel = new JLabel("Account PIN:") ;
 		accountPinLabel.setSize(200, 50) ;
 		accountPinLabel.setLocation(75, 185) ;
 		accountPinLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
-		
+		accountPinLabel.setVerticalAlignment(SwingConstants.CENTER) ;
 		accountNumberField = new JTextField() ;
+		accountNumberField.setToolTipText("Enter your account number.") ;
 		accountNumberField.setBounds(225, 85, 200, 50) ;
 		accountNumberField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
-		
 		accountPinField = new JPasswordField() ;
+		accountPinField.setToolTipText("Enter your account PIN.") ;
 		accountPinField.setBounds(225, 185, 200, 50) ;
 		accountPinField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
-		
 		backButton = new JButton("Back") ;
+		backButton.setToolTipText("Return to the main menu.") ;
 		backButton.setBounds(75, 285, 150, 50) ;
-		
 		loginButton = new JButton("Login") ;
+		loginButton.setToolTipText("Login to your account.") ;
 		loginButton.setBounds(275, 285, 150, 50) ;
-	
 		this.add(loginLabel) ;
 		this.add(accountNumberLabel) ;
 		this.add(accountNumberField) ;

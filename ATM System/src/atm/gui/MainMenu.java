@@ -11,7 +11,7 @@ import javax.swing.JButton ;
 import javax.swing.SwingConstants ;
 import java.awt.Font ;
 
-public final class MainMenu extends JPanel {
+final class MainMenu extends JPanel {
 	
 	private JLabel mainMenuLabel ;
 	private JButton loginButton, createAccountButton, exitButton ;
@@ -24,10 +24,13 @@ public final class MainMenu extends JPanel {
  		mainMenuLabel.setVerticalAlignment(SwingConstants.CENTER) ;
  		mainMenuLabel.setBounds(150, 10, 200, 50) ;
 		loginButton = new JButton("Login") ;
+		loginButton.setToolTipText("Login with your account number and PIN.") ;
 		loginButton.setBounds(150, 85, 200, 50) ;
 		createAccountButton = new JButton("Create Account") ;
+		createAccountButton.setToolTipText("Create an account if you do not already have one.") ;
 		createAccountButton.setBounds(150, 180, 200, 50) ;
 		exitButton = new JButton("Exit") ;
+		exitButton.setToolTipText("Exit.") ;
 		exitButton.setBounds(150, 280, 200, 50) ;
  		this.add(mainMenuLabel) ;
  		this.add(loginButton) ;
