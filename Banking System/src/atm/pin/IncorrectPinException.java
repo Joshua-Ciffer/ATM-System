@@ -4,9 +4,9 @@
 // Date        : 11/23/2017                                                   //
 //============================================================================//
 
-package src.bank.pin ;
-import src.bank.account.BankAccount ;
-import src.bank.account.AccountNotFoundException ;
+package src.atm.pin ;
+import src.atm.account.BankAccount ;
+import src.atm.account.AccountNotFoundException ;
 
 public final class IncorrectPinException extends Exception {
 

@@ -4,7 +4,7 @@
 // Date        : 11/30/2017                                                   //
 //============================================================================//
 
-package src.bank.gui ;
+package src.atm.gui ;
 import javax.swing.JPanel ;
 import javax.swing.JLabel ;
 import javax.swing.JButton ;
@@ -18,20 +18,21 @@ public final class MainMenu extends JPanel {
 	
  	public MainMenu() {
  		super(null) ;
- 		this.mainMenuLabel = new JLabel("ATM Main Menu") ;
-		this.mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
- 		this.mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
- 		this.mainMenuLabel.setBounds(150, 10, 200, 50) ;
-		this.loginButton = new JButton("Login") ;
-		this.loginButton.setBounds(150, 85, 200, 50) ;
-		this.createAccountButton = new JButton("Create Account") ;
-		this.createAccountButton.setBounds(150, 180, 200, 50) ;
-		this.exitButton = new JButton("Exit") ;
-		this.exitButton.setBounds(150, 280, 200, 50) ;
- 		this.add(this.mainMenuLabel) ;
- 		this.add(this.loginButton) ;
- 		this.add(this.createAccountButton) ;
- 		this.add(this.exitButton) ;
+ 		mainMenuLabel = new JLabel("ATM Main Menu") ;
+		mainMenuLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+ 		mainMenuLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
+ 		mainMenuLabel.setVerticalAlignment(SwingConstants.CENTER) ;
+ 		mainMenuLabel.setBounds(150, 10, 200, 50) ;
+		loginButton = new JButton("Login") ;
+		loginButton.setBounds(150, 85, 200, 50) ;
+		createAccountButton = new JButton("Create Account") ;
+		createAccountButton.setBounds(150, 180, 200, 50) ;
+		exitButton = new JButton("Exit") ;
+		exitButton.setBounds(150, 280, 200, 50) ;
+ 		this.add(mainMenuLabel) ;
+ 		this.add(loginButton) ;
+ 		this.add(createAccountButton) ;
+ 		this.add(exitButton) ;
  	}
 	
  	public JLabel getMainMenuLabel() {

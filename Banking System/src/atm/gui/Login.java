@@ -4,15 +4,14 @@
 // Date        : 11/30/2017                                                   //
 //============================================================================//
 
-package src.bank.gui ; 
-import javax.swing.JPanel;
+package src.atm.gui ; 
+import javax.swing.JPanel ;
 import javax.swing.JLabel ;
-
-import java.awt.Font ;
-import javax.swing.JButton ;
 import javax.swing.JTextField ;
 import javax.swing.JPasswordField ;
-import javax.swing.SwingConstants;
+import javax.swing.JButton ;
+import javax.swing.SwingConstants ;
+import java.awt.Font ;
 
 public final class Login extends JPanel {
 

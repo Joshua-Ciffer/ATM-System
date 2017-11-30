@@ -1,4 +1,4 @@
-package src.bank.gui;
+package src.atm.gui;
 
 import javax.swing.JPanel;
 

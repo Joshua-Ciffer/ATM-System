@@ -4,10 +4,10 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package src.bank.pin ;
-import src.bank.pin.InvalidPinException ;
-import src.bank.pin.PinMismatchException ;
-import src.bank.pin.IncorrectPinException ;
+package src.atm.pin ;
+import src.atm.pin.InvalidPinException ;
+import src.atm.pin.PinMismatchException ;
+import src.atm.pin.IncorrectPinException ;
 
 final public class Pin {
 	

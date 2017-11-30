@@ -4,7 +4,7 @@
 // Date        : 11/15/2017                                                   //
 //============================================================================//
 
-package src.bank.account ;
+package src.atm.account ;
 import java.math.BigDecimal ;
 import src.bank.account.BankAccount ;
 

@@ -4,12 +4,10 @@
 // Date        : 11/21/2017                                                   //
 //============================================================================//
 
-package src.bank.gui ;
-import java.awt.CardLayout;
+package src.atm.gui ;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame ;
-import javax.swing.JPanel;
 
 public final class GUI extends JFrame {
 
@@ -50,7 +48,7 @@ public final class GUI extends JFrame {
 		this.setResizable(false) ;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE) ;
 		this.setLocationRelativeTo(null) ;
-		this.setLayout(new CardLayout()) ;
+		//this.setLayout(null) ;
 	}
 	
 }

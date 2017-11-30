@@ -8,20 +8,20 @@
 //		account balance.                                                      //
 //============================================================================//
 
-package src.bank.account ;
+package src.atm.account ;
 import java.util.HashMap ;
 import java.math.BigDecimal ;
 import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter ;
-import src.bank.account.AccountNotFoundException ;
-import src.bank.account.NegativeAmountException ;
-import src.bank.account.InsufficientBalanceException ;
-import src.bank.pin.Pin ;
-import src.bank.pin.InvalidPinException ;
-import src.bank.pin.PinMismatchException ;
-import src.bank.pin.IncorrectPinException ;
+import src.atm.account.AccountNotFoundException ;
+import src.atm.account.NegativeAmountException ;
+import src.atm.account.InsufficientBalanceException ;
+import src.atm.pin.Pin ;
+import src.atm.pin.InvalidPinException ;
+import src.atm.pin.PinMismatchException ;
+import src.atm.pin.IncorrectPinException ;
 
 public class BankAccount {
 
