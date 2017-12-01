@@ -117,14 +117,17 @@ final class CreateAccount extends JPanel {
 	}
 	
 	public String getAccountName() {
+		this.accountName = accountNameField.getText() ;
 		return this.accountName ;
 	}
 	
 	public String getAccountPin() {
+		this.accountPin = String.valueOf(accountPinField.getPassword()) ;
 		return this.accountPin ;
 	}
 	
 	public String getConfirmPin() {
+		this.confirmPin = String.valueOf(confirmPinField.getPassword()) ;
 		return this.confirmPin ;
 	}
 	

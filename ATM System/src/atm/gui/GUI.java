@@ -79,6 +79,12 @@ public final class GUI extends JFrame {
 		createAccountPanel.getCreateAccountButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Create Account Pressed") ;
+				System.out.println(createAccountPanel.getAccountName() + createAccountPanel.getAccountPin() + createAccountPanel.getConfirmPin()) ; 
+				try {
+					BankAccount.CREATE_ACCOUNT(0, createAccountPanel.getAccountName(), createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin(), 0) ;
+				} catch (Exception e) {
+					e.printStackTrace() ;
+				}
 			}
 		}) ;
 	}

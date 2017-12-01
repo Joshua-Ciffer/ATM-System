@@ -98,10 +98,12 @@ final class Login extends JPanel {
 	}
 	
 	public String getAccountPin() {
+		this.accountPin = String.valueOf(accountPinField.getPassword()) ;
 		return this.accountPin ;
 	}
 	
 	public int getAccountNumber() {
+		this.accountNumber = Integer.parseInt(accountNumberField.getText()) ;
 		return this.accountNumber ;
 	}
 	
