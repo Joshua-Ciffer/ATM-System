@@ -15,6 +15,7 @@ import java.awt.Font ;
 
 final class Login extends JPanel {
 
+	private static Font labelFont = new Font("Dialog", Font.BOLD, 14) ;
 	private JLabel loginLabel, accountNumberLabel, accountPinLabel ;
 	private JTextField accountNumberField ;
 	private JPasswordField accountPinField ;
@@ -24,35 +25,41 @@ final class Login extends JPanel {
 	
 	public Login() {
 		super(null) ;
+		
 		loginLabel = new JLabel("Login") ;
-		loginLabel.setBounds(150, 10, 200, 50) ;
-		loginLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		loginLabel.setFont(labelFont) ;
 		loginLabel.setHorizontalAlignment(SwingConstants.CENTER) ;
 		loginLabel.setVerticalAlignment(SwingConstants.CENTER) ;
+		loginLabel.setBounds(150, 10, 200, 50) ;
+		
 		accountNumberLabel = new JLabel("Account Number:") ;
-		accountNumberLabel.setSize(200, 50) ;
-		accountNumberLabel.setLocation(75, 85) ;
-		accountNumberLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		accountNumberLabel.setFont(labelFont) ;
 		accountNumberLabel.setVerticalAlignment(SwingConstants.CENTER) ;
+		accountNumberLabel.setBounds(75, 85, 200, 50) ;
+		
 		accountPinLabel = new JLabel("Account PIN:") ;
-		accountPinLabel.setSize(200, 50) ;
-		accountPinLabel.setLocation(75, 185) ;
-		accountPinLabel.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		accountPinLabel.setFont(labelFont) ;
 		accountPinLabel.setVerticalAlignment(SwingConstants.CENTER) ;
+		accountPinLabel.setBounds(75, 185, 200, 50) ;
+		
 		accountNumberField = new JTextField() ;
+		accountNumberField.setFont(labelFont) ;
 		accountNumberField.setToolTipText("Enter your account number.") ;
 		accountNumberField.setBounds(225, 85, 200, 50) ;
-		accountNumberField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		
 		accountPinField = new JPasswordField() ;
+		accountPinField.setFont(labelFont) ;
 		accountPinField.setToolTipText("Enter your account PIN.") ;
 		accountPinField.setBounds(225, 185, 200, 50) ;
-		accountPinField.setFont(new Font("Dialog", Font.BOLD, 14)) ;
+		
 		backButton = new JButton("Back") ;
 		backButton.setToolTipText("Return to the main menu.") ;
 		backButton.setBounds(75, 285, 150, 50) ;
+		
 		loginButton = new JButton("Login") ;
 		loginButton.setToolTipText("Login to your account.") ;
 		loginButton.setBounds(275, 285, 150, 50) ;
+		
 		this.add(loginLabel) ;
 		this.add(accountNumberLabel) ;
 		this.add(accountNumberField) ;

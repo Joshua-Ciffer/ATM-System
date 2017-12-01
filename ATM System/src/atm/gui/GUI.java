@@ -69,6 +69,18 @@ public final class GUI extends JFrame {
 				}
 			}
 		}) ;
+		createAccountPanel.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Back Pressed") ;
+				createAccountPanel.setVisible(false) ;
+				mainMenuPanel.setVisible(true) ;
+			}
+		}) ;
+		createAccountPanel.getCreateAccountButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Create Account Pressed") ;
+			}
+		}) ;
 	}
 	
 }
