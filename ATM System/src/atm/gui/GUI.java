@@ -6,12 +6,13 @@
 
 package src.atm.gui ;
 import javax.swing.JFrame ;
+import javax.swing.JOptionPane ;
 import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 import java.awt.CardLayout ;
 import src.atm.account.BankAccount ;
 
-public final class GUI extends JFrame {
+public final class GUI extends JFrame implements ActionListener {
 
 	private MainMenu mainMenuPanel ;
 	private Login loginPanel ;
@@ -83,10 +84,17 @@ public final class GUI extends JFrame {
 				try {
 					BankAccount.CREATE_ACCOUNT(0, createAccountPanel.getAccountName(), createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin(), 0) ;
 				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR BITCH", JOptionPane.ERROR_MESSAGE) ;
+					e.getMessage() ;
 					e.printStackTrace() ;
 				}
 			}
 		}) ;
+	}
+
+	public void actionPerformed(ActionEvent a) {
+	
+		
 	}
 	
 }
