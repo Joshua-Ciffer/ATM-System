@@ -1,7 +1,7 @@
 //============================================================================//
 // Name        : PinMismatchException.java                                    //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/15/2017                                                   //
+// Date        : 12/02/2017                                                   //
 //============================================================================//
 
 package src.atm.pin ;
@@ -9,7 +9,23 @@ package src.atm.pin ;
 public final class PinMismatchException extends Exception {
 
 	public PinMismatchException() {
-		System.out.println("\nThe Pins You Entered Do Not Match.\n") ;
+		super() ;
+	}
+	
+	public PinMismatchException(String message) {
+		super(message) ;
+	}
+	
+	public PinMismatchException(Throwable cause) {
+		super(cause) ;
+	}
+	
+	public PinMismatchException(String message, Throwable cause) {
+		super(message, cause) ;
+	}
+	
+	public PinMismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace) ;
 	}
 	
 	public static final void THROW(String pin, String confirmPin) throws InvalidPinException, PinMismatchException {

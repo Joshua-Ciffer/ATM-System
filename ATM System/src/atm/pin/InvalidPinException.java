@@ -1,7 +1,7 @@
 //============================================================================//
 // Name        : InvalidPinException.java                                     //
 // Author      : Joshua Ciffer                                                //
-// Date        : 11/15/2017                                                   //
+// Date        : 12/02/2017                                                   //
 //============================================================================//
 
 package src.atm.pin ;
@@ -9,10 +9,26 @@ package src.atm.pin ;
 public final class InvalidPinException extends Exception {
 
 	public InvalidPinException() {
-		System.out.println("\nPlease Enter A Valid 4 Digit Pin.\n") ;
+		super() ;
 	}
 	
-	public static void THROW(String pin) throws InvalidPinException {
+	public InvalidPinException(String message) {
+		super(message) ;
+	}
+	
+	public InvalidPinException(Throwable cause) {
+		super(cause) ;
+	}
+	
+	public InvalidPinException(String message, Throwable cause) {
+		super(message, cause) ;
+	}
+	
+	public InvalidPinException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace) ;
+	}
+	
+	public static final void THROW(String pin) throws InvalidPinException {
 		try {
 			Short.parseShort(pin) ; 	// Throws NumberFormatException
 			if ((pin.length() != 4) || (Short.parseShort(pin) < 0)) {
