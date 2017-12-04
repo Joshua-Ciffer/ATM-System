@@ -50,7 +50,7 @@ public final class AccountNotFoundException extends Exception {
 	
 	/**
 	 * Constructs an AccountNotFoundException with a given message, cause, and specifies
-	 * whether or not suppression is enabled or if the stack trace is writable.
+	 * whether or not suppression is enabled or disabled or if the stack trace is writable.
 	 * 
 	 * @param message The message to be displayed with the stack trace.
 	 * @param cause The cause of this exception.

@@ -31,7 +31,6 @@ public final class IncorrectPinException extends Exception {
 		super(message) ;
 	}
 	
-	
 	/**
 	 * Constructs an IncorrectPinException with a given cause.
 	 * 
@@ -56,10 +55,10 @@ public final class IncorrectPinException extends Exception {
 	 * whether suppression is enabled or disabled or if the stack trace is writable 
 	 * or not.
 	 * 
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
+	 * @param message The message to displayed with the stack trace.
+	 * @param cause The cause of this exception.
+	 * @param enableSuppression Specifies whether suppression is enabled or disabled.
+	 * @param writableStackTrace Specifies whether the stack trace is writable.
 	 */
 	public IncorrectPinException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace) ;
@@ -75,11 +74,11 @@ public final class IncorrectPinException extends Exception {
 	 * @throws IncorrectPinException Thrown if the PIN the user entered is not correct.
 	 */
 	public static void CHECK_PIN(int accountNumber, String accountPin) throws InvalidPinException, IncorrectPinException {
-		InvalidPinException.VALIDATE_PIN(accountPin) ;	  // Throws InvalidPinException
+		InvalidPinException.VALIDATE_PIN(accountPin) ;	  // Throws InvalidPinException if the PIN is not valid.
 		try {
-			BankAccount.GET_ACCOUNT(accountNumber, accountPin) ;	// Could throw InvalidPinException or AccountNotFoundException.  Throws IncorrectPinException.
-		} catch (InvalidPinException | AccountNotFoundException e) {
-			e.printStackTrace() ;
+			BankAccount.GET_ACCOUNT(accountNumber, accountPin) ;	// Could throw InvalidPinException or an
+		} catch (InvalidPinException | AccountNotFoundException e) {    // an AccountNotFoudndException.  Throws an
+			e.printStackTrace() ;                                       // IncorrectPinException if the PIN is wrong.
 		}
 	}
 	

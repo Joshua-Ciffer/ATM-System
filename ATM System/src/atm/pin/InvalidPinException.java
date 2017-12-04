@@ -52,10 +52,10 @@ public final class InvalidPinException extends Exception {
 	 * whether suppression is enabled or disabled or if the stack trace is writable
 	 * or not.
 	 * 
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
+	 * @param message The message to be displayed with the stack trace.
+	 * @param cause The cause of this exception.
+	 * @param enableSuppression Specifies whether suppression is enabled or disabled.
+	 * @param writableStackTrace Specifies whether the stack trace is writable or not.
 	 */
 	public InvalidPinException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace) ;

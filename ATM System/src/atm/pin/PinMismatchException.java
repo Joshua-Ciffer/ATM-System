@@ -73,8 +73,8 @@ public final class PinMismatchException extends Exception {
 	 * @throws PinMismatchException Thrown if the two PINs entered are not equal.
 	 */
 	public static final void COMPARE_PINS(String pin, String confirmPin) throws InvalidPinException, PinMismatchException {
-		InvalidPinException.VALIDATE_PIN(pin) ;
-		InvalidPinException.VALIDATE_PIN(confirmPin) ;
+		InvalidPinException.VALIDATE_PIN(pin) ; 	// Checks to see if pin or confirm pin are
+		InvalidPinException.VALIDATE_PIN(confirmPin) ; 	// valid PINs.  Throws InvalidPinException
 		if (pin.equalsIgnoreCase(confirmPin) == false) {
 			throw new PinMismatchException("The PINs you entered do not match.") ;
 		}
