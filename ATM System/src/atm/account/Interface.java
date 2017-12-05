@@ -88,7 +88,7 @@ final public class Interface {
 			System.out.print("Create An Account Pin: ") ;
 			try {
 				accountPin = userInput.nextLine() ;
-				InvalidPinException.THROW(accountPin) ;
+				InvalidPinException.VALIDATE_PIN(accountPin) ;
 				break ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Create An Account Pin.\n") ;
@@ -102,7 +102,7 @@ final public class Interface {
 			System.out.print("Confirm Your Account Pin: ") ;
 			try {
 				confirmPin = userInput.nextLine() ;
-				PinMismatchException.THROW(accountPin, confirmPin) ;
+				PinMismatchException.COMPARE_PINS(accountPin, confirmPin) ;
 				break ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Confirm Your Account Pin.\n") ;
@@ -118,7 +118,7 @@ final public class Interface {
 			System.out.print("Enter Your Account's Starting Balance: $") ;
 			try {
 				accountBalance = userInput.nextDouble() ;
-				NegativeAmountException.THROW(accountBalance) ;
+				NegativeAmountException.CHECK_AMOUNT(accountBalance) ;
 				break ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter A Dollar Amount.\n") ;
@@ -140,7 +140,7 @@ final public class Interface {
 			System.out.print("\nEnter Your Account Number: #") ;
 			try {
 				accountNumber = userInput.nextInt() ;
-				AccountNotFoundException.THROW(accountNumber) ;
+				AccountNotFoundException.FIND_ACCOUNT(accountNumber) ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter Your Account Number.") ;
 				userInput.next() ;
@@ -153,7 +153,7 @@ final public class Interface {
 				System.out.print("Enter Your Account Pin: ") ;
 				try {
 					accountPin = userInput.nextLine() ;
-					IncorrectPinException.THROW(accountNumber, accountPin) ;
+					IncorrectPinException.CHECK_PIN(accountNumber, accountPin) ;
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease Enter Your Account Pin.\n") ;
 					userInput.next() ;
@@ -248,7 +248,7 @@ final public class Interface {
 			System.out.print("Enter The Amount You Want To Deposit: $") ;
 			try {
 				depositAmount = userInput.nextDouble() ;
-				NegativeAmountException.THROW(depositAmount) ;
+				NegativeAmountException.CHECK_AMOUNT(depositAmount) ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 				userInput.next() ;
@@ -271,8 +271,8 @@ final public class Interface {
 			System.out.print("Enter The Amount You Want To Withdrawal: $") ;
 			try {
 				withdrawalAmount = userInput.nextDouble() ;
-				NegativeAmountException.THROW(withdrawalAmount) ;
-				InsufficientBalanceException.THROW(accountNumber, accountPin, withdrawalAmount) ;
+				NegativeAmountException.CHECK_AMOUNT(withdrawalAmount) ;
+				InsufficientBalanceException.CHECK_BALANCE(accountNumber, accountPin, withdrawalAmount) ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 				userInput.next() ;
@@ -298,7 +298,7 @@ final public class Interface {
 			System.out.print("Enter The Account Number You Want To Transfer To: #") ;
 			try {
 				receivingAccount = userInput.nextInt() ;
-				AccountNotFoundException.THROW(receivingAccount) ;
+				AccountNotFoundException.FIND_ACCOUNT(receivingAccount) ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter The Account Number You Want To Transfer To.\n") ;
 				userInput.next() ;
@@ -310,8 +310,8 @@ final public class Interface {
 				System.out.print("Enter The Amount You Want To Transfer: $") ;
 				try {
 					transferAmount = userInput.nextDouble() ;
-					NegativeAmountException.THROW(transferAmount) ;
-					InsufficientBalanceException.THROW(transferringAccount, accountPin, transferAmount) ;
+					NegativeAmountException.CHECK_AMOUNT(transferAmount) ;
+					InsufficientBalanceException.CHECK_BALANCE(transferringAccount, accountPin, transferAmount) ;
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease Enter A Dollar Amount.\n") ;
 					userInput.next() ;
@@ -347,7 +347,7 @@ final public class Interface {
 			System.out.print("Enter Your Account Pin: ") ;
 			try {
 				accountPin = userInput.nextLine() ;
-				IncorrectPinException.THROW(accountNumber, accountPin) ;
+				IncorrectPinException.CHECK_PIN(accountNumber, accountPin) ;
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease Enter Your Account Pin.\n") ;
 				userInput.next() ;
@@ -361,7 +361,7 @@ final public class Interface {
 				System.out.print("Create A New Pin: ") ;
 				try {
 					newPin = userInput.nextLine() ;
-					InvalidPinException.THROW(newPin) ;
+					InvalidPinException.VALIDATE_PIN(newPin) ;
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease Create A New Pin.\n") ;
 					userInput.next() ;
@@ -373,7 +373,7 @@ final public class Interface {
 					System.out.print("Confirm Your New Pin: ") ;
 					try {
 						confirmPin = userInput.nextLine() ;
-						PinMismatchException.THROW(newPin, confirmPin) ;
+						PinMismatchException.COMPARE_PINS(newPin, confirmPin) ;
 					} catch (InputMismatchException e) {
 						System.out.println("\nPlease Confirm Your New Pin.\n") ;
 						userInput.next() ;
@@ -435,8 +435,7 @@ final public class Interface {
 	
 	private static void EXIT() {
 		userInput.close() ;
-		userInput = null ;
 		System.exit(0) ;
 	}	// End EXIT()
 
-}	// End Interface Class
+}
