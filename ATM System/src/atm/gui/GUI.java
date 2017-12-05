@@ -66,6 +66,7 @@ public final class GUI extends JFrame implements ActionListener {
 				try {
 					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
 				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
 					e.printStackTrace() ;
 				}
 			}
@@ -84,8 +85,7 @@ public final class GUI extends JFrame implements ActionListener {
 				try {
 					BankAccount.CREATE_ACCOUNT(0, createAccountPanel.getAccountName(), createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin(), 0) ;
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR BITCH", JOptionPane.ERROR_MESSAGE) ;
-					e.getMessage() ;
+					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
 					e.printStackTrace() ;
 				}
 			}
