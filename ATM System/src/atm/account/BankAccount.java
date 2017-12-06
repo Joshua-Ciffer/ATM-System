@@ -144,7 +144,7 @@ public class BankAccount {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true ;
 		} else {
-			throw new AccountNotFoundException() ;
+			throw new AccountNotFoundException("The account you entered does not exist. Please create an account.") ;
 		}
 	}
 

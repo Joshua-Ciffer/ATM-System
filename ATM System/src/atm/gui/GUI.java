@@ -16,7 +16,11 @@ public final class GUI extends JFrame implements ActionListener {
 
 	private MainMenu mainMenuPanel ;
 	private Login loginPanel ;
-	private CreateAccount createAccountPanel ; 
+	private CreateAccount createAccountPanel ;
+	private AccountMenu accountMenuPanel ;
+	private int accountNumber ;
+	private String accountPin ;
+	
 	
 	public static void main(String[] args) {
 		new GUI() ;
@@ -33,6 +37,7 @@ public final class GUI extends JFrame implements ActionListener {
 		this.add(mainMenuPanel = new MainMenu()) ;
 		this.add(loginPanel = new Login()) ;
 		this.add(createAccountPanel = new CreateAccount()) ;
+		this.add(accountMenuPanel = new AccountMenu()) ;
 		mainMenuPanel.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
@@ -63,8 +68,12 @@ public final class GUI extends JFrame implements ActionListener {
 		loginPanel.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
+				accountNumber = loginPanel.getAccountNumber() ;
+				accountPin = loginPanel.getAccountPin() ;
 				try {
 					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
+					loginPanel.setVisible(false) ;
+					accountMenuPanel.setVisible(true) ;
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
 					e.printStackTrace() ;
@@ -90,11 +99,45 @@ public final class GUI extends JFrame implements ActionListener {
 				}
 			}
 		}) ;
+		accountMenuPanel.getMakeDepositButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Depoist Pressed") ;
+			}
+		}) ;
+		accountMenuPanel.getMakeWithdrawalButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Withdraw Pressed") ;
+			}
+		}) ;
+		accountMenuPanel.getMakeTransferButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Transfer Pressed") ;
+			}
+		}) ;
+		accountMenuPanel.getCheckBalanceButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Check Balance Pressed") ;
+				try {
+					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(BankAccount.GET_ACCOUNT(accountNumber, accountPin).getAccountBalance()));
+				} catch (Exception e) {
+					e.printStackTrace() ;
+				}
+			}
+		}) ;
+		accountMenuPanel.getAccountOptionsButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Account Options Pressed") ;
+			}
+		}) ;
+		accountMenuPanel.getLogoutButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Logout Pressed.") ;
+				accountMenuPanel.setVisible(false) ;
+				mainMenuPanel.setVisible(true) ;
+			}
+		});
 	}
 
-	public void actionPerformed(ActionEvent a) {
-	
-		
-	}
+	public void actionPerformed(ActionEvent a) {}
 	
 }
