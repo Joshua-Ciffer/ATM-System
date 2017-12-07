@@ -22,65 +22,27 @@ import src.atm.pin.IncorrectPinException ;
  * @author Joshua Ciffer
  * @version 12/03/2017
  */
-public class BankAccount {
+public class BankAccount extends Account {
 
-	/**
-	 * A map using account number Integers as key references to BankAccount objects.
-	 */
-	private static HashMap<Integer, BankAccount> ACCOUNT_MAP = new HashMap<>() ;
 	
 	/**
 	 * A formatter object that is used to properly format U.S. currency values.
 	 */
 	private static NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US) ;
 	
-	/**
-	 * A date/time formatter object used to properly format the date and time used for account history.]
-	 * Date and time is formatted in the pattern: MM/dd/yyyy HH:mm a.  Example: 12/03/2017 4:35 PM.
-	 */
-	private static DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a") ;
 	
-	/**
-	 * A randomly generated 6 digit integer used as a means of identifying a specific bank account.
-	 */
-	private final int ACCOUNT_NUMBER ;
-	
-	/**
-	 * The account holder's name.
-	 */
-	private String accountName ; 
-	
-	/**
-	 * 
-	 */
-	private String accountHistory ;
-	
-	/**
-	 * A 4 digit number used as a password to login to an account stored in a wrapper object.
-	 */
-	private Pin accountPin ;
-	
-	/**
-	 * The account's monetary balance.
-	 */
 	private BigDecimal accountBalance ;
 	
 	@SuppressWarnings("deprecation")
 	public BankAccount() { 
-		this.ACCOUNT_NUMBER = 000_000 ;	    // Default Account Number
-		this.accountName = "" ;		// Blank Name
-		this.accountHistory = "" ;
-		this.accountPin = new Pin() ;	// Default Pin 0000
+		super() ;
 		this.accountBalance = new BigDecimal(0.00) ;	// Default Balance of $0.00
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
 
 	@SuppressWarnings("deprecation")
 	private BankAccount(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, BigDecimal accountBalance) {
-		this.ACCOUNT_NUMBER = ACCOUNT_NUMBER ;
-		this.accountName = accountName ;
-		this.accountHistory = DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n" ;
-		this.accountPin = accountPin ;
+		super(ACCOUNT_NUMBER, accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n") ;
 		this.accountBalance = accountBalance ;
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
@@ -91,7 +53,7 @@ public class BankAccount {
 		accountNumber = GENERATE_ACCOUNT_NUMBER(accountNumber) ;
 		ACCOUNT_MAP.put(accountNumber, new BankAccount(accountNumber, accountName, Pin.CREATE_PIN(accountPin, confirmPin), new BigDecimal(accountBalance))) ;
 		try {
-			System.out.println("\nSuccessfully Created Account #" + accountNumber + " For " + accountName + ", With A Starting Balance Of " + TO_CURRENCY_FORMAT(GET_ACCOUNT(accountNumber, accountPin).accountBalance) + ". Your Pin Is " + GET_ACCOUNT(accountNumber, accountPin).accountPin.getPin() + ".\n") ;
+			System.out.println("\nSuccessfully Created Account #" + accountNumber + " For " + accountName + ", With A Starting Balance Of " + TO_CURRENCY_FORMAT(GET_ACCOUNT(accountNumber, accountPin).getAccountBalance()) + ". Your Pin Is " + GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin() + ".\n") ;
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -117,21 +79,7 @@ public class BankAccount {
 		System.out.println("\nYour Account Has Been Closed.\n") ;
 	}
 	
-	public static final BankAccount GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, InvalidPinException, IncorrectPinException {
-		if (ACCOUNT_EXISTS(accountNumber)) {
-			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
-				return ACCOUNT_MAP.get(accountNumber) ;
-			} else {
-				throw new IncorrectPinException("The PIN you entered was incorrect.") ;
-			}
-		} else {
-			throw new AccountNotFoundException("The account you entered does not exist. Please create an account.") ;
-		}
-	}
 	
-	public static final HashMap<Integer, BankAccount> GET_ACCOUNT_MAP() {
-		return BankAccount.ACCOUNT_MAP ;
-	}
 	
 	// When GET_ACCOUNT() is written this way, when creating or accessing an account, a stack overflow error is produced. 
 	//public static BankAccount GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, InvalidPinException, IncorrectPinException {
@@ -140,13 +88,7 @@ public class BankAccount {
 	//	return ACCOUNT_MAP.get(accountNumber) ;
 	// }
 	
-	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws AccountNotFoundException {
-		if (ACCOUNT_MAP.containsKey(accountNumber)) {
-			return true ;
-		} else {
-			throw new AccountNotFoundException("The account you entered does not exist. Please create an account.") ;
-		}
-	}
+	
 
 	public static final void LIST_ACCOUNTS() {	// DEBUG USE
 		BankAccount[] listOfAccounts = ACCOUNT_MAP.values().toArray(new BankAccount[ACCOUNT_MAP.size()]) ;	 // HashMap to Collection, to BankAccount[]
@@ -187,11 +129,7 @@ public class BankAccount {
 		System.out.println("\nWithdrew " + TO_CURRENCY_FORMAT(new BigDecimal(withdrawalAmount)) + " From Your Account. Your Balance Is Now " + TO_CURRENCY_FORMAT(this.accountBalance) + "\n") ;
 	}
 	
-	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IncorrectPinException, InvalidPinException, PinMismatchException {
-		this.accountPin.changePin(this.ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
-		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed\n" ; 
-		System.out.println("\nYour Pin Has Been Changed.\n") ;
-	} 
+
 	
 	/**
 	 * This method compares two BankAccount objects
@@ -220,42 +158,9 @@ public class BankAccount {
 	public String toString() {
 		return "#" + this.ACCOUNT_NUMBER + ", " + this.accountName + ", " + TO_CURRENCY_FORMAT(this.accountBalance) + ", " + this.accountPin.toString() ;
 	}
+
 	
-	/**
-	 * This method returns the constant account number as an int.
-	 * 
-	 * @return Object constant ACCOUNT_NUMBER.
-	 */
-	public final int getAccountNumber() {
-		return this.ACCOUNT_NUMBER ;
-	}
 	
-	/**
-	 * This method returns the account holder's name as a string.
-	 * 
-	 * @return Object variable accountName.
-	 */
-	public final String getAccountName() {
-		return this.accountName ;
-	}
-	
-	/**
-	 * This method returns the account's history in the form of a concatenated string.
-	 * 
-	 * @return Object variable accountHistory.
-	 */
-	public final String getAccountHistory() {
-		return this.accountHistory ;
-	}
-	
-	/** 
-	 * This method returns the account's pin as a Pin object.
-	 * 
-	 * @return Object variable accountPin.
-	 */
-	public final Pin getAccountPin() {
-		return this.accountPin ;
-	}
 	
 	/**
 	 * This method returns the account's balance as a BigDecimal object.

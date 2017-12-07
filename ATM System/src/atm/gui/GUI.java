@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 import java.awt.CardLayout ;
 import java.math.BigDecimal ;
+import src.atm.account.Account;
 import src.atm.account.BankAccount ;
 import src.atm.account.NegativeAmountException ;
 
@@ -77,7 +78,7 @@ public final class GUI extends JFrame implements ActionListener {
 					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
 					accountNumber = loginPanel.getAccountNumber() ;
 					accountPin = loginPanel.getAccountPin() ;
-					currentAccount = BankAccount.GET_ACCOUNT(accountNumber, accountPin) ;
+					currentAccount = (BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin) ;
 					loginPanel.setVisible(false) ;
 					accountMenuPanel.setVisible(true) ;
 				} catch (Exception e) {
@@ -164,6 +165,10 @@ public final class GUI extends JFrame implements ActionListener {
 		});
 	}
 
-	public void actionPerformed(ActionEvent a) {}
+	public void actionPerformed(ActionEvent a) {
+		if (a.getSource() == depositPanel.getBackButton()) {
+			
+		}
+	}
 	
 }

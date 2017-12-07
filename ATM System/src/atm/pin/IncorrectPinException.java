@@ -1,6 +1,7 @@
 
 package src.atm.pin ;
 import src.atm.account.BankAccount ;
+import src.atm.account.Account;
 import src.atm.account.AccountNotFoundException ;
 
 /**
@@ -74,10 +75,9 @@ public final class IncorrectPinException extends Exception {
 	 * @throws IncorrectPinException Thrown if the PIN the user entered is not correct.
 	 */
 	public static void CHECK_PIN(int accountNumber, String accountPin) throws InvalidPinException, IncorrectPinException {
-		InvalidPinException.VALIDATE_PIN(accountPin) ;	  // Throws InvalidPinException if the PIN is not valid.
 		try {
-			BankAccount.GET_ACCOUNT(accountNumber, accountPin) ;	// Could throw InvalidPinException or an
-		} catch (InvalidPinException | AccountNotFoundException e) {    // an AccountNotFoudndException.  Throws an
+			Account.GET_ACCOUNT(accountNumber, accountPin) ;	// Could throw InvalidPinException or an
+		} catch (AccountNotFoundException e) {    // an AccountNotFoudndException.  Throws an
 			e.printStackTrace() ;                                       // IncorrectPinException if the PIN is wrong.
 		}
 	}

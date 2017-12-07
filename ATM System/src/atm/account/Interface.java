@@ -257,7 +257,7 @@ final public class Interface {
 				continue ;
 			}
 			try {
-				BankAccount.GET_ACCOUNT(accountNumber, accountPin).deposit(depositAmount) ;
+				((BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin)).deposit(depositAmount) ;
 			} catch (Exception e) {
 				e.printStackTrace() ;
 			}
@@ -283,7 +283,7 @@ final public class Interface {
 				break ;
 			}
 			try {
-				BankAccount.GET_ACCOUNT(accountNumber, accountPin).withdraw(withdrawalAmount) ;
+				((BankAccount) BankAccount.GET_ACCOUNT(accountNumber, accountPin)).withdraw(withdrawalAmount) ;
 				break ;
 			} catch (Exception e) {
 				e.printStackTrace() ;

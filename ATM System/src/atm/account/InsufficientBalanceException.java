@@ -81,7 +81,7 @@ public final class InsufficientBalanceException extends Exception {
 			if (BankAccount.GET_ACCOUNT(accountNumber, accountPin).getAccountBalance().compareTo(new BigDecimal(amount)) < 0) {		// BankAccount.GET_ACCOUNT() Could throw an AccountNotFound or PinException.
 				throw new InsufficientBalanceException("The amount you entered is greater than your account balance.") ;
 			}
-		} catch (AccountNotFoundException | InvalidPinException | IncorrectPinException e) {
+		} catch (AccountNotFoundException | IncorrectPinException e) {
 			e.printStackTrace() ;
 		}
 	}
