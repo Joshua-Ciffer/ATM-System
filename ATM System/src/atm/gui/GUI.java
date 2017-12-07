@@ -10,7 +10,9 @@ import javax.swing.JOptionPane ;
 import java.awt.event.ActionEvent ;
 import java.awt.event.ActionListener ;
 import java.awt.CardLayout ;
+import java.math.BigDecimal ;
 import src.atm.account.BankAccount ;
+import src.atm.account.NegativeAmountException ;
 
 public final class GUI extends JFrame implements ActionListener {
 
@@ -18,9 +20,10 @@ public final class GUI extends JFrame implements ActionListener {
 	private Login loginPanel ;
 	private CreateAccount createAccountPanel ;
 	private AccountMenu accountMenuPanel ;
+	private Deposit depositPanel ;
 	private int accountNumber ;
 	private String accountPin ;
-	
+	private BankAccount currentAccount ;
 	
 	public static void main(String[] args) {
 		new GUI() ;
@@ -38,6 +41,7 @@ public final class GUI extends JFrame implements ActionListener {
 		this.add(loginPanel = new Login()) ;
 		this.add(createAccountPanel = new CreateAccount()) ;
 		this.add(accountMenuPanel = new AccountMenu()) ;
+		this.add(depositPanel = new Deposit()) ;
 		mainMenuPanel.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
@@ -68,10 +72,12 @@ public final class GUI extends JFrame implements ActionListener {
 		loginPanel.getLoginButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed") ;
-				accountNumber = loginPanel.getAccountNumber() ;
-				accountPin = loginPanel.getAccountPin() ;
+				
 				try {
 					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
+					accountNumber = loginPanel.getAccountNumber() ;
+					accountPin = loginPanel.getAccountPin() ;
+					currentAccount = BankAccount.GET_ACCOUNT(accountNumber, accountPin) ;
 					loginPanel.setVisible(false) ;
 					accountMenuPanel.setVisible(true) ;
 				} catch (Exception e) {
@@ -102,6 +108,8 @@ public final class GUI extends JFrame implements ActionListener {
 		accountMenuPanel.getMakeDepositButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Depoist Pressed") ;
+				accountMenuPanel.setVisible(false) ;
+				depositPanel.setVisible(true) ;
 			}
 		}) ;
 		accountMenuPanel.getMakeWithdrawalButton().addActionListener(new ActionListener() {
@@ -134,6 +142,24 @@ public final class GUI extends JFrame implements ActionListener {
 				System.out.println("Logout Pressed.") ;
 				accountMenuPanel.setVisible(false) ;
 				mainMenuPanel.setVisible(true) ;
+			}
+		}) ;
+		depositPanel.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Back Pressed") ;
+				depositPanel.setVisible(false) ;
+				accountMenuPanel.setVisible(true) ;
+			}
+		}) ;
+		depositPanel.getDepositButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				System.out.println("Deposit Pressed") ;
+				try {
+					currentAccount.deposit(depositPanel.getDepositAmount()) ;
+					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.", "", JOptionPane.INFORMATION_MESSAGE) ;
+				} catch (NegativeAmountException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
+				}
 			}
 		});
 	}
