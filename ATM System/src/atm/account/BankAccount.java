@@ -69,30 +69,6 @@ public class BankAccount extends Account {
 		return accountNumber ;
 	}
 	
-	public static final void CLOSE_ACCOUNT(int accountNumber) throws AccountNotFoundException {
-		AccountNotFoundException.FIND_ACCOUNT(accountNumber) ;
-		ACCOUNT_MAP.remove(accountNumber) ;
-		System.out.println("\nYour Account Has Been Closed.\n") ;
-	}
-	
-	
-	
-	// When GET_ACCOUNT() is written this way, when creating or accessing an account, a stack overflow error is produced. 
-	//public static BankAccount GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, InvalidPinException, IncorrectPinException {
-	//	AccountNotFoundException.THROW(accountNumber) ;
-	//	IncorrectPinException.THROW(accountNumber, accountPin) ;
-	//	return ACCOUNT_MAP.get(accountNumber) ;
-	// }
-	
-	
-
-	public static final void LIST_ACCOUNTS() {	// DEBUG USE
-		BankAccount[] listOfAccounts = ACCOUNT_MAP.values().toArray(new BankAccount[ACCOUNT_MAP.size()]) ;	 // HashMap to Collection, to BankAccount[]
-		for (BankAccount ba : listOfAccounts) {
-			System.out.println(ba.toString()) ;
-		}
-	}
-	
 	public static final String TO_CURRENCY_FORMAT(BigDecimal amount) {
 		return US_DOLLARS.format(amount) ;
 	}

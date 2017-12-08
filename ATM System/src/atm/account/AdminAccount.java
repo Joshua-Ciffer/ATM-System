@@ -1,6 +1,5 @@
 
 package src.atm.account ; 
-import java.math.BigDecimal ;
 import src.atm.pin.Pin ;
 
 public final class AdminAccount extends Account {
@@ -13,6 +12,13 @@ public final class AdminAccount extends Account {
 		super(ACCOUNT_NUMBER, accountName, accountPin, accountHistory) ;
 	}
 
+	public static final void LIST_ACCOUNTS() {
+		Account[] listOfAccounts = ACCOUNT_MAP.values().toArray(new Account[ACCOUNT_MAP.size()]) ;	 // HashMap to Collection, to BankAccount[]
+		for (Account a : listOfAccounts) {
+			System.out.println(a.toString()) ;
+		}
+	}
+	
 	public boolean equals(Object account) {
 		AdminAccount comparingAccount = (AdminAccount)account ;
 		if (this.toString().equalsIgnoreCase(comparingAccount.toString())) {
@@ -22,7 +28,7 @@ public final class AdminAccount extends Account {
 		}
 	}
 
-	@Override
+	
 	public String toString() {
 		return this.ACCOUNT_NUMBER + ", " + this.accountName + ", " + this.accountPin + ", " + this.accountHistory + "," ;
 	}

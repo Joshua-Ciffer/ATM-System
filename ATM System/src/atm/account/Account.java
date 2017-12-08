@@ -18,10 +18,10 @@ public abstract class Account {
 	String accountHistory ;
 	
 	Account() {
-		this.ACCOUNT_NUMBER = 000_000 ;
-		this.accountName = "" ;
-		this.accountPin = new Pin() ;
-		this.accountHistory = "" ;
+		ACCOUNT_NUMBER = 000_000 ;
+		accountName = "" ;
+		accountPin = new Pin() ;
+		accountHistory = "" ;
 	}
 	
 	Account(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, String accountHistory) {
@@ -75,33 +75,45 @@ public abstract class Account {
 		}
 	}
 	
+	public static final void CLOSE_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
+		IncorrectPinException.CHECK_PIN(accountNumber, accountPin) ;
+		AccountNotFoundException.FIND_ACCOUNT(accountNumber) ;
+		ACCOUNT_MAP.remove(accountNumber) ;
+	}
+	
 	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws InvalidPinException, IncorrectPinException, PinMismatchException {
-		this.accountPin.changePin(this.ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
-		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n" ;
+		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
+		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n" ;
 	}
 	
 	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
-		return Account.ACCOUNT_MAP ;
+		return ACCOUNT_MAP ;
 	}
 	
+	static final DateTimeFormatter GET_DATE_TIME() {
+		return DATE_TIME ;
+	}
+ 	
+	@Override
 	public abstract boolean equals(Object account) ;
 	
+	@Override
 	public abstract String toString() ;
 	
 	public final int getAccountNumber() {
-		return this.ACCOUNT_NUMBER ;
+		return ACCOUNT_NUMBER ;
 	}
 	
 	public final String getAccountName() {
-		return this.accountName ;
-	}
-	
-	public final String getAccountHistory() {
-		return this.accountHistory ;
+		return accountName ;
 	}
 	
 	public final Pin getAccountPin() {
-		return this.accountPin ;
+		return accountPin ;
+	}
+	
+	public final String getAccountHistory() {
+		return accountHistory ;
 	}
 	
 }

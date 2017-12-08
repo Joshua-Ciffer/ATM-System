@@ -74,7 +74,7 @@ public final class IncorrectPinException extends Exception {
 	 * a number that is not 4 digits or positive.
 	 * @throws IncorrectPinException Thrown if the PIN the user entered is not correct.
 	 */
-	public static void CHECK_PIN(int accountNumber, String accountPin) throws InvalidPinException, IncorrectPinException {
+	public static void CHECK_PIN(int accountNumber, String accountPin) throws IncorrectPinException {
 		try {
 			Account.GET_ACCOUNT(accountNumber, accountPin) ;	// Could throw InvalidPinException or an
 		} catch (AccountNotFoundException e) {    // an AccountNotFoudndException.  Throws an

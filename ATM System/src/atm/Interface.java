@@ -6,7 +6,7 @@
 //		the account balance.                                                  //
 //============================================================================//
 
-package src.atm.account ;
+package src.atm ;
 import java.util.Scanner ;
 import java.util.InputMismatchException ;
 import src.atm.account.AccountNotFoundException ;
