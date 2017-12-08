@@ -2,7 +2,6 @@
 package src.atm.account ;
 import java.math.BigDecimal ;
 import src.atm.pin.IncorrectPinException ;
-import src.atm.pin.InvalidPinException ;
 
 /**
  * InsufficientBalanceException is thrown when a user attempts to withdraw or
