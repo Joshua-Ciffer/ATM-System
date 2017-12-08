@@ -31,7 +31,7 @@ public class BankAccount extends Account {
 	
 	private BigDecimal accountBalance ;
 	
-	public BankAccount() { 
+	public BankAccount() {
 		super() ;
 		this.accountBalance = new BigDecimal(0.00) ;	// Default Balance of $0.00
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits

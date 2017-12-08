@@ -43,30 +43,6 @@ public abstract class Account {
 		}
 	}
 	
-	public static final BankAccount GET_BANK_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
-		if (ACCOUNT_EXISTS(accountNumber)) {
-			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
-				return (BankAccount)ACCOUNT_MAP.get(accountNumber) ;
-			} else {
-				throw new IncorrectPinException() ;
-			}
-		} else {
-			throw new AccountNotFoundException() ;
-		}
-	}
-	
-	public static final AdminAccount GET_ADMIN_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
-		if (ACCOUNT_EXISTS(accountNumber)) {
-			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
-				return (AdminAccount)ACCOUNT_MAP.get(accountNumber) ;
-			} else {
-				throw new IncorrectPinException() ;
-			}
-		} else {
-			throw new AccountNotFoundException() ;
-		}
-	}
-	
 	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws AccountNotFoundException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true ;
