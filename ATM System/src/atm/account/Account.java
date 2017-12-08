@@ -1,9 +1,8 @@
 
 package src.atm.account ;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter ;
 import java.util.HashMap ;
-import java.math.BigDecimal ;
+import java.time.LocalDateTime ;
+import java.time.format.DateTimeFormatter ;
 import src.atm.pin.Pin ;
 import src.atm.pin.InvalidPinException ;
 import src.atm.pin.IncorrectPinException ;
@@ -11,22 +10,21 @@ import src.atm.pin.PinMismatchException ;
 
 public abstract class Account {
 
-	protected static HashMap<Integer, Account> ACCOUNT_MAP = new HashMap<>() ;
-	protected static DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a") ;
-	protected final int ACCOUNT_NUMBER ;
-	protected String accountName ;
-	protected String accountHistory ;
-	protected Pin accountPin ;
-	protected BigDecimal accountBalance ;
+	static HashMap<Integer, Account> ACCOUNT_MAP = new HashMap<>() ;
+	static DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a") ;
+	final int ACCOUNT_NUMBER ;
+	String accountName ;
+	Pin accountPin ;
+	String accountHistory ;
 	
-	protected Account() {
+	Account() {
 		this.ACCOUNT_NUMBER = 000_000 ;
 		this.accountName = "" ;
-		this.accountHistory = "" ;
 		this.accountPin = new Pin() ;
+		this.accountHistory = "" ;
 	}
 	
-	protected Account(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, String accountHistory) {
+	Account(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, String accountHistory) {
 		this.ACCOUNT_NUMBER = ACCOUNT_NUMBER ;
 		this.accountName = accountName ;
 		this.accountPin = accountPin ;
@@ -37,6 +35,30 @@ public abstract class Account {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
 				return ACCOUNT_MAP.get(accountNumber) ;
+			} else {
+				throw new IncorrectPinException() ;
+			}
+		} else {
+			throw new AccountNotFoundException() ;
+		}
+	}
+	
+	public static final BankAccount GET_BANK_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
+		if (ACCOUNT_EXISTS(accountNumber)) {
+			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
+				return (BankAccount)ACCOUNT_MAP.get(accountNumber) ;
+			} else {
+				throw new IncorrectPinException() ;
+			}
+		} else {
+			throw new AccountNotFoundException() ;
+		}
+	}
+	
+	public static final AdminAccount GET_ADMIN_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
+		if (ACCOUNT_EXISTS(accountNumber)) {
+			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
+				return (AdminAccount)ACCOUNT_MAP.get(accountNumber) ;
 			} else {
 				throw new IncorrectPinException() ;
 			}
@@ -58,7 +80,7 @@ public abstract class Account {
 		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n" ;
 	}
 	
-	public static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
+	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
 		return Account.ACCOUNT_MAP ;
 	}
 	
@@ -81,7 +103,5 @@ public abstract class Account {
 	public final Pin getAccountPin() {
 		return this.accountPin ;
 	}
-	
-	public abstract BigDecimal getAccountBalance() ;
 	
 }

@@ -127,7 +127,7 @@ public final class GUI extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Check Balance Pressed") ;
 				try {
-					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(BankAccount.GET_ACCOUNT(accountNumber, accountPin).getAccountBalance()));
+					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(Account.GET_BANK_ACCOUNT(accountNumber, accountPin).getAccountBalance()));
 				} catch (Exception e) {
 					e.printStackTrace() ;
 				}

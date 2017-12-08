@@ -334,7 +334,7 @@ final public class Interface {
 
 	private static void CHECK_BALANCE() {
 		try {
-			System.out.println("\nYour Account Balance Is: " + BankAccount.TO_CURRENCY_FORMAT(BankAccount.GET_ACCOUNT(accountNumber, accountPin).getAccountBalance()) + ".\n") ;
+			System.out.println("\nYour Account Balance Is: " + BankAccount.TO_CURRENCY_FORMAT(BankAccount.GET_BANK_ACCOUNT(accountNumber, accountPin).getAccountBalance()) + ".\n") ;
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}

@@ -4,7 +4,6 @@ import java.math.BigDecimal ;
 import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
-import java.time.format.DateTimeFormatter ;
 import src.atm.account.AccountNotFoundException ;
 import src.atm.account.NegativeAmountException ;
 import src.atm.account.InsufficientBalanceException ;
@@ -32,14 +31,12 @@ public class BankAccount extends Account {
 	
 	private BigDecimal accountBalance ;
 	
-	@SuppressWarnings("deprecation")
 	public BankAccount() { 
 		super() ;
 		this.accountBalance = new BigDecimal(0.00) ;	// Default Balance of $0.00
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
 
-	@SuppressWarnings("deprecation")
 	private BankAccount(final int ACCOUNT_NUMBER, String accountName, Pin accountPin, BigDecimal accountBalance) {
 		super(ACCOUNT_NUMBER, accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n") ;
 		this.accountBalance = accountBalance ;
@@ -52,7 +49,7 @@ public class BankAccount extends Account {
 		accountNumber = GENERATE_ACCOUNT_NUMBER(accountNumber) ;
 		ACCOUNT_MAP.put(accountNumber, new BankAccount(accountNumber, accountName, Pin.CREATE_PIN(accountPin, confirmPin), new BigDecimal(accountBalance))) ;
 		try {
-			System.out.println("\nSuccessfully Created Account #" + accountNumber + " For " + accountName + ", With A Starting Balance Of " + TO_CURRENCY_FORMAT(GET_ACCOUNT(accountNumber, accountPin).getAccountBalance()) + ". Your Pin Is " + GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin() + ".\n") ;
+			System.out.println("\nSuccessfully Created Account #" + accountNumber + " For " + accountName + ", With A Starting Balance Of " + TO_CURRENCY_FORMAT(((BankAccount) GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance()) + ". Your Pin Is " + GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin() + ".\n") ;
 		} catch (Exception e) {
 			e.printStackTrace() ;
 		}
@@ -106,11 +103,11 @@ public class BankAccount extends Account {
 		IncorrectPinException.CHECK_PIN(transferringAccount, accountPin) ;
 		NegativeAmountException.CHECK_AMOUNT(transferAmount) ;
 		InsufficientBalanceException.CHECK_BALANCE(transferringAccount, accountPin, transferAmount) ;
-		ACCOUNT_MAP.get(transferringAccount).accountBalance = ACCOUNT_MAP.get(transferringAccount).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
-		ACCOUNT_MAP.get(receivingAccount).accountBalance = ACCOUNT_MAP.get(receivingAccount).accountBalance.add(new BigDecimal(transferAmount)) ;
+		((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(transferringAccount)).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
+		((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount)) ;
 		ACCOUNT_MAP.get(transferringAccount).accountHistory = ACCOUNT_MAP.get(transferringAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
 		ACCOUNT_MAP.get(receivingAccount).accountHistory = ACCOUNT_MAP.get(receivingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
-		System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(ACCOUNT_MAP.get(transferringAccount).accountBalance) + "\n") ;
+		System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(((BankAccount)ACCOUNT_MAP.get(transferringAccount)).getAccountBalance()) + "\n") ;
 	}
 	
 	public final void deposit(double depositAmount) throws NegativeAmountException {
