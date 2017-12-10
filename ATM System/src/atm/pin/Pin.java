@@ -9,11 +9,11 @@ public final class Pin {
 	private String pin ;
 	
 	public Pin() {
-		this.pin = "0000" ;
+		pin = "0000" ;
 	}
 	
 	public Pin(String pin, String confirmPin) throws IllegalArgumentException {
-		if (pinsMatch(pin, confirmPin)) {
+		if (PINs_MATCH(pin, confirmPin)) {
 			unformattedPin = Short.parseShort(pin) ;
 			formattedPin = String.format("%04d", unformattedPin) ;
 			this.pin = formattedPin ; 
@@ -22,7 +22,13 @@ public final class Pin {
 		}
 	}
 	
-	public static boolean isValidPin(String pin) throws IllegalArgumentException {
+	public void changePin(int accountNumber, String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
+		if (IS_CORRECT_PIN(accountNumber, oldPin) && PINs_MATCH(newPin, confirmPin)) {
+			pin = newPin ;
+		}
+	}
+	
+	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
 		try {
 			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4)) {
 				return true ;
@@ -34,25 +40,19 @@ public final class Pin {
 		}
 	}
 	
-	public static boolean pinsMatch(String pin, String confirmPin) throws IllegalArgumentException {
-		if ((isValidPin(pin) && isValidPin(confirmPin)) && (pin.equals(confirmPin))) {
+	public static boolean PINs_MATCH(String pin, String confirmPin) throws IllegalArgumentException {
+		if ((IS_VALID_PIN(pin) && IS_VALID_PIN(confirmPin)) && pin.equals(confirmPin)) {
 			return true ;
 		} else {
 			throw new IllegalArgumentException("The PINs you entered do not match.") ;
 		}
 	}
 	
-	public static boolean isCorrectPin(int accountNumber, String accountPin) throws IllegalArgumentException {
+	public static boolean IS_CORRECT_PIN(int accountNumber, String accountPin) throws IllegalArgumentException {
 		if (Account.GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin().equals(accountPin)) {
 			return true ;
 		} else {
 			throw new IllegalArgumentException("The PIN you entered is incorrect.") ;
-		}
-	}
-	
-	public void changePin(int accountNumber, String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
-		if (isCorrectPin(accountNumber, oldPin) && pinsMatch(newPin, confirmPin)) {
-			pin = newPin ;
 		}
 	}
 	
