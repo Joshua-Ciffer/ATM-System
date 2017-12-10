@@ -1,6 +1,7 @@
 
-package src.atm.account ; 
-import src.atm.pin.Pin ;
+package src.atm.account ;
+
+import src.atm.account.pin.Pin;
 
 public final class AdminAccount extends Account {
 

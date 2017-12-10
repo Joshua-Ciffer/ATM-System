@@ -4,12 +4,9 @@ import java.math.BigDecimal ;
 import java.text.NumberFormat ;
 import java.util.Locale ;
 import java.time.LocalDateTime ;
-import src.atm.account.AccountNotFoundException ;
 import src.atm.account.NegativeAmountException ;
+import src.atm.account.pin.Pin;
 import src.atm.account.InsufficientBalanceException ;
-import src.atm.pin.Pin ;
-import src.atm.pin.InvalidPinException ;
-import src.atm.pin.PinMismatchException ;
 import src.atm.pin.IncorrectPinException ;
 
 /**
@@ -43,10 +40,10 @@ public class BankAccount extends Account {
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
 	
-	public static void CREATE_ACCOUNT(int accountNumber, String accountName, String accountPin, String confirmPin, double accountBalance) throws NegativeAmountException, InvalidPinException, PinMismatchException {
+	public static void CREATE_ACCOUNT(int accountNumber, String accountName, String accountPin, String confirmPin, double accountBalance) throws NegativeAmountException {
 		NegativeAmountException.CHECK_AMOUNT(accountBalance) ;
 		PinMismatchException.COMPARE_PINS(accountPin, confirmPin) ;
-		accountNumber = GENERATE_ACCOUNT_NUMBER(accountNumber) ;
+		accountNumber = GENERATE_ACCOUNT_NUMBER() ;
 		ACCOUNT_MAP.put(accountNumber, new BankAccount(accountNumber, accountName, Pin.CREATE_PIN(accountPin, confirmPin), new BigDecimal(accountBalance))) ;
 		try {
 			System.out.println("\nSuccessfully Created Account #" + accountNumber + " For " + accountName + ", With A Starting Balance Of " + TO_CURRENCY_FORMAT(((BankAccount) GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance()) + ". Your Pin Is " + GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin() + ".\n") ;
@@ -55,35 +52,30 @@ public class BankAccount extends Account {
 		}
 	}
 	
-	private static final int GENERATE_ACCOUNT_NUMBER(int accountNumber) {
-		do {
-			accountNumber = (int)(Math.random() * 1_000_000) ;	  // Generates 6 digit Account Number
-			if (accountNumber < 100_000 || accountNumber > 999_999) {
-				continue ;
-			} else if (ACCOUNT_MAP.containsKey(accountNumber)) {
-				continue ;
-			} else {
-				break ;
-			}
-		} while (true) ;
-		return accountNumber ;
-	}
 	
 	public static final String TO_CURRENCY_FORMAT(BigDecimal amount) {
 		return US_DOLLARS.format(amount) ;
 	}
 	
-	public static final void TRANSFER(int transferringAccount, String accountPin, int receivingAccount, double transferAmount) throws AccountNotFoundException, InvalidPinException, IncorrectPinException, NegativeAmountException, InsufficientBalanceException {
-		AccountNotFoundException.FIND_ACCOUNT(transferringAccount) ;
-		AccountNotFoundException.FIND_ACCOUNT(receivingAccount) ;
-		IncorrectPinException.CHECK_PIN(transferringAccount, accountPin) ;
-		NegativeAmountException.CHECK_AMOUNT(transferAmount) ;
-		InsufficientBalanceException.CHECK_BALANCE(transferringAccount, accountPin, transferAmount) ;
-		((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(transferringAccount)).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
-		((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount)) ;
-		ACCOUNT_MAP.get(transferringAccount).accountHistory = ACCOUNT_MAP.get(transferringAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
-		ACCOUNT_MAP.get(receivingAccount).accountHistory = ACCOUNT_MAP.get(receivingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
-		System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(((BankAccount)ACCOUNT_MAP.get(transferringAccount)).getAccountBalance()) + "\n") ;
+	public static final boolean isPositiveAmount(double amount) throws IllegalArgumentException {
+		if (amount > 0) {
+			return true ;
+		} else {
+			throw new IllegalArgumentException("Please enter a positive amount.") ;
+		}
+	}
+	
+	public static final void TRANSFER(int transferringAccount, String accountPin, int receivingAccount, double transferAmount) throws InsufficientBalanceException {
+		if (ACCOUNT_EXISTS(transferringAccount) && ACCOUNT_EXISTS(receivingAccount)) {
+			IncorrectPinException.CHECK_PIN(transferringAccount, accountPin) ;
+			NegativeAmountException.CHECK_AMOUNT(transferAmount) ;
+			InsufficientBalanceException.CHECK_BALANCE(transferringAccount, accountPin, transferAmount) ;
+			((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(transferringAccount)).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
+			((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance = ((BankAccount)ACCOUNT_MAP.get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount)) ;
+			ACCOUNT_MAP.get(transferringAccount).accountHistory = ACCOUNT_MAP.get(transferringAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
+			ACCOUNT_MAP.get(receivingAccount).accountHistory = ACCOUNT_MAP.get(receivingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
+			System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(((BankAccount)ACCOUNT_MAP.get(transferringAccount)).getAccountBalance()) + "\n") ;
+		}
 	}
 	
 	public final void deposit(double depositAmount) throws NegativeAmountException {

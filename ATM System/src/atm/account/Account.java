@@ -1,12 +1,9 @@
 
 package src.atm.account ;
 import java.util.HashMap ;
+import src.atm.pin.Pin;
 import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter ;
-import src.atm.pin.Pin ;
-import src.atm.pin.InvalidPinException ;
-import src.atm.pin.IncorrectPinException ;
-import src.atm.pin.PinMismatchException ;
 
 public abstract class Account {
 
@@ -31,23 +28,40 @@ public abstract class Account {
 		this.accountHistory = accountHistory ;
 	}
 	
-	public static final Account GET_ACCOUNT(int accountNumber, String accountPin) throws AccountNotFoundException, IncorrectPinException {
+	public static final void CREATE_ACCOUNT(String accountName, String accountPin, String confirmPin) {
+		
+	}
+	
+	static final int GENERATE_ACCOUNT_NUMBER() {
+		int accountNumber ;
+		do {
+			accountNumber = (int)(Math.random() * 1_000_000) ;
+			if ((accountNumber < 100_000) || (accountNumber > 999_999)) {
+				continue ;
+			} else if (ACCOUNT_MAP.containsKey(accountNumber)) {
+				continue ;
+			} else {
+				break ;
+			}
+		} while (true) ;
+		return accountNumber ;
+	}
+	
+	public static final Account GET_ACCOUNT(int accountNumber, String accountPin) {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (ACCOUNT_MAP.get(accountNumber).accountPin.getPin().equalsIgnoreCase(accountPin)) {
 				return ACCOUNT_MAP.get(accountNumber) ;
 			} else {
-				throw new IncorrectPinException() ;
 			}
 		} else {
-			throw new AccountNotFoundException() ;
 		}
 	}
 	
-	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws AccountNotFoundException {
+	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true ;
 		} else {
-			throw new AccountNotFoundException() ;
+			throw new NullPointerException("The account you entered does not exist. Please create an account.") ;
 		}
 	}
 	
