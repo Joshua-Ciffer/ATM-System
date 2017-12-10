@@ -3,12 +3,12 @@ import src.atm.account.Account ;
 
 /**
  * This class acts as a wrapper object for a 4 digit numerical PIN.
- * It also provides methods for validating Pin parameters and throwing appropriate exceptions.   
- * 
+ * It also provides methods for validating Pin parameters and throwing appropriate exceptions.
+ * <br><br>
  * This class cannot be extended.
  * 
  * @author Joshua Ciffer
- * @version 12/09/2017
+ * @version 12/10/2017
  */
 public final class Pin {
 	
@@ -27,8 +27,8 @@ public final class Pin {
 	/**
 	 * Constructs a Pin object with a given String pin.
 	 * 
-	 * @param pin A 4 digit numerical PIN.
-	 * @param confirmPin The same 4 digit numerical PIN entered again for confirmation.
+	 * @param pin - A 4 digit numerical PIN.
+	 * @param confirmPin - The same 4 digit numerical PIN entered again for confirmation.
 	 * @throws IllegalArgumentException Thrown if the PIN entered is not valid, or if the PINs do not match.
 	 */
 	public Pin(String pin, String confirmPin) throws IllegalArgumentException {
@@ -40,10 +40,10 @@ public final class Pin {
 	/**
 	 * Changes the PIN contained in the Pin wrapper object.
 	 * 
-	 * @param accountNumber The account that contains this Pin object.
-	 * @param oldPin The current PIN.
-	 * @param newPin The new PIN that will be saved.
-	 * @param confirmPin The new PIN entered again for confirmation.
+	 * @param accountNumber - The account that contains this Pin object.
+	 * @param oldPin - The current PIN.
+	 * @param newPin - The new PIN that will be saved.
+	 * @param confirmPin - The new PIN entered again for confirmation.
 	 * @throws IllegalArgumentException Thrown If any of the PINs are invalid, or the newPin and confirmPin do not match.
 	 */
 	public void changePin(int accountNumber, String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
@@ -55,8 +55,8 @@ public final class Pin {
 	/**
 	 * Checks to see if the given PIN is 4 numerical digits.
 	 * 
-	 * @param pin The PIN to be validated.
-	 * @return True if the PIN is valid.
+	 * @param pin - The PIN to be validated.
+	 * @return true - If the PIN is valid.
 	 * @throws IllegalArgumentException Thrown if the PIN is invalid.
 	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
@@ -74,9 +74,9 @@ public final class Pin {
 	/**
 	 * Determines whether or not the user has entered the correct PIN by asking for the PIN twice to confirm.
 	 * 
-	 * @param pin The PIN to be confirmed.
-	 * @param confirmPin The same PIN entered again.
-	 * @return True if both PINs are the same.
+	 * @param pin - The PIN to be confirmed.
+	 * @param confirmPin - The same PIN entered again.
+	 * @return true - If both PINs are the same.
 	 * @throws IllegalArgumentException Thrown if the PINs are not the same.
 	 */
 	public static boolean PINs_MATCH(String pin, String confirmPin) throws IllegalArgumentException {
@@ -90,9 +90,9 @@ public final class Pin {
 	/**
 	 * Performs a check to see if the user has entered the correct PIN to login to their account.
 	 * 
-	 * @param accountNumber The account trying to be accessed.
-	 * @param accountPin The PIN the user enters.
-	 * @return True if the user enters the correct PIN for their account.
+	 * @param accountNumber - The account trying to be accessed.
+	 * @param accountPin - The PIN the user enters.
+	 * @return true - If the user enters the correct PIN for their account.
 	 * @throws IllegalArgumentException Thrown if the incorrect PIN is entered.
 	 * @throws NullPointerException Thrown if the account could not be found.
 	 */
@@ -107,8 +107,9 @@ public final class Pin {
 	/**
 	 * Checks to see if the content of two Pin objects are equal.
 	 * 
-	 * @param confirmPin The Pin object to test equality with.
-	 * @return True if both objects' content are equal. False if both objects' content are not equal.
+	 * @param confirmPin - The Pin object to test equality with.
+	 * @return true - If both objects' content are equal. </br> 
+	 *         false - If both objects' content are not equal.
 	 */
 	@Override
 	public boolean equals(Object confirmPin) {	  // Takes an Object as a parameter to properly override the Object equals() method.
@@ -132,7 +133,7 @@ public final class Pin {
 	
 	/**
 	 * Returns the PIN stored in this object.
-	 * 
+	 *  
 	 * @return 4 digit numerical PIN.
 	 */
 	public String getPin() {
