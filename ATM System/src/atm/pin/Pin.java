@@ -1,33 +1,64 @@
-
 package src.atm.pin ;
 import src.atm.account.Account ;
 
+/**
+ * This class acts as a wrapper object for a 4 digit numerical PIN.
+ * It also provides methods for validating Pin parameters and throwing appropriate exceptions.   
+ * 
+ * This class cannot be extended.
+ * 
+ * @author Joshua Ciffer
+ * @version 12/09/2017
+ */
 public final class Pin {
 	
-	private static String formattedPin ;
-	private static short unformattedPin ;
+	/**
+	 * The 4 digit numerical PIN stored in a wrapper Pin object.
+	 */
 	private String pin ;
 	
+	/**
+	 * Constructs a default PIN of 0000.
+	 */
 	public Pin() {
 		pin = "0000" ;
 	}
 	
+	/**
+	 * Constructs a Pin object with a given String pin.
+	 * 
+	 * @param pin A 4 digit numerical PIN.
+	 * @param confirmPin The same 4 digit numerical PIN entered again for confirmation.
+	 * @throws IllegalArgumentException Thrown if the PIN entered is not valid, or if the PINs do not match.
+	 */
 	public Pin(String pin, String confirmPin) throws IllegalArgumentException {
 		if (PINs_MATCH(pin, confirmPin)) {
-			unformattedPin = Short.parseShort(pin) ;
-			formattedPin = String.format("%04d", unformattedPin) ;
-			this.pin = formattedPin ; 
-		} else {
-			throw new IllegalArgumentException("The PINs you entered do not match.") ;
-		}
+			this.pin = String.format("%04d", Short.parseShort(pin)) ;	// "%04d" is regex that adds leading zeros to the String
+		}                                                              // if the length is less than 4.
 	}
 	
+	/**
+	 * Changes the PIN contained in the Pin wrapper object.
+	 * 
+	 * @param accountNumber The account that contains this Pin object.
+	 * @param oldPin The current PIN.
+	 * @param newPin The new PIN that will be saved.
+	 * @param confirmPin The new PIN entered again for confirmation.
+	 * @throws IllegalArgumentException Thrown If any of the PINs are invalid, or the newPin and confirmPin do not match.
+	 */
 	public void changePin(int accountNumber, String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
 		if (IS_CORRECT_PIN(accountNumber, oldPin) && PINs_MATCH(newPin, confirmPin)) {
 			pin = newPin ;
 		}
 	}
 	
+	/**
+	 * Checks to see if the given PIN is 4 numerical digits.
+	 * 
+	 * @param pin The PIN to be validated.
+	 * @return True if the PIN is valid.
+	 * @throws IllegalArgumentException Thrown if the PIN is invalid.
+	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
 		try {
 			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4)) {
@@ -35,11 +66,19 @@ public final class Pin {
 			} else {
 				throw new IllegalArgumentException("Please enter a 4 digit PIN.") ;
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {                                                     // Sets NumberFormatException as cause.
 			throw new IllegalArgumentException("Please enter a 4 digit numerical PIN.", new NumberFormatException()) ;
 		}
 	}
 	
+	/**
+	 * Determines whether or not the user has entered the correct PIN by asking for the PIN twice to confirm.
+	 * 
+	 * @param pin The PIN to be confirmed.
+	 * @param confirmPin The same PIN entered again.
+	 * @return True if both PINs are the same.
+	 * @throws IllegalArgumentException Thrown if the PINs are not the same.
+	 */
 	public static boolean PINs_MATCH(String pin, String confirmPin) throws IllegalArgumentException {
 		if ((IS_VALID_PIN(pin) && IS_VALID_PIN(confirmPin)) && pin.equals(confirmPin)) {
 			return true ;
@@ -48,7 +87,16 @@ public final class Pin {
 		}
 	}
 	
-	public static boolean IS_CORRECT_PIN(int accountNumber, String accountPin) throws IllegalArgumentException {
+	/**
+	 * Performs a check to see if the user has entered the correct PIN to login to their account.
+	 * 
+	 * @param accountNumber The account trying to be accessed.
+	 * @param accountPin The PIN the user enters.
+	 * @return True if the user enters the correct PIN for their account.
+	 * @throws IllegalArgumentException Thrown if the incorrect PIN is entered.
+	 * @throws NullPointerException Thrown if the account could not be found.
+	 */
+	public static boolean IS_CORRECT_PIN(int accountNumber, String accountPin) throws IllegalArgumentException, NullPointerException {
 		if (Account.GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin().equals(accountPin)) {
 			return true ;
 		} else {
@@ -56,8 +104,15 @@ public final class Pin {
 		}
 	}
 	
-	public boolean equals(Object confirmPin) {	  // Takes an Object as a parameter to properly override the super class equals method
-		Pin comparingPin = (Pin)confirmPin ;	// Casts Object to type Pin
+	/**
+	 * Checks to see if the content of two Pin objects are equal.
+	 * 
+	 * @param confirmPin The Pin object to test equality with.
+	 * @return True if both objects' content are equal. False if both objects' content are not equal.
+	 */
+	@Override
+	public boolean equals(Object confirmPin) {	  // Takes an Object as a parameter to properly override the Object equals() method.
+		Pin comparingPin = (Pin)confirmPin ;	// Casts Object to type Pin.
 		if (this.toString().equalsIgnoreCase(comparingPin.toString())) {
 			return true ;
 		} else {
@@ -65,12 +120,23 @@ public final class Pin {
 		}
 	}
 	
+	/**
+	 * Returns a String representation of the Pin object.
+	 * 
+	 * @return String representation of the content of this object.
+	 */
+	@Override
 	public String toString() {
 		return "PIN: " + pin ;
 	}
 	
+	/**
+	 * Returns the PIN stored in this object.
+	 * 
+	 * @return 4 digit numerical PIN.
+	 */
 	public String getPin() {
 		return pin ;
 	}
-	
+
 }
