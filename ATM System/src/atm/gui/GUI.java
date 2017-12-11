@@ -13,7 +13,6 @@ import java.awt.CardLayout ;
 import java.math.BigDecimal ;
 import src.atm.account.Account ;
 import src.atm.account.BankAccount ;
-import src.atm.account.NegativeAmountException ;
 
 public final class GUI extends JFrame implements ActionListener {
 
@@ -127,7 +126,7 @@ public final class GUI extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Check Balance Pressed") ;
 				try {
-					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(Account.GET_BANK_ACCOUNT(accountNumber, accountPin).getAccountBalance()));
+					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(((BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance()));
 				} catch (Exception e) {
 					e.printStackTrace() ;
 				}
@@ -158,7 +157,7 @@ public final class GUI extends JFrame implements ActionListener {
 				try {
 					currentAccount.deposit(depositPanel.getDepositAmount()) ;
 					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.", "", JOptionPane.INFORMATION_MESSAGE) ;
-				} catch (NegativeAmountException e) {
+				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
 				}
 			}
