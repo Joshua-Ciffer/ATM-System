@@ -1,7 +1,6 @@
 
 package src.atm.account ;
 import java.math.BigDecimal ;
-import src.atm.pin.IncorrectPinException ;
 
 /**
  * InsufficientBalanceException is thrown when a user attempts to withdraw or
@@ -76,13 +75,10 @@ public final class InsufficientBalanceException extends Exception {
 	 * @throws InsufficientBalanceException Thrown if the amount is greater than the user's account balance.
 	 */
 	public static final void CHECK_BALANCE(int accountNumber, String accountPin, double amount) throws InsufficientBalanceException {
-		try {
-			if (Account.GET_BANK_ACCOUNT(accountNumber, accountPin).getAccountBalance().compareTo(new BigDecimal(amount)) < 0) {		// BankAccount.GET_ACCOUNT() Could throw an AccountNotFound or PinException.
+			if (((BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance().compareTo(new BigDecimal(amount)) < 0) {		// BankAccount.GET_ACCOUNT() Could throw an AccountNotFound or PinException.
 				throw new InsufficientBalanceException("The amount you entered is greater than your account balance.") ;
 			}
-		} catch (AccountNotFoundException | IncorrectPinException e) {
-			e.printStackTrace() ;
-		}
+		
 	}
 	
 }
