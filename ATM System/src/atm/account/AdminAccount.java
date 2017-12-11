@@ -1,20 +1,16 @@
 
 package src.atm.account ;
 
-import src.atm.account.pin.Pin;
+import src.atm.pin.Pin;
 
 public final class AdminAccount extends Account {
 
-	public AdminAccount() {
-		super() ;
-	}
-
-	public AdminAccount(int ACCOUNT_NUMBER, String accountName, Pin accountPin, String accountHistory) {
-		super(ACCOUNT_NUMBER, accountName, accountPin, accountHistory) ;
+	public AdminAccount(String accountName, Pin accountPin, String accountHistory) {
+		super(accountName, accountPin, accountHistory) ;
 	}
 
 	public static final void LIST_ACCOUNTS() {
-		Account[] listOfAccounts = ACCOUNT_MAP.values().toArray(new Account[ACCOUNT_MAP.size()]) ;	 // HashMap to Collection, to BankAccount[]
+		Account[] listOfAccounts = GET_ACCOUNT_MAP().values().toArray(new Account[GET_ACCOUNT_MAP().size()]) ;	 // HashMap to Collection, to BankAccount[]
 		for (Account a : listOfAccounts) {
 			System.out.println(a.toString()) ;
 		}
