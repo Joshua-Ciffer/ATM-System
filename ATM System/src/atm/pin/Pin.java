@@ -18,13 +18,6 @@ public final class Pin {
 	private String pin ;
 	
 	/**
-	 * Constructs a default PIN of 0000.
-	 */
-	public Pin() {
-		pin = "0000" ;
-	}
-	
-	/**
 	 * Constructs a Pin object with a given String pin.
 	 * 
 	 * @param pin - A 4 digit numerical PIN.
@@ -112,10 +105,9 @@ public final class Pin {
 	 *         false - If both objects' content are not equal.
 	 */
 	@Override
-	public boolean equals(Object confirmPin) {	  // Takes an Object as a parameter to properly override the Object equals() method.
-		Pin comparingPin = (Pin)confirmPin ;	// Casts Object to type Pin.
-		if (this.toString().equalsIgnoreCase(comparingPin.toString())) {
-			return true ;
+	public boolean equals(Object confirmPin) {
+		if (this.toString().equalsIgnoreCase(((Pin)confirmPin).toString())) {	// Casts confirmPin to type Pin.
+			return true ;                                                   // This forces it to use Pin.toString()
 		} else {
 			return false ;
 		}
