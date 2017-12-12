@@ -1,37 +1,32 @@
-
 package src.atm.account ;
 import java.math.BigDecimal ;
 import java.text.NumberFormat ;
-import java.util.Locale ;
 import java.time.LocalDateTime ;
-import src.atm.pin.Pin;
+import java.util.Locale ;
+import src.atm.pin.Pin ;
 import src.atm.account.InsufficientBalanceException ;
 
-public class BankAccount extends Account {
-
+public final class BankAccount extends Account {
 	
 	private static NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US) ;
 	
-	
 	private BigDecimal accountBalance ;
 	
-	public BankAccount() {
-		super() ;
-		this.accountBalance = new BigDecimal(0.00) ;	// Default Balance of $0.00
-		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
-	}
-
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) {
 		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n") ;
 		this.accountBalance = accountBalance ;
 		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
 	
-	public static final String TO_CURRENCY_FORMAT(BigDecimal amount) {
+	public static String TO_CURRENCY_FORMAT(double amount) {
 		return US_DOLLARS.format(amount) ;
 	}
 	
-	public static final boolean isPositiveAmount(double amount) throws IllegalArgumentException {
+	public static String TO_CURRENCY_FORMAT(BigDecimal amount) {
+		return US_DOLLARS.format(amount) ;
+	}
+	
+	public static boolean IS_POSITIVE_AMOUNT(double amount) throws IllegalArgumentException {
 		if (amount > 0) {
 			return true ;
 		} else {
@@ -39,48 +34,57 @@ public class BankAccount extends Account {
 		}
 	}
 	
-	public static final void TRANSFER(int transferringAccount, String accountPin, int receivingAccount, double transferAmount) throws InsufficientBalanceException {
-		if (ACCOUNT_EXISTS(transferringAccount) && ACCOUNT_EXISTS(receivingAccount)) {
-			InsufficientBalanceException.CHECK_BALANCE(transferringAccount, accountPin, transferAmount) ;
-			((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).accountBalance = ((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).accountBalance.subtract(new BigDecimal(transferAmount)) ;			
-			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount)) ;
-			GET_ACCOUNT_MAP().get(transferringAccount).accountHistory = GET_ACCOUNT_MAP().get(transferringAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
-			GET_ACCOUNT_MAP().get(receivingAccount).accountHistory = GET_ACCOUNT_MAP().get(receivingAccount).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + "\n" ;
-			System.out.println("\nTransfered " + TO_CURRENCY_FORMAT(new BigDecimal(transferAmount)) + " To Account #" + receivingAccount + ". Your Balance Is Now " + TO_CURRENCY_FORMAT(((BankAccount)GET_ACCOUNT_MAP().get(transferringAccount)).getAccountBalance()) + "\n") ;
+	public boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
+		if (accountBalance.compareTo(new BigDecimal(amount)) > 0) {	
+			return true ;
+		} else {
+			throw new IllegalArgumentException("The amount you entered is greater than your account balance.") ;
 		}
 	}
 	
-	public final void deposit(double depositAmount) {
-		this.accountBalance = this.accountBalance.add(new BigDecimal(depositAmount)) ;
-		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Deposited " + TO_CURRENCY_FORMAT(new BigDecimal(depositAmount)) + "\n" ;
-		System.out.println("\nDeposited " + TO_CURRENCY_FORMAT(new BigDecimal(depositAmount)) + " To Your Account. Your Balance Is Now " + TO_CURRENCY_FORMAT(this.accountBalance) + "\n") ;
+	public void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
+		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
+			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount)) ;
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + ".\n" ;
+			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = 
+					((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount)) ;
+			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory =
+					((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory + DATE_TIME.format(LocalDateTime.now()) + 
+					" - Transfered " + TO_CURRENCY_FORMAT(receivingAccount) + " to account #" + receivingAccount + ".\n" ;
+		}
 	}
 	
-	public final void withdraw(double withdrawalAmount) throws InsufficientBalanceException {
-		InsufficientBalanceException.CHECK_BALANCE(this.ACCOUNT_NUMBER, this.accountPin.getPin(), withdrawalAmount) ;
-		this.accountBalance = this.accountBalance.subtract(new BigDecimal(withdrawalAmount)) ;
-		this.accountHistory = this.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Withdrew " + TO_CURRENCY_FORMAT(new BigDecimal(withdrawalAmount)) + "\n" ;
-		System.out.println("\nWithdrew " + TO_CURRENCY_FORMAT(new BigDecimal(withdrawalAmount)) + " From Your Account. Your Balance Is Now " + TO_CURRENCY_FORMAT(this.accountBalance) + "\n") ;
+	public void deposit(double depositAmount) throws IllegalArgumentException {
+		if (IS_POSITIVE_AMOUNT(depositAmount)) {
+			accountBalance = accountBalance.add(new BigDecimal(depositAmount)) ;
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Deposited " + TO_CURRENCY_FORMAT(depositAmount) + ".\n" ;
+		}
 	}
 	
-	public boolean equals(Object account) {		// Accepts Object as parameter so this method properly overrides the super class equals method
-		BankAccount comparingAccount = (BankAccount)account ;	// Casts Object to type BankAccount
-		if (this.toString().equalsIgnoreCase(comparingAccount.toString())) {
+	public void withdraw(double withdrawalAmount) throws IllegalArgumentException {
+		if (IS_POSITIVE_AMOUNT(withdrawalAmount) && hasSufficientBalance(withdrawalAmount)) {
+			accountBalance = accountBalance.subtract(new BigDecimal(withdrawalAmount)) ;
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Withdrew " + TO_CURRENCY_FORMAT(withdrawalAmount) + ".\n" ;
+		}
+	}
+	
+	@Override
+	public boolean equals(Object bankAccount) {
+		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {	// Casts bankAccount to type Bank Account
 			return true ;
 		} else {
 			return false ;
 		}
 	}
 	
+	@Override
 	public String toString() {
-		return "#" + this.ACCOUNT_NUMBER + ", " + this.accountName + ", " + TO_CURRENCY_FORMAT(this.accountBalance) + ", " + this.accountPin.toString() ;
+		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin + "\nAccount Balance: " + 
+				TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory ;
 	}
 
-	
-	
-	
-	public final BigDecimal getAccountBalance() {
-		return this.accountBalance ;
+	public BigDecimal getAccountBalance() {
+		return accountBalance ;
 	}
 	
 }
