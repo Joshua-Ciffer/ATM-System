@@ -1,7 +1,5 @@
-
 package src.atm.account ;
-
-import src.atm.pin.Pin;
+import src.atm.pin.Pin ;
 
 public final class AdminAccount extends Account {
 
@@ -9,25 +7,27 @@ public final class AdminAccount extends Account {
 		super(accountName, accountPin, accountHistory) ;
 	}
 
-	public static final void LIST_ACCOUNTS() {
-		Account[] listOfAccounts = GET_ACCOUNT_MAP().values().toArray(new Account[GET_ACCOUNT_MAP().size()]) ;	 // HashMap to Collection, to BankAccount[]
+	public final String listAccounts() {
+		Account[] listOfAccounts = GET_ACCOUNT_MAP().values().toArray(new Account[GET_ACCOUNT_MAP().size()]) ;	 // HashMap to Collection, to Account[]
+		String accountList = listOfAccounts.length + " accounts created.\n" ;
 		for (Account a : listOfAccounts) {
-			System.out.println(a.toString()) ;
+			accountList = accountList + a.toString() + "\n" ;
 		}
+		return accountList ;
 	}
 	
-	public boolean equals(Object account) {
-		AdminAccount comparingAccount = (AdminAccount)account ;
-		if (this.toString().equalsIgnoreCase(comparingAccount.toString())) {
+	@Override
+	public boolean equals(Object adminAccount) {
+		if (this.toString().equalsIgnoreCase(((AdminAccount)adminAccount).toString())) {	// Casts adminAccount to type AdminAccount
 			return true ;
 		} else {
 			return false ;
 		}
 	}
 
-	
+	@Override
 	public String toString() {
-		return this.ACCOUNT_NUMBER + ", " + this.accountName + ", " + this.accountPin + ", " + this.accountHistory + "," ;
+		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin + "\nAccount History: " + accountHistory ;
 	}
 
 }

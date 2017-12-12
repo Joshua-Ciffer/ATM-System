@@ -13,13 +13,6 @@ public abstract class Account {
 	Pin accountPin ;
 	String accountHistory ;
 	
-	Account() {
-		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER() ;
-		accountName = "" ;
-		accountPin = new Pin() ;
-		accountHistory = "" ;
-	}
-	
 	Account(String accountName, Pin accountPin, String accountHistory) {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER() ;
 		this.accountName = accountName ;
@@ -59,6 +52,11 @@ public abstract class Account {
 		}
 	}
 	
+	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
+		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
+		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n" ;
+	}
+	
 	public final void closeAccount(String accountPin) throws IllegalArgumentException {
 		if (Pin.IS_CORRECT_PIN(ACCOUNT_NUMBER, accountPin)) {
 			ACCOUNT_MAP.remove(ACCOUNT_NUMBER) ;
@@ -73,9 +71,8 @@ public abstract class Account {
 		this.accountName = accountName ;
 	}
 	
-	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
-		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin) ;
-		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n" ;
+	final void setAccountPin(Pin accountPin) {
+		this.accountPin = accountPin ;
 	}
 	
 	final void setAccountHistory(String accountHistory) {

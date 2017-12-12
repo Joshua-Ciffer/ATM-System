@@ -4,7 +4,6 @@ import java.text.NumberFormat ;
 import java.time.LocalDateTime ;
 import java.util.Locale ;
 import src.atm.pin.Pin ;
-import src.atm.account.InsufficientBalanceException ;
 
 public final class BankAccount extends Account {
 	

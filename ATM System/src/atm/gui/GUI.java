@@ -13,6 +13,7 @@ import java.awt.CardLayout ;
 import java.math.BigDecimal ;
 import src.atm.account.Account ;
 import src.atm.account.BankAccount ;
+import src.atm.pin.Pin;
 
 public final class GUI extends JFrame implements ActionListener {
 
@@ -96,10 +97,11 @@ public final class GUI extends JFrame implements ActionListener {
 		createAccountPanel.getCreateAccountButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Create Account Pressed") ;
-				System.out.println(createAccountPanel.getAccountName() + createAccountPanel.getAccountPin() + createAccountPanel.getConfirmPin()) ; 
+				System.out.println("Input: " + createAccountPanel.getAccountName() + createAccountPanel.getAccountPin() + createAccountPanel.getConfirmPin()) ; 
 				try {
-					BankAccount.CREATE_ACCOUNT(0, createAccountPanel.getAccountName(), createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin(), 0) ;
-				} catch (Exception e) {
+					BankAccount x = new BankAccount(createAccountPanel.getAccountName(), new Pin(createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin()), new BigDecimal(0)) ;
+					System.out.println(x.toString()) ;
+				} catch (IllegalArgumentException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
 					e.printStackTrace() ;
 				}
