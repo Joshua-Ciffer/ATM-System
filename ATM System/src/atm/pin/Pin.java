@@ -53,13 +53,13 @@ public final class Pin {
 	 * @throws IllegalArgumentException Thrown if the PIN is invalid.
 	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
-		try {
-			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4)) {
+		try {      // Short.parseShort() could throw NumberFormatException.
+			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4)) {	// PIN must be 4 digits and cannot be negative.
 				return true ;
 			} else {
 				throw new IllegalArgumentException("Please enter a 4 digit PIN.") ;
 			}
-		} catch (NumberFormatException e) {                                                     // Sets NumberFormatException as cause.
+		} catch (NumberFormatException e) {                                                   // Sets NumberFormatException as cause.
 			throw new IllegalArgumentException("Please enter a 4 digit numerical PIN.", new NumberFormatException()) ;
 		}
 	}
@@ -99,17 +99,15 @@ public final class Pin {
 	
 	/**
 	 * Checks to see if the content of two Pin objects are equal.
-	 * <br><br>
-	 * This method overrides Object.equals()
 	 * 
 	 * @param confirmPin - The Pin object to test equality with.
-	 * @return true - If both objects' content are equal. </br> 
+	 * @return true - If both objects' content are equal. <br> 
 	 *         false - If both objects' content are not equal.
 	 */
 	@Override
 	public boolean equals(Object confirmPin) {
 		if (this.toString().equalsIgnoreCase(((Pin)confirmPin).toString())) {	// Casts confirmPin to type Pin.
-			return true ;                                                   // This forces it to use Pin.toString()
+			return true ;                                                   // This forces it to use Pin.toString().
 		} else {
 			return false ;
 		}
@@ -117,8 +115,6 @@ public final class Pin {
 	
 	/**
 	 * Returns a String representation of the Pin object.
-	 * <br><br>
-	 * This method overrides Object.toString()
 	 * 
 	 * @return String representation of the content of this object.
 	 */
