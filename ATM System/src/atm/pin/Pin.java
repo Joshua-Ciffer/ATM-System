@@ -8,7 +8,7 @@ import src.atm.account.Account ;
  * This class cannot be extended.
  * 
  * @author Joshua Ciffer
- * @version 12/10/2017
+ * @version 12/13/2017
  */
 public final class Pin {
 	
@@ -99,6 +99,8 @@ public final class Pin {
 	
 	/**
 	 * Checks to see if the content of two Pin objects are equal.
+	 * <br><br>
+	 * This method overrides Object.equals()
 	 * 
 	 * @param confirmPin - The Pin object to test equality with.
 	 * @return true - If both objects' content are equal. </br> 
@@ -115,6 +117,8 @@ public final class Pin {
 	
 	/**
 	 * Returns a String representation of the Pin object.
+	 * <br><br>
+	 * This method overrides Object.toString()
 	 * 
 	 * @return String representation of the content of this object.
 	 */
