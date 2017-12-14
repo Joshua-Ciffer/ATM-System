@@ -11,7 +11,7 @@ import src.atm.pin.Pin ;
  * This class cannot be instantiated.
  * 
  * @author Joshua Ciffer
- * @version 12/12/2017
+ * @version 12/13/2017
  */
 public abstract class Account {
 
@@ -55,7 +55,7 @@ public abstract class Account {
 	 * @param accountPin - The account's 4 digit PIN.
 	 * @param accountHistory - A log of all transaction history and account changes.
 	 */
-	Account(String accountName, Pin accountPin, String accountHistory) {
+	Account(String accountName, Pin accountPin, String accountHistory) throws IllegalArgumentException {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER() ;
 		this.accountName = accountName ;
 		this.accountPin = accountPin ;

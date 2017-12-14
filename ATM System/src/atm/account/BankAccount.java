@@ -13,8 +13,7 @@ public final class BankAccount extends Account {
 	
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) {
 		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n") ;
-		this.accountBalance = accountBalance ;
-		this.accountBalance = this.accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
+		this.accountBalance = accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
 	}
 	
 	public static String TO_CURRENCY_FORMAT(double amount) {
@@ -82,6 +81,10 @@ public final class BankAccount extends Account {
 				TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory ;
 	}
 
+	void setAccountBalance(BigDecimal accountBalance) {
+		this.accountBalance = accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;
+	}
+	
 	public BigDecimal getAccountBalance() {
 		return accountBalance ;
 	}
