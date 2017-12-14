@@ -11,7 +11,7 @@ import src.atm.pin.Pin ;
  * This class cannot be instantiated.
  * 
  * @author Joshua Ciffer
- * @version 12/13/2017
+ * @version 12/14/2017
  */
 public abstract class Account {
 
@@ -55,7 +55,7 @@ public abstract class Account {
 	 * @param accountPin - The account's 4 digit PIN.
 	 * @param accountHistory - A log of all transaction history and account changes.
 	 */
-	Account(String accountName, Pin accountPin, String accountHistory) throws IllegalArgumentException {
+	Account(String accountName, Pin accountPin, String accountHistory) {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER() ;
 		this.accountName = accountName ;
 		this.accountPin = accountPin ;
@@ -93,7 +93,7 @@ public abstract class Account {
 	 * 
 	 * @param accountNumber - The account to be returned.
 	 * @param accountPin - The account's PIN.
-	 * @return Account - Returns the account with the given credentials.
+	 * @return Returns the account with the given login credentials.
 	 * @throws IllegalArgumentException Thrown if an incorrect PIN is entered.
 	 * @throws NullPointerException Thrown if an account with the given account number cannot be found or does not exist.
 	 */
@@ -101,7 +101,7 @@ public abstract class Account {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
 			return ACCOUNT_MAP.get(accountNumber) ;
 		} else {
-			throw new NullPointerException("The account you entered does not exist. Please create an account.") ;
+			throw new NullPointerException("The account credentials you entered are invalid. Please try again.") ;
 		}
 	}
 	
@@ -177,8 +177,9 @@ public abstract class Account {
 	public abstract String toString() ;
 	
 	/**
-	 * Changes the account holder's name.  This method is only accessible from within src.atm.account
+	 * Changes the account holder's name.
 	 * <br><br>
+	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountName - The new account holder's name.
@@ -188,8 +189,9 @@ public abstract class Account {
 	}
 	
 	/**
-	 * Changes the account's PIN.  This method is only accessible from within src.atm.account
+	 * Changes the account's PIN.  
 	 * <br><br>
+	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountPin - The new account PIN.
@@ -199,8 +201,9 @@ public abstract class Account {
 	}
 	
 	/**
-	 * Changes the account's history log.  This method is only accessible from within src.atm.account
+	 * Changes the account's history log.
 	 * <br><br>
+	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountHistory - The new account history log.
@@ -210,8 +213,9 @@ public abstract class Account {
 	}
 	
 	/**
-	 * Returns an instance of the account map.  This method is only accessible from within src.atm.account
+	 * Returns an instance of the account map.
 	 * <br><br>
+	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
 	 * @return An instance of the account map.
