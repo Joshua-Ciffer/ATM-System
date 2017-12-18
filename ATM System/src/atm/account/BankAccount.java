@@ -6,11 +6,12 @@ import java.util.Locale ;
 import src.atm.pin.Pin ;
 
 public final class BankAccount extends Account {
-	
+
 	private static NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US) ;
 	
 	private BigDecimal accountBalance ;
 	
+	@SuppressWarnings("deprecation")
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) {
 		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n") ;
 		this.accountBalance = accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;	// Sets accountBalance to round to 2 significant digits
@@ -81,6 +82,7 @@ public final class BankAccount extends Account {
 				TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory ;
 	}
 
+	@SuppressWarnings("deprecation")
 	void setAccountBalance(BigDecimal accountBalance) {
 		this.accountBalance = accountBalance.setScale(2, BigDecimal.ROUND_HALF_UP) ;
 	}
