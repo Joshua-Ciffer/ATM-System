@@ -75,7 +75,7 @@ public final class GUI extends JFrame implements ActionListener {
 				System.out.println("Login Pressed") ;
 				
 				try {
-					System.out.println(BankAccount.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
+					System.out.println(Account.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString()) ;
 					accountNumber = loginPanel.getAccountNumber() ;
 					accountPin = loginPanel.getAccountPin() ;
 					currentAccount = (BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin) ;
@@ -83,7 +83,6 @@ public final class GUI extends JFrame implements ActionListener {
 					accountMenuPanel.setVisible(true) ;
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE) ;
-					e.printStackTrace() ;
 				}
 			}
 		}) ;
