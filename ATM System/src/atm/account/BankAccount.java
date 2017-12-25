@@ -41,34 +41,28 @@ public final class BankAccount extends Account {
 		}
 	}
 
-	public void transfer(int receivingAccount, double transferAmount)
-			throws IllegalArgumentException, NullPointerException {
-		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount)
-				&& hasSufficientBalance(transferAmount)) {
+	public void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
+		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
 			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount));
-			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered "
-					+ TO_CURRENCY_FORMAT(transferAmount) + ".\n";
-			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount) GET_ACCOUNT_MAP()
-					.get(receivingAccount)).accountBalance.add(new BigDecimal(transferAmount));
-			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory = ((BankAccount) GET_ACCOUNT_MAP()
-					.get(receivingAccount)).accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered "
-					+ TO_CURRENCY_FORMAT(receivingAccount) + " to account #" + receivingAccount + ".\n";
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + ".\n";
+			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance
+					.add(new BigDecimal(transferAmount));
+			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory = ((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory
+					+ DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(receivingAccount) + " to account #" + receivingAccount + ".\n";
 		}
 	}
 
 	public void deposit(double depositAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(depositAmount)) {
 			accountBalance = accountBalance.add(new BigDecimal(depositAmount));
-			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Deposited "
-					+ TO_CURRENCY_FORMAT(depositAmount) + ".\n";
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Deposited " + TO_CURRENCY_FORMAT(depositAmount) + ".\n";
 		}
 	}
 
 	public void withdraw(double withdrawalAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(withdrawalAmount) && hasSufficientBalance(withdrawalAmount)) {
 			accountBalance = accountBalance.subtract(new BigDecimal(withdrawalAmount));
-			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Withdrew "
-					+ TO_CURRENCY_FORMAT(withdrawalAmount) + ".\n";
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Withdrew " + TO_CURRENCY_FORMAT(withdrawalAmount) + ".\n";
 		}
 	}
 
@@ -83,8 +77,8 @@ public final class BankAccount extends Account {
 
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin
-				+ "\nAccount Balance: " + TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory;
+		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin + "\nAccount Balance: "
+				+ TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory;
 	}
 
 	@SuppressWarnings("deprecation")

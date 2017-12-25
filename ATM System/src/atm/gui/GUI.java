@@ -105,7 +105,8 @@ public final class GUI extends JFrame implements ActionListener {
 				System.out.println("Create Account Pressed");
 				System.out.println("Input: " + createAccountPanel.getAccountName() + createAccountPanel.getAccountPin() + createAccountPanel.getConfirmPin());
 				try {
-					BankAccount x = new BankAccount(createAccountPanel.getAccountName(), new Pin(createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin()), new BigDecimal(0));
+					BankAccount x = new BankAccount(createAccountPanel.getAccountName(), new Pin(createAccountPanel.getAccountPin(), createAccountPanel.getConfirmPin()),
+							new BigDecimal(0));
 					System.out.println(x.toString());
 				} catch (IllegalArgumentException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
@@ -172,8 +173,8 @@ public final class GUI extends JFrame implements ActionListener {
 				System.out.println("Deposit Pressed");
 				try {
 					currentAccount.deposit(depositPanel.getDepositAmount());
-					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.", "",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.",
+							"", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
 				}

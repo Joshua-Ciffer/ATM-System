@@ -27,8 +27,7 @@ public final class AdminAccount extends Account {
 
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin
-				+ "\nAccount History: " + accountHistory;
+		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin + "\nAccount History: " + accountHistory;
 	}
 
 }

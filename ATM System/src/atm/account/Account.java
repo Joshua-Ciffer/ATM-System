@@ -108,8 +108,7 @@ public abstract class Account {
 	 * @throws NullPointerException Thrown if an account with the given account
 	 * number cannot be found or does not exist.
 	 */
-	public static final Account GET_ACCOUNT(int accountNumber, String accountPin)
-			throws IllegalArgumentException, NullPointerException {
+	public static final Account GET_ACCOUNT(int accountNumber, String accountPin) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
 			return ACCOUNT_MAP.get(accountNumber);
 		} else {
@@ -152,8 +151,7 @@ public abstract class Account {
 	 * the new PIN is not valid, or if the new PIN
 	 * and confirm PIN do not match.
 	 */
-	public final void changeAccountPin(String oldPin, String newPin, String confirmPin)
-			throws IllegalArgumentException {
+	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
 		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin);
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n";
 	}
