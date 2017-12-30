@@ -45,9 +45,9 @@ public final class BankAccount extends Account {
 		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
 			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount));
 			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + ".\n";
-			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance
+			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance
 					.add(new BigDecimal(transferAmount));
-			((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory = ((BankAccount) GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory
+			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory
 					+ DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(receivingAccount) + " to account #" + receivingAccount + ".\n";
 		}
 	}
@@ -68,7 +68,7 @@ public final class BankAccount extends Account {
 
 	@Override
 	public boolean equals(Object bankAccount) {
-		if (this.toString().equalsIgnoreCase(((BankAccount) bankAccount).toString())) {	// Casts bankAccount to type Bank Account
+		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {	// Casts bankAccount to type Bank Account
 			return true;
 		} else {
 			return false;

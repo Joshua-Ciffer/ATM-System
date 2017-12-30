@@ -5,11 +5,8 @@ import java.time.format.DateTimeFormatter;
 import src.atm.pin.Pin;
 
 /**
- * This class provides the framework and methods for creating and utilizing
- * different types
- * of accounts.
- * <br>
- * <br>
+ * This class provides the framework and methods for creating and utilizing different types of accounts.
+ * <br><br>
  * This class cannot be instantiated.
  * 
  * @author Joshua Ciffer
@@ -18,8 +15,7 @@ import src.atm.pin.Pin;
 public abstract class Account {
 
 	/**
-	 * Provides means of storage and retrieval of accounts based on their account
-	 * number.
+	 * Provides means of storage and retrieval of accounts based on their account number.
 	 */
 	private static final HashMap<Integer, Account> ACCOUNT_MAP = new HashMap<>();
 
@@ -49,13 +45,8 @@ public abstract class Account {
 	String accountHistory;
 
 	/**
-	 * Constructor called by subclasses that creates an account with the user's
-	 * name,
-	 * 4 digit PIN, and account history. The account history for all of accounts
-	 * starts with an
-	 * entry with the date and time the account was created. When the account is
-	 * created, it is
-	 * added to the account map.
+	 * Constructor called by subclasses that creates an account with the user's name, 4 digit PIN, and account history. The account history for all of accounts starts with an
+	 * entry with the date and time the account was created. When the account is created, it is added to the account map.
 	 * 
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The account's 4 digit PIN.
@@ -70,10 +61,8 @@ public abstract class Account {
 	}
 
 	/**
-	 * Generates a random 6 digit integer that is not in use by any accounts in the
-	 * account map.
-	 * <br>
-	 * <br>
+	 * Generates a random 6 digit integer that is not in use by any accounts in the account map.
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @return accountNumber - Unique 6 digit integer.
@@ -81,7 +70,7 @@ public abstract class Account {
 	private static final int GENERATE_ACCOUNT_NUMBER() {
 		int accountNumber;
 		do {
-			accountNumber = (int) (Math.random() * 1_000_000);
+			accountNumber = (int)(Math.random() * 1_000_000);
 			if ((accountNumber < 100_000) || (accountNumber > 999_999)) {
 				continue;
 			} else if (ACCOUNT_MAP.containsKey(accountNumber)) {
@@ -94,19 +83,15 @@ public abstract class Account {
 	}
 
 	/**
-	 * Retrieves an account from the account map with a specified account number.
-	 * The method also checks to make sure
-	 * the correct PIN has been entered.
-	 * <br>
-	 * <br>
+	 * Retrieves an account from the account map with a specified account number. The method also checks to make sure the correct PIN has been entered.
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountNumber - The account to be returned.
 	 * @param accountPin - The account's PIN.
 	 * @return Returns the account with the given login credentials.
 	 * @throws IllegalArgumentException Thrown if an incorrect PIN is entered.
-	 * @throws NullPointerException Thrown if an account with the given account
-	 * number cannot be found or does not exist.
+	 * @throws NullPointerException Thrown if an account with the given account number cannot be found or does not exist.
 	 */
 	public static final Account GET_ACCOUNT(int accountNumber, String accountPin) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
@@ -117,17 +102,13 @@ public abstract class Account {
 	}
 
 	/**
-	 * Checks the account map to see if an account with the given account number has
-	 * been created.
-	 * <br>
-	 * <br>
+	 * Checks the account map to see if an account with the given account number has been created.
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountNumber - The account number to check for.
-	 * @return true - Returns true if an account with the given account number has
-	 * been found in the account map.
-	 * @throws NullPointerException Thrown if the account is not found in the
-	 * account map.
+	 * @return true - Returns true if an account with the given account number has been found in the account map.
+	 * @throws NullPointerException Thrown if the account is not found in the account map.
 	 */
 	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
@@ -138,18 +119,14 @@ public abstract class Account {
 	}
 
 	/**
-	 * Changes the PIN of the account the method is invoked on. User needs to
-	 * provide their current PIN to authenticate.
-	 * <br>
-	 * <br>
+	 * Changes the PIN of the account the method is invoked on. User needs to provide their current PIN to authenticate.
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @param oldPin - The current PIN.
 	 * @param newPin - The new PIN.
 	 * @param confirmPin - The new PIN entered again for confirmation.
-	 * @throws IllegalArgumentException Thrown if the current PIN is incorrect, or
-	 * the new PIN is not valid, or if the new PIN
-	 * and confirm PIN do not match.
+	 * @throws IllegalArgumentException Thrown if the current PIN is incorrect, or the new PIN is not valid, or if the new PIN and confirm PIN do not match.
 	 */
 	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
 		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin);
@@ -157,10 +134,8 @@ public abstract class Account {
 	}
 
 	/**
-	 * Closes the account that the method is invoked on. User needs to provide their
-	 * current PIN to authenticate.
-	 * <br>
-	 * <br>
+	 * Closes the account that the method is invoked on. User needs to provide their current PIN to authenticate.
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountPin - The user's PIN.
@@ -174,8 +149,7 @@ public abstract class Account {
 
 	/**
 	 * Checks the content of two accounts to see if they are equal.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method overrides Object.equals()
 	 * This method must be implemented.
 	 * 
@@ -188,8 +162,7 @@ public abstract class Account {
 
 	/**
 	 * Returns a string representation of the content of this account.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method overrides Object.toString()
 	 * This method must be implemented.
 	 * 
@@ -200,8 +173,7 @@ public abstract class Account {
 
 	/**
 	 * Changes the account holder's name.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
@@ -213,8 +185,7 @@ public abstract class Account {
 
 	/**
 	 * Changes the account's PIN.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
@@ -226,8 +197,7 @@ public abstract class Account {
 
 	/**
 	 * Changes the account's history log.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
@@ -239,8 +209,7 @@ public abstract class Account {
 
 	/**
 	 * Returns an instance of the account map.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method is only accessible from within src.atm.account
 	 * This method cannot be overridden.
 	 * 
@@ -252,8 +221,7 @@ public abstract class Account {
 
 	/**
 	 * Returns the account's number.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @return The account's number.
@@ -264,8 +232,7 @@ public abstract class Account {
 
 	/**
 	 * Returns the account holder's name.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @return The account holder's name.
@@ -276,8 +243,7 @@ public abstract class Account {
 
 	/**
 	 * Returns the account's 4 digit PIN.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @return The account's 4 digit PIN.
@@ -288,8 +254,7 @@ public abstract class Account {
 
 	/**
 	 * Returns the account's history record.
-	 * <br>
-	 * <br>
+	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @return The record of account history.
