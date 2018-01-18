@@ -4,10 +4,10 @@ import src.atm.account.Account;
 /**
  * This class acts as a wrapper object for a 4 digit numerical PIN. It also provides methods for validating Pin parameters and throwing appropriate exceptions.
  * <br><br>
- * This class cannot be extended.
+ * This class cannot be inherited.
  * 
  * @author Joshua Ciffer
- * @version 12/13/2017
+ * @version 01/18/2018
  */
 public final class Pin {
 
@@ -105,7 +105,7 @@ public final class Pin {
 	 */
 	@Override
 	public boolean equals(Object confirmPin) {
-		if (this.toString().equalsIgnoreCase(((Pin) confirmPin).toString())) {	// Casts confirmPin to type Pin. This forces it to use Pin.toString().
+		if (this.toString().equalsIgnoreCase(((Pin)confirmPin).toString())) {	// Casts confirmPin to type Pin. This forces it to use Pin.toString().
 			return true;
 		} else {
 			return false;

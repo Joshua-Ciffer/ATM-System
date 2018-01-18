@@ -78,12 +78,11 @@ public final class GUI extends JFrame implements ActionListener {
 
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Login Pressed");
-
 				try {
 					System.out.println(Account.GET_ACCOUNT(loginPanel.getAccountNumber(), loginPanel.getAccountPin()).toString());
 					accountNumber = loginPanel.getAccountNumber();
 					accountPin = loginPanel.getAccountPin();
-					currentAccount = (BankAccount) Account.GET_ACCOUNT(accountNumber, accountPin);
+					currentAccount = (BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin);
 					loginPanel.setVisible(false);
 					accountMenuPanel.setVisible(true);
 				} catch (Exception e) {
@@ -139,7 +138,7 @@ public final class GUI extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent a) {
 				System.out.println("Check Balance Pressed");
 				try {
-					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(((BankAccount) Account.GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance()));
+					JOptionPane.showMessageDialog(null, BankAccount.TO_CURRENCY_FORMAT(((BankAccount)Account.GET_ACCOUNT(accountNumber, accountPin)).getAccountBalance()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -173,8 +172,8 @@ public final class GUI extends JFrame implements ActionListener {
 				System.out.println("Deposit Pressed");
 				try {
 					currentAccount.deposit(depositPanel.getDepositAmount());
-					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.",
-							"", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Deposited" + BankAccount.TO_CURRENCY_FORMAT(new BigDecimal(depositPanel.getDepositAmount())) + " to your account.", "",
+							JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
 				}

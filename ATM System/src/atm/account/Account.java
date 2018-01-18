@@ -10,7 +10,7 @@ import src.atm.pin.Pin;
  * This class cannot be instantiated.
  * 
  * @author Joshua Ciffer
- * @version 12/14/2017
+ * @version 01/18/2018
  */
 public abstract class Account {
 
@@ -45,8 +45,8 @@ public abstract class Account {
 	String accountHistory;
 
 	/**
-	 * Constructor called by subclasses that creates an account with the user's name, 4 digit PIN, and account history. The account history for all of accounts starts with an
-	 * entry with the date and time the account was created. When the account is created, it is added to the account map.
+	 * Constructor called by subclasses that creates an account with the user's name, 4 digit PIN, and account history. The account history for all of accounts
+	 * starts with an entry with the date and time the account was created. When the account is created, it is added to the account map.
 	 * 
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The account's 4 digit PIN.

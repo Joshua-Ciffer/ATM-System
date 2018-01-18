@@ -69,47 +69,47 @@ final class CreateAccount extends JPanel {
 		createAccountButton.setToolTipText("Create your account.");
 		createAccountButton.setBounds(275, 285, 150, 50);
 
-		this.add(createAccountLabel);
-		this.add(accountNameLabel);
-		this.add(accountPinLabel);
-		this.add(confirmPinLabel);
-		this.add(accountNameField);
-		this.add(accountPinField);
-		this.add(confirmPinField);
-		this.add(backButton);
-		this.add(createAccountButton);
+		add(createAccountLabel);
+		add(accountNameLabel);
+		add(accountPinLabel);
+		add(confirmPinLabel);
+		add(accountNameField);
+		add(accountPinField);
+		add(confirmPinField);
+		add(backButton);
+		add(createAccountButton);
 	}
 
 	public JLabel getCreateAccountLabel() {
-		return this.createAccountLabel;
+		return createAccountLabel;
 	}
 
 	public JLabel getAccountNameLabel() {
-		return this.accountNameLabel;
+		return accountNameLabel;
 	}
 
 	public JLabel getAccountPinLabel() {
-		return this.accountPinLabel;
+		return accountPinLabel;
 	}
 
 	public JLabel getConfirmPinLabel() {
-		return this.confirmPinLabel;
+		return confirmPinLabel;
 	}
 
 	public JTextField getAccountNameField() {
-		return this.accountNameField;
+		return accountNameField;
 	}
 
 	public JPasswordField getAccountPinField() {
-		return this.accountPinField;
+		return accountPinField;
 	}
 
 	public JPasswordField getConfirmPinField() {
-		return this.confirmPinField;
+		return confirmPinField;
 	}
 
 	public JButton getBackButton() {
-		return this.backButton;
+		return backButton;
 	}
 
 	public JButton getCreateAccountButton() {
