@@ -20,7 +20,7 @@ public abstract class Account {
 	private static final HashMap<Integer, Account> ACCOUNT_MAP = new HashMap<>();
 
 	/**
-	 * Provides the date and time formatted for use in recording account history.  Example: 01/18/2017 8:58 PM.
+	 * Provides the date and time formatted for use in recording account history. Example: 01/18/2017 8:58 PM.
 	 */
 	static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
 
@@ -97,10 +97,10 @@ public abstract class Account {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
 			return ACCOUNT_MAP.get(accountNumber);
 		} else {
-			throw new NullPointerException("This account does not exist. Please create an account.");
+			return null;
 		}
 	}
-	
+
 	/**
 	 * Checks the account map to see if an account with the given account number has been created.
 	 * <br><br>
@@ -108,13 +108,13 @@ public abstract class Account {
 	 * 
 	 * @param accountNumber - The account number to check for.
 	 * @return True - Returns true if an account with the given account number has been found in the account map.
-	 * <br> False - If an account with the given account number does not exist.
+	 * @throws NullPointerException Thrown if an account with the given account number cannot be found or does not exist.
 	 */
 	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true;
 		} else {
-			return false;
+			throw new NullPointerException("This account does not exist. Please create an account.");
 		}
 	}
 
@@ -148,6 +148,18 @@ public abstract class Account {
 	}
 
 	/**
+	 * Returns an instance of the account map.
+	 * <br><br>
+	 * This method is only accessible from within src.atm.account.
+	 * This method cannot be overridden.
+	 * 
+	 * @return A reference to the account map.
+	 */
+	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
+		return ACCOUNT_MAP;
+	}
+
+	/**
 	 * Checks the content of two accounts to see if they are equal.
 	 * <br><br>
 	 * This method must be implemented.
@@ -162,61 +174,12 @@ public abstract class Account {
 	/**
 	 * Returns a string representation of the content of this account.
 	 * <br><br>
-	 * This method overrides Object.toString()
 	 * This method must be implemented.
 	 * 
 	 * @return A string representation of all of the data contained in this account.
 	 */
 	@Override
 	public abstract String toString();
-
-	/**
-	 * Changes the account holder's name.
-	 * <br><br>
-	 * This method is only accessible from within src.atm.account.
-	 * This method cannot be overridden.
-	 * 
-	 * @param accountName - The new account holder's name.
-	 */
-	final void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	/**
-	 * Changes the account's PIN.
-	 * <br><br>
-	 * This method is only accessible from within src.atm.account.
-	 * This method cannot be overridden.
-	 * 
-	 * @param accountPin - The new account PIN.
-	 */
-	final void setAccountPin(Pin accountPin) {
-		this.accountPin = accountPin;
-	}
-
-	/**
-	 * Changes the account's history log.
-	 * <br><br>
-	 * This method is only accessible from within src.atm.account.
-	 * This method cannot be overridden.
-	 * 
-	 * @param accountHistory - The new account history log.
-	 */
-	final void setAccountHistory(String accountHistory) {
-		this.accountHistory = accountHistory;
-	}
-
-	/**
-	 * Returns an instance of the account map.
-	 * <br><br>
-	 * This method is only accessible from within src.atm.account.
-	 * This method cannot be overridden.
-	 * 
-	 * @return A reference to the account map.
-	 */
-	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
-		return ACCOUNT_MAP;
-	}
 
 	/**
 	 * Returns the account's number.
@@ -260,6 +223,42 @@ public abstract class Account {
 	 */
 	public final String getAccountHistory() {
 		return accountHistory;
+	}
+
+	/**
+	 * Changes the account holder's name.
+	 * <br><br>
+	 * This method is only accessible from within src.atm.account.
+	 * This method cannot be overridden.
+	 * 
+	 * @param accountName - The new account holder's name.
+	 */
+	final void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	/**
+	 * Changes the account's PIN.
+	 * <br><br>
+	 * This method is only accessible from within src.atm.account.
+	 * This method cannot be overridden.
+	 * 
+	 * @param accountPin - The new account PIN.
+	 */
+	final void setAccountPin(Pin accountPin) {
+		this.accountPin = accountPin;
+	}
+
+	/**
+	 * Changes the account's history log.
+	 * <br><br>
+	 * This method is only accessible from within src.atm.account.
+	 * This method cannot be overridden.
+	 * 
+	 * @param accountHistory - The new account history log.
+	 */
+	final void setAccountHistory(String accountHistory) {
+		this.accountHistory = accountHistory;
 	}
 
 }

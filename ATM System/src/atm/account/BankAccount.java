@@ -9,26 +9,25 @@ import src.atm.pin.Pin;
 /**
  * This class provides methods and functionality for users to have bank accounts that can store their balances and make deposits, withdrawals, or transfers.
  * <br><br>
- * This class cannot be inherited.
  * This class inherits Account.
  * 
  * @author Joshua Ciffer
  * @version 01/18/2018
  */
-public final class BankAccount extends Account {
+public class BankAccount extends Account {
 
 	/**
-	 * Used to format currency values from a numerical data type to a formatted string with the pattern $XXX.XX.  
+	 * Used to format currency values from a numerical data type to a formatted string with the pattern $XXX.XX.
 	 */
-	private static NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US);
+	static final NumberFormat US_DOLLARS = NumberFormat.getCurrencyInstance(Locale.US);
 
 	/**
 	 * Stores the user's account balance saved to two significant decimal places.
 	 */
-	private BigDecimal accountBalance;
+	BigDecimal accountBalance;
 
 	/**
-	 * Opens a new bank account with the user's name, PIN, and starting balance.  Upon calling the constructor in Account, this account is added to the account map.
+	 * Opens a new bank account with the user's name, PIN, and starting balance. Upon calling the constructor in Account, this account is added to the account map.
 	 * 
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The user's 4 digit PIN.
@@ -39,7 +38,7 @@ public final class BankAccount extends Account {
 		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n");
 		try {
 			if (IS_POSITIVE_AMOUNT(accountBalance.doubleValue())) {
-				this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);	// Sets accountBalance to round to 2 significant digits
+				this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);		// Sets accountBalance to round to 2 significant digits
 			}
 		} catch (IllegalArgumentException e) {
 			closeAccount(this.accountPin.getPin());
@@ -49,32 +48,38 @@ public final class BankAccount extends Account {
 
 	/**
 	 * Formats a numerical amount into a USD currency format.
+	 * <br><br>
+	 * This method cannot be overridden.
 	 * 
 	 * @param amount - The number to be formatted.
 	 * @return A string in USD currency format.
 	 */
-	public static String TO_CURRENCY_FORMAT(double amount) {
+	public static final String TO_CURRENCY_FORMAT(double amount) {
 		return US_DOLLARS.format(amount);
 	}
 
 	/**
 	 * Formats a numerical amount into a USD currency format.
+	 * <br><br>
+	 * This method cannot be overridden.
 	 * 
 	 * @param amount - The number to be formatted.
 	 * @return A string in USD currency format.
 	 */
-	public static String TO_CURRENCY_FORMAT(BigDecimal amount) {
+	public static final String TO_CURRENCY_FORMAT(BigDecimal amount) {
 		return US_DOLLARS.format(amount);
 	}
 
 	/**
 	 * Performs a check to see if the user has entered a positive amount for any currency values.
-	 *  
+	 * <br><br>
+	 * This method cannot be overridden.
+	 * 
 	 * @param amount - The amount to check if positive.
 	 * @return True - If the amount is greater than zero.
 	 * @throws IllegalArgumentException Thrown if the amount is less than zero.
 	 */
-	public static boolean IS_POSITIVE_AMOUNT(double amount) throws IllegalArgumentException {
+	public static final boolean IS_POSITIVE_AMOUNT(double amount) throws IllegalArgumentException {
 		if (amount >= 0) {
 			return true;
 		} else {
@@ -84,12 +89,14 @@ public final class BankAccount extends Account {
 
 	/**
 	 * Performs a check to see if the user has a sufficient balance to complete a transaction.
+	 * <br><br>
+	 * This method cannot be overridden.
 	 * 
 	 * @param amount - The amount to see if the user has in their account balance.
 	 * @return - True if the user has enough money in their balance to complete a transaction.
 	 * @throws IllegalArgumentException Thrown if the amount the user needs is greater than their balance.
 	 */
-	public boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
+	public final boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
 		if (accountBalance.compareTo(new BigDecimal(amount)) > 0) {
 			return true;
 		} else {
@@ -98,21 +105,22 @@ public final class BankAccount extends Account {
 	}
 
 	/**
-	 * User chooses another account to send money to.  Money is withdrawn from their account and deposited in the account they specify.
+	 * User chooses another account to send money to. Money is withdrawn from their account and deposited in the account they specify.
 	 * 
 	 * @param receivingAccount - The account to receive the money.
 	 * @param transferAmount - The amount of money to transfer.
-	 * @throws IllegalArgumentException Thrown if the user enters a negative amount of money to transfer.
+	 * @throws IllegalArgumentException Thrown if the user enters a negative amount of money to transfer, or they have an insufficient balance.
 	 * @throws NullPointerException Thrown if the account the user wants to transfer money to does not exist.
 	 */
 	public void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
 			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount));
-			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + ".\n";
-			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountBalance
-					.add(new BigDecimal(transferAmount));
-			((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount)).accountHistory
-					+ DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(receivingAccount) + " to account #" + receivingAccount + ".\n";
+			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + " to account #"
+					+ receivingAccount + ".\n";
+			BankAccount tempReceivingAccount = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount));
+			tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance.add(new BigDecimal(transferAmount));
+			tempReceivingAccount.accountHistory = tempReceivingAccount.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received "
+					+ TO_CURRENCY_FORMAT(receivingAccount) + " from account #" + ACCOUNT_NUMBER + ".\n";
 		}
 	}
 
@@ -146,12 +154,12 @@ public final class BankAccount extends Account {
 	 * Compares the contents of two bank account objects to test for equality.
 	 * 
 	 * @param bankAccount - The account to test equality with.
-	 * @return True - If the account's contents are equal. <br>
-	 * False - If the account's contents are not equal.
+	 * @return True - If the account's contents are equal.
+	 * <br> False - If the account's contents are not equal.
 	 */
 	@Override
 	public boolean equals(Object bankAccount) {
-		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {	// Casts bankAccount to type Bank Account
+		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {	  // Casts bankAccount to type Bank Account
 			return true;
 		} else {
 			return false;
@@ -170,17 +178,26 @@ public final class BankAccount extends Account {
 	}
 
 	/**
-	 * Sets the account's balance. <br>
+	 * Returns the account's balance.
+	 * <br><br>
+	 * This method cannot be overridden.
 	 * 
-	 * This method is only accessible from src.atm.account.
-	 * @param accountBalance
+	 * @return Returns the account's balance.
 	 */
-	void setAccountBalance(BigDecimal accountBalance) {
-		this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);
+	public final BigDecimal getAccountBalance() {
+		return accountBalance;
 	}
 
-	public BigDecimal getAccountBalance() {
-		return accountBalance;
+	/**
+	 * Sets the account's balance.
+	 * <br><br>
+	 * This method is only accessible from src.atm.account.
+	 * This method cannot be overridden.
+	 * 
+	 * @param accountBalance - The account's new balance.
+	 */
+	final void setAccountBalance(BigDecimal accountBalance) {
+		this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);	  // Sets two significant decimal places.
 	}
 
 }

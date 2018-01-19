@@ -48,7 +48,8 @@ public final class Pin {
 	 * Checks to see if the given PIN is 4 numerical digits.
 	 * 
 	 * @param pin - The PIN to be validated.
-	 * @return true - If the PIN is valid.
+	 * @return True - If the PIN is valid.
+	 * <br> False - If the PIN is invalid.
 	 * @throws IllegalArgumentException Thrown if the PIN is invalid.
 	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
@@ -68,7 +69,7 @@ public final class Pin {
 	 * 
 	 * @param pin - The PIN to be confirmed.
 	 * @param confirmPin - The same PIN entered again.
-	 * @return true - If both PINs are the same.
+	 * @return True - If both PINs are the same.
 	 * @throws IllegalArgumentException Thrown if the PINs are not the same.
 	 */
 	public static boolean PINs_MATCH(String pin, String confirmPin) throws IllegalArgumentException {
@@ -84,7 +85,7 @@ public final class Pin {
 	 * 
 	 * @param accountNumber - The account trying to be accessed.
 	 * @param accountPin - The PIN the user enters.
-	 * @return true - If the user enters the correct PIN for their account.
+	 * @return True - If the user enters the correct PIN for their account.
 	 * @throws IllegalArgumentException Thrown if the incorrect PIN is entered.
 	 * @throws NullPointerException Thrown if the account could not be found.
 	 */
@@ -100,8 +101,8 @@ public final class Pin {
 	 * Checks to see if the content of two Pin objects are equal.
 	 * 
 	 * @param confirmPin - The Pin object to test equality with.
-	 * @return true - If both objects' content are equal. <br>
-	 * false - If both objects' content are not equal.
+	 * @return True - If both objects' content are equal.
+	 * <br> False - If both objects' content are not equal.
 	 */
 	@Override
 	public boolean equals(Object confirmPin) {

@@ -1,6 +1,16 @@
 package src.atm.account;
 import src.atm.pin.Pin;
 
+/**
+ * This class provides special functionality and privileges that allow direct access and control of other bank accounts. An admin account can change values
+ * stored in the accounts and view account information.
+ * <br><br>
+ * This class cannot be inherited.
+ * This class inherits Account.
+ * 
+ * @author Joshua Ciffer
+ * @version 01/18/2018
+ */
 public final class AdminAccount extends Account {
 
 	public AdminAccount(String accountName, Pin accountPin, String accountHistory) {
@@ -18,7 +28,7 @@ public final class AdminAccount extends Account {
 
 	@Override
 	public boolean equals(Object adminAccount) {
-		if (this.toString().equalsIgnoreCase(((AdminAccount) adminAccount).toString())) {	// Casts adminAccount to type AdminAccount
+		if (this.toString().equalsIgnoreCase(((AdminAccount)adminAccount).toString())) {	// Casts adminAccount to type AdminAccount
 			return true;
 		} else {
 			return false;
