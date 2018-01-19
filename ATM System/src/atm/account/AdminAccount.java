@@ -8,7 +8,7 @@ import src.atm.pin.Pin;
  * This class cannot be inherited.
  * This class inherits Account.
  * 
- * @author Joshua Ciffer
+ * @author Joshua Ciffern
  * @version 01/18/2018
  */
 public final class AdminAccount extends Account {
