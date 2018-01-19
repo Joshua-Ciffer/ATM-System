@@ -163,11 +163,133 @@ public abstract class ConsoleATM {
 	}
 
 	private static void BANK_ACCOUNT_MENU() {
-
+		boolean loggedIn = true;
+		do {	// Begin account menu loop.
+			System.out.print("Account Menu\n (1) Deposit\n (2) Withdrawal\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
+			try {
+				userResponse = userInput.nextShort();
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter one of the given options.\n");
+				userInput.next();
+				continue;
+			}
+			switch (userResponse) {
+				case 1: {	// Deposit.
+					DEPOSIT();
+					break;
+				}
+				case 2: {	// Withdrawal.
+					WITHDRAW();
+					break;
+				}
+				case 3: {	// Transfer.
+					TRANSFER();
+					break;
+				}
+				case 4: {	// Check balance.
+					CHECK_BALANCE();
+					break;
+				}
+				case 5: {	// Account options.
+					BANK_ACCOUNT_OPTIONS();
+					break;
+				}
+				case 6: {	// Logout.
+					LOGOUT();
+					loggedIn = false;
+					break;
+				}
+				default: {	// Error.
+					System.out.println("\nPlease enter one of the given options.\n");
+					continue;
+				}
+			}
+		} while (loggedIn);		// End account menu loop.
 	}
 
 	private static void ADMIN_ACCOUNT_MENU() {
 
 	}
 
+	private static void DEPOSIT() {
+		double depositAmount;
+		do {	// Begin deposit loop.
+			System.out.print("Enter the amount you want to deposit: $");
+			try {
+				depositAmount = userInput.nextDouble();
+				BankAccount.IS_POSITIVE_AMOUNT(depositAmount);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter the amount you want to deposit.\n");
+				userInput.next();
+				continue;
+			} catch (IllegalArgumentException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				continue;
+			}
+			((BankAccount)currentAccount).deposit(depositAmount);
+			System.out.println("\nDeposited " + BankAccount.TO_CURRENCY_FORMAT(depositAmount) + " to your account.\n");
+			break;
+		} while (true);		// End deposit loop.
+	}	
+	
+	private static void WITHDRAW() {
+		double withdrawalAmount;
+		do {	// Begin withdraw loop.
+			System.out.print("Enter the amount you want to withdrawal: $");
+			try {
+				withdrawalAmount = userInput.nextDouble();
+				BankAccount.IS_POSITIVE_AMOUNT(withdrawalAmount);
+				((BankAccount)currentAccount).hasSufficientBalance(withdrawalAmount);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter the amount you want to withdrawal.\n");
+				userInput.next();
+				continue;
+			}
+			((BankAccount)currentAccount).withdraw(withdrawalAmount);
+			System.out.println("\nWithdrew " + BankAccount.TO_CURRENCY_FORMAT(withdrawalAmount) + " to your account.\n");
+			break;
+		} while (true);		// End withdraw loop.
+	}
+	
+	private static void TRANSFER() {
+		int receivingAccount;
+		double transferAmount;
+		do {	// Begin receiving account loop.
+			System.out.print("Enter the account number that you want to transfer to: #");
+			try {
+				receivingAccount = userInput.nextInt();
+				Account.ACCOUNT_EXISTS(receivingAccount);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter the account number that you want to transfer to.\n");
+				userInput.next();
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				break;
+			}
+			do {	// Begin transfer amount loop.
+				System.out.print("Enter the amount that you want to transfer: $");
+				try {
+					transferAmount = userInput.nextDouble();
+					BankAccount.IS_POSITIVE_AMOUNT(transferAmount);
+					((BankAccount)currentAccount).hasSufficientBalance(transferAmount);
+				} catch (InputMismatchException e) {
+					
+				}
+			} while (true);		// End transfer amount loop.
+		} while (true);		// End receiving account loop.
+	}
+	
+	private static void CHECK_BALANCE() {
+		
+	}
+	
+	private static void BANK_ACCOUNT_OPTIONS() {
+		
+	}
+	
+	private static void LOGOUT() {
+		currentAccount = null;
+	}
+	
 }
