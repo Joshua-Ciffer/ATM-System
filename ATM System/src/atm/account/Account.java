@@ -20,7 +20,7 @@ public abstract class Account {
 	private static final HashMap<Integer, Account> ACCOUNT_MAP = new HashMap<>();
 
 	/**
-	 * Provides the date and time formatted for use in recording account history.
+	 * Provides the date and time formatted for use in recording account history.  Example: 01/18/2017 8:58 PM.
 	 */
 	static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
 
@@ -61,7 +61,7 @@ public abstract class Account {
 	}
 
 	/**
-	 * Generates a random 6 digit integer that is not in use by any accounts in the account map.
+	 * Generates a random 6 digit account number that is currently not in use by any accounts in the account map.
 	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
@@ -97,24 +97,24 @@ public abstract class Account {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
 			return ACCOUNT_MAP.get(accountNumber);
 		} else {
-			throw new NullPointerException("The account credentials you entered are invalid. Please try again.");
+			throw new NullPointerException("This account does not exist. Please create an account.");
 		}
 	}
-
+	
 	/**
 	 * Checks the account map to see if an account with the given account number has been created.
 	 * <br><br>
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountNumber - The account number to check for.
-	 * @return true - Returns true if an account with the given account number has been found in the account map.
-	 * @throws NullPointerException Thrown if the account is not found in the account map.
+	 * @return True - Returns true if an account with the given account number has been found in the account map.
+	 * <br> False - If an account with the given account number does not exist.
 	 */
 	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true;
 		} else {
-			throw new NullPointerException("The account you entered does not exist. Please create an account.");
+			return false;
 		}
 	}
 
@@ -143,19 +143,18 @@ public abstract class Account {
 	 */
 	public final void closeAccount(String accountPin) throws IllegalArgumentException {
 		if (Pin.IS_CORRECT_PIN(ACCOUNT_NUMBER, accountPin)) {
-			ACCOUNT_MAP.remove(ACCOUNT_NUMBER);
+			ACCOUNT_MAP.remove(ACCOUNT_NUMBER, this);
 		}
 	}
 
 	/**
 	 * Checks the content of two accounts to see if they are equal.
 	 * <br><br>
-	 * This method overrides Object.equals()
 	 * This method must be implemented.
 	 * 
 	 * @param account - The account to test equality with.
-	 * @return true - If the accounts are equal.<br>
-	 * false - If the accounts are not equal.
+	 * @return True - If the accounts are equal.
+	 * <br> False - If the accounts are not equal.
 	 */
 	@Override
 	public abstract boolean equals(Object account);
@@ -174,7 +173,7 @@ public abstract class Account {
 	/**
 	 * Changes the account holder's name.
 	 * <br><br>
-	 * This method is only accessible from within src.atm.account
+	 * This method is only accessible from within src.atm.account.
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountName - The new account holder's name.
@@ -186,7 +185,7 @@ public abstract class Account {
 	/**
 	 * Changes the account's PIN.
 	 * <br><br>
-	 * This method is only accessible from within src.atm.account
+	 * This method is only accessible from within src.atm.account.
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountPin - The new account PIN.
@@ -198,7 +197,7 @@ public abstract class Account {
 	/**
 	 * Changes the account's history log.
 	 * <br><br>
-	 * This method is only accessible from within src.atm.account
+	 * This method is only accessible from within src.atm.account.
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountHistory - The new account history log.
@@ -210,10 +209,10 @@ public abstract class Account {
 	/**
 	 * Returns an instance of the account map.
 	 * <br><br>
-	 * This method is only accessible from within src.atm.account
+	 * This method is only accessible from within src.atm.account.
 	 * This method cannot be overridden.
 	 * 
-	 * @return An instance of the account map.
+	 * @return A reference to the account map.
 	 */
 	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
 		return ACCOUNT_MAP;
