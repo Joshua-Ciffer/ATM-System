@@ -4,7 +4,6 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.Locale;
-import src.atm.pin.Pin;
 
 /**
  * This class provides methods and functionality for users to have bank accounts that can store their balances and make deposits, withdrawals, or transfers.
@@ -35,7 +34,7 @@ public class BankAccount extends Account {
 	 * @throws IllegalArgumentException Thrown if a negative amount is entered for the account's balance.
 	 */
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) throws IllegalArgumentException {
-		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n");
+		super(accountName, accountPin);
 		try {
 			if (IS_POSITIVE_AMOUNT(accountBalance.doubleValue())) {
 				this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);		// Sets accountBalance to round to 2 significant digits
@@ -100,7 +99,7 @@ public class BankAccount extends Account {
 		if (accountBalance.compareTo(new BigDecimal(amount)) > 0) {
 			return true;
 		} else {
-			throw new IllegalArgumentException("The amount you entered is greater than your account balance.");
+			throw new IllegalArgumentException("You have an insufficient balance to complete this transaction.");
 		}
 	}
 
@@ -173,7 +172,7 @@ public class BankAccount extends Account {
 	 */
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin + "\nAccount Balance: "
+		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin.getPin() + "\nAccount Balance: "
 				+ TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory;
 	}
 

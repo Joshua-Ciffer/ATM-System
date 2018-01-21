@@ -2,7 +2,6 @@ package src.atm.account;
 import java.util.HashMap;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import src.atm.pin.Pin;
 
 /**
  * This class provides the framework and methods for creating and utilizing different types of accounts.
@@ -22,7 +21,7 @@ public abstract class Account {
 	/**
 	 * Provides the date and time formatted for use in recording account history. Example: 01/18/2017 8:58 PM.
 	 */
-	static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm a");
+	static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
 
 	/**
 	 * Unique 6 digit number for identifying an account.
@@ -52,11 +51,11 @@ public abstract class Account {
 	 * @param accountPin - The account's 4 digit PIN.
 	 * @param accountHistory - A log of all transaction history and account changes.
 	 */
-	Account(String accountName, Pin accountPin, String accountHistory) {
+	Account(String accountName, Pin accountPin) {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER();
 		this.accountName = accountName;
 		this.accountPin = accountPin;
-		this.accountHistory = accountHistory;
+		accountHistory = DATE_TIME.format(LocalDateTime.now()) + " - Account Opened.\n";
 		ACCOUNT_MAP.put(ACCOUNT_NUMBER, this);
 	}
 
@@ -114,7 +113,7 @@ public abstract class Account {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
 			return true;
 		} else {
-			throw new NullPointerException("This account does not exist. Please create an account.");
+			throw new NullPointerException("This account does not exist. Please check the account number.");
 		}
 	}
 

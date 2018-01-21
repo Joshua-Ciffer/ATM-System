@@ -1,7 +1,6 @@
 package src.atm.account;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import src.atm.pin.Pin;
 
 /**
  * This class provides special functionality and privileges that allow direct access and control of other bank accounts. An admin account can change values
@@ -16,7 +15,7 @@ import src.atm.pin.Pin;
 public final class AdminAccount extends Account {
 
 	public AdminAccount(String accountName, Pin accountPin) {
-		super(accountName, accountPin, DATE_TIME.format(LocalDateTime.now()) + " - Account Opened\n");
+		super(accountName, accountPin);
 	}
 
 	public int createAdminAccount(String accountName, Pin accountPin) throws IllegalArgumentException {
