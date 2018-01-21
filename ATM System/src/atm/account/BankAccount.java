@@ -8,10 +8,10 @@ import java.util.Locale;
 /**
  * This class provides methods and functionality for users to have bank accounts that can store their balances and make deposits, withdrawals, or transfers.
  * <br><br>
- * This class inherits Account.
+ * This class inherits src.atm.account.Account.
  * 
  * @author Joshua Ciffer
- * @version 01/18/2018
+ * @version 01/20/2018
  */
 public class BankAccount extends Account {
 
@@ -27,6 +27,7 @@ public class BankAccount extends Account {
 
 	/**
 	 * Opens a new bank account with the user's name, PIN, and starting balance. Upon calling the constructor in Account, this account is added to the account map.
+	 * If any of the parameters are not valid, the account is closed and removed from the account map.
 	 * 
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The user's 4 digit PIN.
@@ -37,7 +38,7 @@ public class BankAccount extends Account {
 		super(accountName, accountPin);
 		try {
 			if (IS_POSITIVE_AMOUNT(accountBalance.doubleValue())) {
-				this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);		// Sets accountBalance to round to 2 significant digits
+				this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);		// Sets accountBalance to round to 2 significant digits.
 			}
 		} catch (IllegalArgumentException e) {
 			closeAccount(this.accountPin.getPin());
@@ -118,7 +119,8 @@ public class BankAccount extends Account {
 					+ receivingAccount + ".\n";
 			if (GET_ACCOUNT_MAP().get(receivingAccount) instanceof SavingsAccount) {
 				SavingsAccount tempReceivingAccount = (SavingsAccount)GET_ACCOUNT_MAP().get(receivingAccount);
-				tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance.add(new BigDecimal(transferAmount + tempReceivingAccount.getInterest(transferAmount)));
+				tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance
+						.add(new BigDecimal(transferAmount + tempReceivingAccount.getInterest(transferAmount)));
 				tempReceivingAccount.accountHistory = tempReceivingAccount.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received "
 						+ TO_CURRENCY_FORMAT(transferAmount + tempReceivingAccount.getInterest(transferAmount)) + " from account #" + ACCOUNT_NUMBER + ".\n";
 			} else {
@@ -144,7 +146,7 @@ public class BankAccount extends Account {
 	}
 
 	/**
-	 * Withdrawals a specified amount of money into the user's account.
+	 * Withdrawals a specified amount of money from the user's account.
 	 * 
 	 * @param withdrawalAmount - The amount to withdrawal.
 	 * @throws IllegalArgumentException Thrown if the withdrawal amount is negative or the user has an insufficient balance.
@@ -165,7 +167,7 @@ public class BankAccount extends Account {
 	 */
 	@Override
 	public boolean equals(Object bankAccount) {
-		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {	  // Casts bankAccount to type Bank Account
+		if (this.toString().equalsIgnoreCase(((BankAccount)bankAccount).toString())) {
 			return true;
 		} else {
 			return false;
