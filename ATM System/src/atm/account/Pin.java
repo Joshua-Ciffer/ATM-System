@@ -1,5 +1,4 @@
-package src.atm.pin;
-import src.atm.account.Account;
+package src.atm.account;
 
 /**
  * This class acts as a wrapper object for a 4 digit numerical PIN. It also provides methods for validating Pin parameters and throwing appropriate exceptions.
@@ -54,7 +53,16 @@ public final class Pin {
 	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
 		try {      // Short.parseShort() could throw NumberFormatException.
-			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4)) {	// PIN must be 4 digits and cannot be negative.
+			boolean pinContainsOnlyNumbers = false;
+			for (int i = 0; i < pin.length(); i++) {
+				if (Character.isDigit(pin.charAt(i))) {
+					pinContainsOnlyNumbers = true;
+				} else {
+					pinContainsOnlyNumbers = false;
+					break;
+				}
+			}
+			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4) && pinContainsOnlyNumbers) {	// PIN must be 4 digits and cannot be negative.
 				return true;
 			} else {
 				throw new IllegalArgumentException("Please enter a 4 digit PIN.");
@@ -90,7 +98,7 @@ public final class Pin {
 	 * @throws NullPointerException Thrown if the account could not be found.
 	 */
 	public static boolean IS_CORRECT_PIN(int accountNumber, String accountPin) throws IllegalArgumentException, NullPointerException {
-		if (Account.GET_ACCOUNT(accountNumber, accountPin).getAccountPin().getPin().equals(accountPin)) {
+		if (Account.GET_ACCOUNT_MAP().get(accountNumber).getAccountPin().getPin().equals(accountPin)) {
 			return true;
 		} else {
 			throw new IllegalArgumentException("The PIN you entered is incorrect.");
