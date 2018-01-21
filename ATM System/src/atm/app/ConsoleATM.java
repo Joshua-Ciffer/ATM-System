@@ -209,10 +209,6 @@ public abstract class ConsoleATM {
 		} while (loggedIn);
 	}
 
-	private static void ADMIN_ACCOUNT_MENU() {
-
-	}
-
 	private static void DEPOSIT() {
 		double depositAmount;
 		System.out.print("\n");
@@ -442,6 +438,113 @@ public abstract class ConsoleATM {
 	private static void LOGOUT() {
 		currentAccount = null;
 		loggedIn = false;
+	}
+
+	private static void ADMIN_ACCOUNT_MENU() {
+		System.out.print("\n");
+		do {
+			System.out.print("Account Menu\n (1) Create Account\n (2) Edit Account\n (3) Delete Account\n (4) Account Options\n (5) Logout\nEnter an option: ");
+			try {
+				userResponse = userInput.nextShort();
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter one of the given options.\n");
+				userInput.next();
+				continue;
+			}
+			switch (userResponse) {
+				case 1: {	// Create account.
+					ADMIN_CREATE_ACCOUNT();
+					break;
+				}
+				case 2: {	// Edit account.
+					ADMIN_EDIT_ACCOUNT();
+					break;
+				}
+				case 3: {	// Delete account.
+					ADMIN_DELETE_ACCOUNT();
+					break;
+				}
+				case 4: {	// Account options.
+					ADMIN_ACCOUNT_OPTIONS();
+					break;
+				}
+				case 5: {	// Logout.
+					LOGOUT();
+					break;
+				}
+			}
+		} while (loggedIn);
+	}
+
+	private static void ADMIN_CREATE_ACCOUNT() {
+
+	}
+
+	private static void ADMIN_EDIT_ACCOUNT() {
+
+	}
+
+	private static void ADMIN_DELETE_ACCOUNT() {
+		int accountNumber;
+		System.out.print("\n");
+		do {
+			System.out.print("Enter the number of the account that you want to delete: #");
+			try {
+				accountNumber = userInput.nextInt();
+				Account.ACCOUNT_EXISTS(accountNumber);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter the number of the account that you want to delete.\n");
+				userInput.next();
+				continue;
+			} catch (NullPointerException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				break;
+			}
+			((AdminAccount)currentAccount).deleteAccount(accountNumber);
+			System.out.println("\nDeleted account #" + accountNumber + ".\n");
+			break;
+		} while (true);
+	}
+
+	private static void ADMIN_ACCOUNT_OPTIONS() {
+		boolean exitAccountOptions = false;
+		System.out.print("\n");
+		do {
+			System.out.print("Account Options\n (1) Change PIN\n (2) View Account History\n (3) Delete Account\n (4) Back\nEnter an option: ");
+			try {
+				userResponse = userInput.nextShort();
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter one of the given options.\n");
+				userInput.next();
+				continue;
+			}
+			switch (userResponse) {
+				case 1: {	// Change PIN.
+					CHANGE_PIN();
+					break;
+				}
+				case 2: {	// View account history.
+					VIEW_ACCOUNT_HISTORY();
+					break;
+				}
+				case 3: {	// Delete account.
+					DELETE_ACCOUNT();
+					if (currentAccount == null) {
+						exitAccountOptions = true;
+					}
+					break;
+				}
+				case 4: {	// Back.
+					exitAccountOptions = true;
+					System.out.print("\n");
+					break;
+				}
+				default: {	// Error.
+					System.out.println("\nPlease enter one of the given options.\n");
+					continue;
+				}
+			}
+		} while (!exitAccountOptions);
 	}
 
 }

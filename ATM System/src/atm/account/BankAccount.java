@@ -116,10 +116,17 @@ public class BankAccount extends Account {
 			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount));
 			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + " to account #"
 					+ receivingAccount + ".\n";
-			BankAccount tempReceivingAccount = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount));
-			tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance.add(new BigDecimal(transferAmount));
-			tempReceivingAccount.accountHistory = tempReceivingAccount.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received "
-					+ TO_CURRENCY_FORMAT(receivingAccount) + " from account #" + ACCOUNT_NUMBER + ".\n";
+			if (GET_ACCOUNT_MAP().get(receivingAccount) instanceof SavingsAccount) {
+				SavingsAccount tempReceivingAccount = ((SavingsAccount)GET_ACCOUNT_MAP().get(receivingAccount));
+				tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance.add(new BigDecimal(transferAmount + tempReceivingAccount.getInterest(transferAmount)));
+				tempReceivingAccount.accountHistory = tempReceivingAccount.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received "
+						+ TO_CURRENCY_FORMAT(transferAmount + tempReceivingAccount.getInterest(transferAmount)) + " from account #" + ACCOUNT_NUMBER + ".\n";
+			} else {
+				BankAccount tempReceivingAccount = ((BankAccount)GET_ACCOUNT_MAP().get(receivingAccount));
+				tempReceivingAccount.accountBalance = tempReceivingAccount.accountBalance.add(new BigDecimal(transferAmount));
+				tempReceivingAccount.accountHistory = tempReceivingAccount.accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Received "
+						+ TO_CURRENCY_FORMAT(transferAmount) + " from account #" + ACCOUNT_NUMBER + ".\n";
+			}
 		}
 	}
 
