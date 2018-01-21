@@ -13,7 +13,7 @@ import java.awt.CardLayout;
 import java.math.BigDecimal;
 import src.atm.account.Account;
 import src.atm.account.BankAccount;
-import src.atm.pin.Pin;
+import src.atm.account.Pin;
 
 public final class GUI extends JFrame implements ActionListener {
 
