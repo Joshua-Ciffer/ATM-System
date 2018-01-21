@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import src.atm.account.Account;
 import src.atm.account.BankAccount;
 import src.atm.account.AdminAccount;
-import src.atm.pin.Pin;
+import src.atm.account.Pin;
 
 public abstract class ConsoleATM {
 
@@ -15,13 +15,15 @@ public abstract class ConsoleATM {
 
 	private static Account currentAccount;
 
+	private static boolean loggedIn;
+
 	public static void main(String[] args) {
 		MAIN_MENU();
 	}
 
 	private static void MAIN_MENU() {
-		do {	// Begin main menu loop.
-			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an optioin: ");
+		do {
+			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an option: ");
 			try {
 				userResponse = userInput.nextShort();
 			} catch (InputMismatchException e) {
@@ -29,7 +31,7 @@ public abstract class ConsoleATM {
 				userInput.next();
 				continue;
 			}
-			switch (userResponse) {		// Begin userResponse switch.
+			switch (userResponse) {
 				case 1: {	// Login.
 					LOGIN();
 					break;
@@ -46,15 +48,16 @@ public abstract class ConsoleATM {
 					System.out.println("\nPlease enter one of the given options.\n");
 					continue;
 				}
-			}	// End userResponse switch.
-		} while (true);		// End main menu loop.
+			}
+			System.out.print("\n");
+		} while (true);
 	}
 
 	private static void LOGIN() {
 		int accountNumber;
 		String accountPin;
 		System.out.print("\n");
-		do {	// Begin account number loop.
+		do {
 			System.out.print("Enter your account number: #");
 			try {
 				accountNumber = userInput.nextInt();
@@ -64,10 +67,10 @@ public abstract class ConsoleATM {
 				userInput.next();
 				continue;
 			} catch (NullPointerException e) {
-				System.out.println("\n" + e.getMessage() + "\n");
+				System.out.println("\n" + e.getMessage());
 				break;
 			}
-			do {	// Begin account PIN loop.
+			do {
 				System.out.print("Enter your account PIN: ");
 				try {
 					accountPin = userInput.next();
@@ -77,20 +80,20 @@ public abstract class ConsoleATM {
 					userInput.next();
 					continue;
 				} catch (IllegalArgumentException e) {
-					System.out.println("\n" + e.getMessage() + "\n");
+					System.out.println("\n" + e.getMessage());
 					break;
 				}
 				currentAccount = Account.GET_ACCOUNT(accountNumber, accountPin);
+				loggedIn = true;
 				if (currentAccount instanceof BankAccount) {
-					System.out.println(((BankAccount)currentAccount).toString());
 					BANK_ACCOUNT_MENU();
 				} else if (currentAccount instanceof AdminAccount) {
 					ADMIN_ACCOUNT_MENU();
 				}
 				break;
-			} while (true);		// End account PIN loop.
+			} while (true);
 			break;
-		} while (true);	    // End account number loop.
+		} while (true);
 	}
 
 	private static void CREATE_ACCOUNT() {
@@ -98,7 +101,7 @@ public abstract class ConsoleATM {
 		double accountBalance;
 		userInput.nextLine();
 		System.out.print("\n");
-		do {	// Begin account name loop.
+		do {
 			System.out.print("Enter your name: ");
 			try {
 				accountName = userInput.nextLine();
@@ -107,7 +110,7 @@ public abstract class ConsoleATM {
 				userInput.next();
 				continue;
 			}
-			do {	// Begin account PIN loop.
+			do {
 				System.out.print("Create an account PIN: ");
 				try {
 					accountPin = userInput.next();
@@ -120,7 +123,7 @@ public abstract class ConsoleATM {
 					System.out.println("\n" + e.getMessage() + "\n");
 					continue;
 				}
-				do {	// Begin confirm PIN loop.
+				do {
 					System.out.print("Confirm your account PIN: ");
 					try {
 						confirmPin = userInput.next();
@@ -133,7 +136,7 @@ public abstract class ConsoleATM {
 						System.out.println("\n" + e.getMessage() + "\n");
 						continue;
 					}
-					do {	// Begin account balance loop.
+					do {
 						System.out.print("Enter your starting balance: $");
 						try {
 							accountBalance = userInput.nextDouble();
@@ -147,15 +150,15 @@ public abstract class ConsoleATM {
 							continue;
 						}
 						System.out.println("\nAccount created. Your account number is #"
-								+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".\n");
+								+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
 						break;
-					} while (true);		// End account balance loop.
+					} while (true);
 					break;
-				} while (true);		// End confirm PIN loop.
+				} while (true);
 				break;
-			} while (true);		// End account PIN loop.
+			} while (true);
 			break;
-		} while (true);		// End account name loop.
+		} while (true);
 	}
 
 	private static void EXIT() {
@@ -163,9 +166,9 @@ public abstract class ConsoleATM {
 	}
 
 	private static void BANK_ACCOUNT_MENU() {
-		boolean loggedIn = true;
-		do {	// Begin account menu loop.
-			System.out.print("Account Menu\n (1) Deposit\n (2) Withdrawal\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
+		System.out.print("\n");
+		do {
+			System.out.print("Account Menu\n (1) Deposit\n (2) Withdraw\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
 			try {
 				userResponse = userInput.nextShort();
 			} catch (InputMismatchException e) {
@@ -178,7 +181,7 @@ public abstract class ConsoleATM {
 					DEPOSIT();
 					break;
 				}
-				case 2: {	// Withdrawal.
+				case 2: {	// Withdraw.
 					WITHDRAW();
 					break;
 				}
@@ -196,7 +199,6 @@ public abstract class ConsoleATM {
 				}
 				case 6: {	// Logout.
 					LOGOUT();
-					loggedIn = false;
 					break;
 				}
 				default: {	// Error.
@@ -204,7 +206,7 @@ public abstract class ConsoleATM {
 					continue;
 				}
 			}
-		} while (loggedIn);		// End account menu loop.
+		} while (loggedIn);
 	}
 
 	private static void ADMIN_ACCOUNT_MENU() {
@@ -213,7 +215,8 @@ public abstract class ConsoleATM {
 
 	private static void DEPOSIT() {
 		double depositAmount;
-		do {	// Begin deposit loop.
+		System.out.print("\n");
+		do {
 			System.out.print("Enter the amount you want to deposit: $");
 			try {
 				depositAmount = userInput.nextDouble();
@@ -229,32 +232,37 @@ public abstract class ConsoleATM {
 			((BankAccount)currentAccount).deposit(depositAmount);
 			System.out.println("\nDeposited " + BankAccount.TO_CURRENCY_FORMAT(depositAmount) + " to your account.\n");
 			break;
-		} while (true);		// End deposit loop.
-	}	
-	
+		} while (true);
+	}
+
 	private static void WITHDRAW() {
-		double withdrawalAmount;
-		do {	// Begin withdraw loop.
-			System.out.print("Enter the amount you want to withdrawal: $");
+		double withdrawAmount;
+		System.out.print("\n");
+		do {
+			System.out.print("Enter the amount you want to withdraw: $");
 			try {
-				withdrawalAmount = userInput.nextDouble();
-				BankAccount.IS_POSITIVE_AMOUNT(withdrawalAmount);
-				((BankAccount)currentAccount).hasSufficientBalance(withdrawalAmount);
+				withdrawAmount = userInput.nextDouble();
+				BankAccount.IS_POSITIVE_AMOUNT(withdrawAmount);
+				((BankAccount)currentAccount).hasSufficientBalance(withdrawAmount);
 			} catch (InputMismatchException e) {
-				System.out.println("\nPlease enter the amount you want to withdrawal.\n");
+				System.out.println("\nPlease enter the amount you want to withdraw.\n");
 				userInput.next();
 				continue;
+			} catch (IllegalArgumentException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				break;
 			}
-			((BankAccount)currentAccount).withdraw(withdrawalAmount);
-			System.out.println("\nWithdrew " + BankAccount.TO_CURRENCY_FORMAT(withdrawalAmount) + " to your account.\n");
+			((BankAccount)currentAccount).withdraw(withdrawAmount);
+			System.out.println("\nWithdrew " + BankAccount.TO_CURRENCY_FORMAT(withdrawAmount) + " from your account.\n");
 			break;
-		} while (true);		// End withdraw loop.
+		} while (true);
 	}
-	
+
 	private static void TRANSFER() {
 		int receivingAccount;
 		double transferAmount;
-		do {	// Begin receiving account loop.
+		System.out.print("\n");
+		do {
 			System.out.print("Enter the account number that you want to transfer to: #");
 			try {
 				receivingAccount = userInput.nextInt();
@@ -267,29 +275,173 @@ public abstract class ConsoleATM {
 				System.out.println("\n" + e.getMessage() + "\n");
 				break;
 			}
-			do {	// Begin transfer amount loop.
+			do {
 				System.out.print("Enter the amount that you want to transfer: $");
 				try {
 					transferAmount = userInput.nextDouble();
 					BankAccount.IS_POSITIVE_AMOUNT(transferAmount);
 					((BankAccount)currentAccount).hasSufficientBalance(transferAmount);
 				} catch (InputMismatchException e) {
-					
+					System.out.println("\nPlease enter the amount that you want to transfer.\n");
+					userInput.next();
+					continue;
+				} catch (IllegalArgumentException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+					continue;
 				}
-			} while (true);		// End transfer amount loop.
-		} while (true);		// End receiving account loop.
+				((BankAccount)currentAccount).transfer(receivingAccount, transferAmount);
+				System.out.println("\nTransfered " + BankAccount.TO_CURRENCY_FORMAT(transferAmount) + " from your account to account #" + receivingAccount + ".\n");
+				break;
+			} while (true);
+			break;
+		} while (true);
 	}
-	
+
 	private static void CHECK_BALANCE() {
-		
+		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)currentAccount).getAccountBalance()) + ".\n");
 	}
-	
+
 	private static void BANK_ACCOUNT_OPTIONS() {
-		
+		boolean exitAccountOptions = false;
+		System.out.print("\n");
+		do {
+			System.out.print("Account Options\n (1) Change PIN\n (2) View Account History\n (3) Delete Account\n (4) Back\nEnter an option: ");
+			try {
+				userResponse = userInput.nextShort();
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter one of the given options.\n");
+				userInput.next();
+				continue;
+			}
+			switch (userResponse) {
+				case 1: {	// Change PIN.
+					CHANGE_PIN();
+					break;
+				}
+				case 2: {	// View account history.
+					VIEW_ACCOUNT_HISTORY();
+					break;
+				}
+				case 3: {	// Delete account.
+					DELETE_ACCOUNT();
+					if (currentAccount == null) {
+						exitAccountOptions = true;
+					}
+					break;
+				}
+				case 4: {	// Back.
+					exitAccountOptions = true;
+					System.out.print("\n");
+					break;
+				}
+				default: {	// Error.
+					System.out.println("\nPlease enter one of the given options.\n");
+					continue;
+				}
+			}
+		} while (!exitAccountOptions);
 	}
-	
+
+	private static void CHANGE_PIN() {
+		String currentPin, newPin, confirmPin;
+		System.out.print("\n");
+		do {
+			System.out.print("Enter your current PIN: ");
+			try {
+				currentPin = userInput.next();
+				Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), currentPin);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter your current PIN.\n");
+				userInput.next();
+				continue;
+			} catch (IllegalArgumentException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				break;
+			}
+			do {
+				System.out.print("Create your new PIN: ");
+				try {
+					newPin = userInput.next();
+					Pin.IS_VALID_PIN(newPin);
+				} catch (InputMismatchException e) {
+					System.out.println("\nPlease create your new PIN.\n");
+					userInput.next();
+					continue;
+				} catch (IllegalArgumentException e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+					continue;
+				}
+				do {
+					System.out.print("Confirm your new PIN: ");
+					try {
+						confirmPin = userInput.next();
+						Pin.PINs_MATCH(newPin, confirmPin);
+					} catch (InputMismatchException e) {
+						System.out.println("\nPlease confirm your new PIN.\n");
+						userInput.next();
+						continue;
+					} catch (IllegalArgumentException e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+						continue;
+					}
+					currentAccount.changeAccountPin(currentPin, newPin, confirmPin);
+					System.out.println("\nYour account PIN has been changed.\n");
+					break;
+				} while (true);
+				break;
+			} while (true);
+			break;
+		} while (true);
+	}
+
+	private static void VIEW_ACCOUNT_HISTORY() {
+		System.out.println("\nAccount History\n" + currentAccount.getAccountHistory());
+	}
+
+	private static void DELETE_ACCOUNT() {
+		String confirmAccountDeletion, accountPin;
+		userInput.nextLine();
+		System.out.print("\n");
+		do {
+			System.out.print("Are you sure you want to delete your account?\nType \"YES\" to confirm: ");
+			try {
+				confirmAccountDeletion = userInput.next();
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease confirm your account deletion.\n");
+				userInput.next();
+				continue;
+			}
+			if (confirmAccountDeletion.equalsIgnoreCase("YES")) {
+				do {
+					System.out.print("Enter your PIN to complete your account deletion: ");
+					try {
+						accountPin = userInput.next();
+						if (Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), accountPin)) {
+							currentAccount.closeAccount(accountPin);
+							System.out.println("\nYour account has been deleted.");
+							LOGOUT();
+							break;
+						}
+					} catch (InputMismatchException e) {
+						System.out.println("\nPlease enter your PIN to complete your account deletion.\n");
+						userInput.next();
+						continue;
+					} catch (IllegalArgumentException e) {
+						System.out.println("\n" + e.getMessage() + " Your account will not be deleted.\n");
+						break;
+					}
+				} while (true);
+				break;
+			} else {
+				System.out.println("\nYour account will not be deleted.\n");
+				break;
+			}
+		} while (true);
+	}
+
 	private static void LOGOUT() {
 		currentAccount = null;
+		loggedIn = false;
 	}
-	
+
 }
