@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * This class inherits Account.
  * 
  * @author Joshua Ciffer
- * @version 01/18/2018
+ * @version 01/21/2018
  */
 public final class AdminAccount extends Account {
 

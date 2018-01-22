@@ -8,6 +8,11 @@ import src.atm.account.SavingsAccount;
 import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 
+/**
+ * 
+ * @author Joshua Ciffer
+ * @version 01/21/2018
+ */
 public abstract class ConsoleATM {
 
 	private static final Scanner userInput = new Scanner(System.in);
