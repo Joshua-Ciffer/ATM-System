@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.math.BigDecimal;
 import src.atm.account.Account;
 import src.atm.account.BankAccount;
+import src.atm.account.SavingsAccount;
 import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 
@@ -225,7 +226,11 @@ public abstract class ConsoleATM {
 				System.out.println("\n" + e.getMessage() + "\n");
 				continue;
 			}
-			((BankAccount)currentAccount).deposit(depositAmount);
+			if (currentAccount instanceof SavingsAccount) {
+				((SavingsAccount)currentAccount).deposit(depositAmount);
+			} else {
+				((BankAccount)currentAccount).deposit(depositAmount);
+			}
 			System.out.println("\nDeposited " + BankAccount.TO_CURRENCY_FORMAT(depositAmount) + " to your account.\n");
 			break;
 		} while (true);
@@ -481,7 +486,7 @@ public abstract class ConsoleATM {
 	}
 
 	private static void ADMIN_EDIT_ACCOUNT() {
-		
+
 	}
 
 	private static void ADMIN_DELETE_ACCOUNT() {
