@@ -9,6 +9,9 @@ import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 
 /**
+ * This class contains methods and an entry point that runs a command line based interface which interacts with Account back-end code.
+ * <br><br>
+ * This class is abstract because it does not need to be inherited.
  * 
  * @author Joshua Ciffer
  * @version 01/25/2018
@@ -40,12 +43,14 @@ public abstract class ConsoleATM {
 	 * 
 	 * @param args - Any command line arguments.
 	 */
-	public static void main(String[] args) {
+	public static final void main(String[] args) {
 		MAIN_MENU();
 	}
 
-	
-	private static void MAIN_MENU() {
+	/**
+	 * The main menu that displays when a user is not logged in. The user has the options to login to an account, create an account, or exit.
+	 */
+	private static final void MAIN_MENU() {
 		do {
 			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an option: ");
 			try {
@@ -77,7 +82,10 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void LOGIN() {
+	/**
+	 * Prompts the user to enter their login credentials. If the correct information has been entered, they log into their account.
+	 */
+	private static final void LOGIN() {
 		int accountNumber;
 		String accountPin;
 		System.out.print("\n");
@@ -116,7 +124,10 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void CREATE_ACCOUNT() {
+	/**
+	 * Prompts the user to enter information to open a bank account. An account is created and added to the account database.
+	 */
+	private static final void CREATE_ACCOUNT() {
 		String accountName, accountPin, confirmPin;
 		double accountBalance;
 		userInput.nextLine();
@@ -167,11 +178,17 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void EXIT() {
+	/**
+	 * Terminates the program.
+	 */
+	private static final void EXIT() {
 		System.exit(0);
 	}
 
-	private static void BANK_ACCOUNT_MENU() {
+	/**
+	 * Displays options the user can select when they are logged into their account.
+	 */
+	private static final void BANK_ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Deposit\n (2) Withdraw\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
@@ -215,7 +232,10 @@ public abstract class ConsoleATM {
 		} while (loggedIn);
 	}
 
-	private static void DEPOSIT() {
+	/**
+	 * Prompts the user to enter an amount of money to be deposited to their account.
+	 */
+	private static final void DEPOSIT() {
 		double depositAmount;
 		System.out.print("\n");
 		do {
@@ -241,7 +261,10 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void WITHDRAW() {
+	/**
+	 * Prompts the user to enter an amount of money that will be withdrawn from their account if they have a sufficient balance.
+	 */
+	private static final void WITHDRAW() {
 		double withdrawAmount;
 		System.out.print("\n");
 		do {
@@ -268,7 +291,10 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void TRANSFER() {
+	/**
+	 * Prompts the user to enter an account number to transfer a specified amount of money to.
+	 */
+	private static final void TRANSFER() {
 		int receivingAccount;
 		double transferAmount;
 		System.out.print("\n");
@@ -311,11 +337,17 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void CHECK_BALANCE() {
+	/**
+	 * Displays the account's balance.
+	 */
+	private static final void CHECK_BALANCE() {
 		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)currentAccount).getAccountBalance()) + ".\n");
 	}
 
-	private static void ACCOUNT_OPTIONS() {
+	/**
+	 * Displays additional options for accounts of any type.
+	 */
+	private static final void ACCOUNT_OPTIONS() {
 		boolean exitAccountOptions = false;
 		System.out.print("\n");
 		do {
@@ -356,7 +388,10 @@ public abstract class ConsoleATM {
 		} while (!exitAccountOptions);
 	}
 
-	private static void CHANGE_PIN() {
+	/**
+	 * Prompts the user to create and confirm a new account PIN.
+	 */
+	private static final void CHANGE_PIN() {
 		String currentPin, newPin, confirmPin;
 		System.out.print("\n");
 		do {
@@ -396,11 +431,17 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void VIEW_ACCOUNT_HISTORY() {
+	/**
+	 * Displays a record of account information and transaction history.
+	 */
+	private static final void VIEW_ACCOUNT_HISTORY() {
 		System.out.println("\nAccount History\n" + currentAccount.getAccountHistory());
 	}
 
-	private static void DELETE_ACCOUNT() {
+	/**
+	 * Prompts the user to confirm whether or not they want their account to be deleted.
+	 */
+	private static final void DELETE_ACCOUNT() {
 		String confirmAccountDeletion, accountPin;
 		userInput.nextLine();
 		System.out.print("\n");
@@ -431,12 +472,18 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
+	/**
+	 * Removes any pointers to the current account and sets the login status to false.
+	 */
 	private static void LOGOUT() {
 		currentAccount = null;
 		loggedIn = false;
 	}
 
-	private static void ADMIN_ACCOUNT_MENU() {
+	/**
+	 * Displays administrator options with additional permissions.
+	 */
+	private static final void ADMIN_ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Create Account\n (2) Edit Account\n (3) Delete Account\n (4) Account Options\n (5) Logout\nEnter an option: ");
@@ -472,7 +519,7 @@ public abstract class ConsoleATM {
 		} while (loggedIn);
 	}
 
-	private static void ADMIN_CREATE_ACCOUNT() {
+	private static final void ADMIN_CREATE_ACCOUNT() {
 		String accountType, accountName, accountPin, confirmPin;
 		double accountBalance, interestRate = 0;
 		System.out.print("\n");
@@ -565,7 +612,7 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void ADMIN_EDIT_ACCOUNT() {
+	private static final void ADMIN_EDIT_ACCOUNT() {
 		int accountNumber;
 		Account editAccount = null;
 		System.out.print("\n");
@@ -598,7 +645,7 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	private static void ADMIN_DELETE_ACCOUNT() {
+	private static final void ADMIN_DELETE_ACCOUNT() {
 		int accountNumber;
 		System.out.print("\n");
 		do {
