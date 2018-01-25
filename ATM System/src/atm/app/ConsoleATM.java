@@ -11,7 +11,7 @@ import src.atm.account.Pin;
 /**
  * 
  * @author Joshua Ciffer
- * @version 01/21/2018
+ * @version 01/25/2018
  */
 public abstract class ConsoleATM {
 
@@ -81,10 +81,6 @@ public abstract class ConsoleATM {
 				try {
 					accountPin = userInput.next();
 					Pin.IS_CORRECT_PIN(accountNumber, accountPin);
-				} catch (InputMismatchException e) {
-					System.out.println("\nPlease enter your account number.\n");
-					userInput.next();
-					continue;
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage());
 					break;
@@ -109,22 +105,12 @@ public abstract class ConsoleATM {
 		System.out.print("\n");
 		do {
 			System.out.print("Enter your name: ");
-			try {
-				accountName = userInput.nextLine();
-			} catch (InputMismatchException e) {
-				System.out.println("\nPlease enter your name.\n");
-				userInput.next();
-				continue;
-			}
+			accountName = userInput.nextLine();
 			do {
 				System.out.print("Create an account PIN: ");
 				try {
 					accountPin = userInput.next();
 					Pin.IS_VALID_PIN(accountPin);
-				} catch (InputMismatchException e) {
-					System.out.println("\nPlease create an account PIN.\n");
-					userInput.next();
-					continue;
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
 					continue;
@@ -134,10 +120,6 @@ public abstract class ConsoleATM {
 					try {
 						confirmPin = userInput.next();
 						Pin.PINs_MATCH(accountPin, confirmPin);
-					} catch (InputMismatchException e) {
-						System.out.println("\nPlease confirm your account PIN.\n");
-						userInput.next();
-						continue;
 					} catch (IllegalArgumentException e) {
 						System.out.println("\n" + e.getMessage() + "\n");
 						continue;
@@ -356,10 +338,6 @@ public abstract class ConsoleATM {
 			try {
 				currentPin = userInput.next();
 				Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), currentPin);
-			} catch (InputMismatchException e) {
-				System.out.println("\nPlease enter your current PIN.\n");
-				userInput.next();
-				continue;
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
 				break;
@@ -369,10 +347,6 @@ public abstract class ConsoleATM {
 				try {
 					newPin = userInput.next();
 					Pin.IS_VALID_PIN(newPin);
-				} catch (InputMismatchException e) {
-					System.out.println("\nPlease create your new PIN.\n");
-					userInput.next();
-					continue;
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
 					continue;
@@ -382,10 +356,6 @@ public abstract class ConsoleATM {
 					try {
 						confirmPin = userInput.next();
 						Pin.PINs_MATCH(newPin, confirmPin);
-					} catch (InputMismatchException e) {
-						System.out.println("\nPlease confirm your new PIN.\n");
-						userInput.next();
-						continue;
 					} catch (IllegalArgumentException e) {
 						System.out.println("\n" + e.getMessage() + "\n");
 						continue;
@@ -410,13 +380,7 @@ public abstract class ConsoleATM {
 		System.out.print("\n");
 		do {
 			System.out.print("Are you sure you want to delete your account?\nType \"YES\" to confirm: ");
-			try {
-				confirmAccountDeletion = userInput.next();
-			} catch (InputMismatchException e) {
-				System.out.println("\nPlease confirm your account deletion.\n");
-				userInput.next();
-				continue;
-			}
+			confirmAccountDeletion = userInput.next();
 			if (confirmAccountDeletion.equalsIgnoreCase("YES")) {
 				do {
 					System.out.print("Enter your PIN to complete your account deletion: ");
@@ -428,10 +392,6 @@ public abstract class ConsoleATM {
 							LOGOUT();
 							break;
 						}
-					} catch (InputMismatchException e) {
-						System.out.println("\nPlease enter your PIN to complete your account deletion.\n");
-						userInput.next();
-						continue;
 					} catch (IllegalArgumentException e) {
 						System.out.println("\n" + e.getMessage() + " Your account will not be deleted.\n");
 						break;
@@ -487,7 +447,96 @@ public abstract class ConsoleATM {
 	}
 
 	private static void ADMIN_CREATE_ACCOUNT() {
-
+		String accountType, accountName, accountPin, confirmPin;
+		double accountBalance, interestRate = 0;
+		System.out.print("\n");
+		do {
+			System.out.print("Enter the type of account you would like to create. Admin, Bank, or Savings?: ");
+			accountType = userInput.next();
+			do {
+				System.out.print("Enter the name: ");
+				accountName = userInput.nextLine();
+				do {
+					System.out.print("Create an account PIN: ");
+					try {
+						accountPin = userInput.next();
+						Pin.IS_VALID_PIN(accountPin);
+					} catch (IllegalArgumentException e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+						continue;
+					}
+					do {
+						System.out.print("Confirm the account PIN: ");
+						try {
+							confirmPin = userInput.next();
+							Pin.PINs_MATCH(accountPin, confirmPin);
+						} catch (IllegalArgumentException e) {
+							System.out.println("\n" + e.getMessage() + "\n");
+							continue;
+						}
+						break;
+					} while (true);
+					break;
+				} while (true);
+				break;
+			} while (true);
+			switch (accountType.toLowerCase()) {
+				case "admin": {
+					System.out.println(
+							"\nAccount created. The account number is #" + new AdminAccount(accountName, new Pin(accountPin, confirmPin)).getAccountNumber() + ".");
+					break;
+				}
+				case "savings": {
+					do {
+						System.out.print("Enter the account's interest rate: ");
+						try {
+							interestRate = userInput.nextDouble();
+							BankAccount.IS_POSITIVE_AMOUNT(interestRate);
+						} catch (InputMismatchException e) {
+							System.out.println("\nPlease enter the account's interest rate.\n");
+							userInput.next();
+							continue;
+						} catch (IllegalArgumentException e) {
+							System.out.println("\n" + e.getMessage() + "\n");
+							continue;
+						}
+						break;
+					} while (true);
+				}
+				case "bank": {
+					do {
+						System.out.print("Enter the starting balance: $");
+						try {
+							accountBalance = userInput.nextDouble();
+							BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
+						} catch (InputMismatchException e) {
+							System.out.println("\nPlease enter the account's starting balance.\n");
+							userInput.next();
+							continue;
+						} catch (IllegalArgumentException e) {
+							System.out.println("\n" + e.getMessage() + "\n");
+							continue;
+						}
+						if (accountType.equalsIgnoreCase("savings")) {
+							System.out.println("\nAccount created. The account number is #"
+									+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate)
+											.getAccountNumber()
+									+ ".");
+						} else {
+							System.out.println("\nAccount created. The account number is #"
+									+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
+						}
+						break;
+					} while (true);
+					break;
+				}
+				default: {
+					System.out.println("\nPlease choose one of the account types to create.\n");
+					continue;
+				}
+			}
+			break;
+		} while (true);
 	}
 
 	private static void ADMIN_EDIT_ACCOUNT() {
@@ -516,7 +565,6 @@ public abstract class ConsoleATM {
 		} while (true);
 	}
 
-	//
 	private static void ADMIN_ACCOUNT_OPTIONS() {
 		boolean exitAccountOptions = false;
 		System.out.print("\n");
