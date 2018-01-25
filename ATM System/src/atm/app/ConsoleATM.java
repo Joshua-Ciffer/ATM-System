@@ -475,7 +475,7 @@ public abstract class ConsoleATM {
 	/**
 	 * Removes any pointers to the current account and sets the login status to false.
 	 */
-	private static void LOGOUT() {
+	private static final void LOGOUT() {
 		currentAccount = null;
 		loggedIn = false;
 	}
