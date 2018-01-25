@@ -15,18 +15,36 @@ import src.atm.account.Pin;
  */
 public abstract class ConsoleATM {
 
+	/**
+	 * Accepts all user input for menu prompts.
+	 */
 	private static final Scanner userInput = new Scanner(System.in);
 
+	/**
+	 * Stores user responses for picking menu options.
+	 */
 	private static short userResponse;
 
+	/**
+	 * Temporary storage for the account that is currently logged in.
+	 */
 	private static Account currentAccount;
 
+	/**
+	 * Keeps track of whether a user is logged in.
+	 */
 	private static boolean loggedIn;
 
+	/**
+	 * Main entry point for the program.
+	 * 
+	 * @param args - Any command line arguments.
+	 */
 	public static void main(String[] args) {
 		MAIN_MENU();
 	}
 
+	
 	private static void MAIN_MENU() {
 		do {
 			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an option: ");
@@ -182,7 +200,7 @@ public abstract class ConsoleATM {
 					break;
 				}
 				case 5: {	// Account options.
-					BANK_ACCOUNT_OPTIONS();
+					ACCOUNT_OPTIONS();
 					break;
 				}
 				case 6: {	// Logout.
@@ -238,7 +256,11 @@ public abstract class ConsoleATM {
 				continue;
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
-				break;
+				if (e.getMessage().equalsIgnoreCase("You have an insufficient balance to complete this transaction.")) {
+					break;
+				} else {
+					continue;
+				}
 			}
 			((BankAccount)currentAccount).withdraw(withdrawAmount);
 			System.out.println("\nWithdrew " + BankAccount.TO_CURRENCY_FORMAT(withdrawAmount) + " from your account.\n");
@@ -275,7 +297,11 @@ public abstract class ConsoleATM {
 					continue;
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
-					continue;
+					if (e.getMessage().equalsIgnoreCase("You have an insufficient balance to complete this transaction.")) {
+						break;
+					} else {
+						continue;
+					}
 				}
 				((BankAccount)currentAccount).transfer(receivingAccount, transferAmount);
 				System.out.println("\nTransfered " + BankAccount.TO_CURRENCY_FORMAT(transferAmount) + " from your account to account #" + receivingAccount + ".\n");
@@ -289,7 +315,7 @@ public abstract class ConsoleATM {
 		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)currentAccount).getAccountBalance()) + ".\n");
 	}
 
-	private static void BANK_ACCOUNT_OPTIONS() {
+	private static void ACCOUNT_OPTIONS() {
 		boolean exitAccountOptions = false;
 		System.out.print("\n");
 		do {
@@ -435,7 +461,7 @@ public abstract class ConsoleATM {
 					break;
 				}
 				case 4: {	// Account options.
-					ADMIN_ACCOUNT_OPTIONS();
+					ACCOUNT_OPTIONS();
 					break;
 				}
 				case 5: {	// Logout.
@@ -540,7 +566,36 @@ public abstract class ConsoleATM {
 	}
 
 	private static void ADMIN_EDIT_ACCOUNT() {
+		int accountNumber;
+		Account editAccount = null;
+		System.out.print("\n");
+		do {
+			System.out.print("Enter the number of the account you want to edit: #");
+			try {
+				accountNumber = userInput.nextInt();
+				Account.ACCOUNT_EXISTS(accountNumber);
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease enter the number of the account you want to edit.\n");
+				userInput.next();
+				continue;
+			} catch (IllegalArgumentException e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+				break;
+			}
+			do {
+				if (editAccount instanceof AdminAccount) {
 
+				} else if (editAccount instanceof BankAccount) {
+
+				} else if (editAccount instanceof SavingsAccount) {
+
+				} else {
+
+				}
+				break;
+			} while (true);
+			break;
+		} while (true);
 	}
 
 	private static void ADMIN_DELETE_ACCOUNT() {
@@ -563,47 +618,6 @@ public abstract class ConsoleATM {
 			System.out.println("\nDeleted account #" + accountNumber + ".\n");
 			break;
 		} while (true);
-	}
-
-	private static void ADMIN_ACCOUNT_OPTIONS() {
-		boolean exitAccountOptions = false;
-		System.out.print("\n");
-		do {
-			System.out.print("Account Options\n (1) Change PIN\n (2) View Account History\n (3) Delete Account\n (4) Back\nEnter an option: ");
-			try {
-				userResponse = userInput.nextShort();
-			} catch (InputMismatchException e) {
-				System.out.println("\nPlease enter one of the given options.\n");
-				userInput.next();
-				continue;
-			}
-			switch (userResponse) {
-				case 1: {	// Change PIN.
-					CHANGE_PIN();
-					break;
-				}
-				case 2: {	// View account history.
-					VIEW_ACCOUNT_HISTORY();
-					break;
-				}
-				case 3: {	// Delete account.
-					DELETE_ACCOUNT();
-					if (currentAccount == null) {
-						exitAccountOptions = true;
-					}
-					break;
-				}
-				case 4: {	// Back.
-					exitAccountOptions = true;
-					System.out.print("\n");
-					break;
-				}
-				default: {	// Error.
-					System.out.println("\nPlease enter one of the given options.\n");
-					continue;
-				}
-			}
-		} while (!exitAccountOptions);
 	}
 
 }
