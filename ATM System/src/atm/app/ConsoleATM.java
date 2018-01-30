@@ -11,10 +11,10 @@ import src.atm.account.Pin;
 /**
  * This class contains methods and an entry point that runs a command line based interface which interacts with Account back-end code.
  * <br><br>
- * This class is abstract because it does not need to be inherited.
+ * This class is abstract because it does not need to be instantiated.
  * 
  * @author Joshua Ciffer
- * @version 01/25/2018
+ * @version 01/30/2018
  */
 public abstract class ConsoleATM {
 
@@ -128,52 +128,87 @@ public abstract class ConsoleATM {
 	 * Prompts the user to enter information to open a bank account. An account is created and added to the account database.
 	 */
 	private static final void CREATE_ACCOUNT() {
-		String accountName, accountPin, confirmPin;
-		double accountBalance;
+		String accountType, accountName, accountPin, confirmPin;
+		double accountBalance, interestRate = 0;
 		userInput.nextLine();
 		System.out.print("\n");
 		do {
-			System.out.print("Enter your name: ");
-			accountName = userInput.nextLine();
-			do {
-				System.out.print("Create an account PIN: ");
-				try {
-					accountPin = userInput.next();
-					Pin.IS_VALID_PIN(accountPin);
-				} catch (IllegalArgumentException e) {
-					System.out.println("\n" + e.getMessage() + "\n");
-					continue;
-				}
-				do {
-					System.out.print("Confirm your account PIN: ");
-					try {
-						confirmPin = userInput.next();
-						Pin.PINs_MATCH(accountPin, confirmPin);
-					} catch (IllegalArgumentException e) {
-						System.out.println("\n" + e.getMessage() + "\n");
-						continue;
-					}
+			System.out.print("Would you like to create a bank account or a savings account?: ");
+			accountType = userInput.nextLine();
+			switch (accountType.toLowerCase()) {
+				case "savings account": {
 					do {
-						System.out.print("Enter your starting balance: $");
+						System.out.print("Please enter the interest rate for your account: ");
 						try {
-							accountBalance = userInput.nextDouble();
-							BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
+							interestRate = userInput.nextDouble();
+							BankAccount.IS_POSITIVE_AMOUNT(interestRate);
 						} catch (InputMismatchException e) {
-							System.out.println("\nPlease enter your account's starting balance.\n");
+							System.out.println("\nPlease enter the interest rate for your account.\n");
 							userInput.next();
 							continue;
 						} catch (IllegalArgumentException e) {
 							System.out.println("\n" + e.getMessage() + "\n");
 							continue;
 						}
-						System.out.println("\nAccount created. Your account number is #"
-								+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
+						break;
+					} while (true);
+					userInput.nextLine();
+				}
+				case "bank account": {
+					do {
+						System.out.print("Enter your name: ");
+						accountName = userInput.nextLine();
+						do {
+							System.out.print("Create an account PIN: ");
+							try {
+								accountPin = userInput.next();
+								Pin.IS_VALID_PIN(accountPin);
+							} catch (IllegalArgumentException e) {
+								System.out.println("\n" + e.getMessage() + "\n");
+								continue;
+							}
+							do {
+								System.out.print("Confirm your account PIN: ");
+								try {
+									confirmPin = userInput.next();
+									Pin.PINs_MATCH(accountPin, confirmPin);
+								} catch (IllegalArgumentException e) {
+									System.out.println("\n" + e.getMessage() + "\n");
+									continue;
+								}
+								do {
+									System.out.print("Enter your starting balance: $");
+									try {
+										accountBalance = userInput.nextDouble();
+										BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
+									} catch (InputMismatchException e) {
+										System.out.println("\nPlease enter your account's starting balance.\n");
+										userInput.next();
+										continue;
+									} catch (IllegalArgumentException e) {
+										System.out.println("\n" + e.getMessage() + "\n");
+										continue;
+									}
+									if (accountType.equalsIgnoreCase("savings account")) {
+										System.out.println("\nAccount created. Your account number is #"
+												+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate)
+														.getAccountNumber());
+									} else {
+										System.out.println("\nAccount created. Your account number is #"
+												+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber()
+												+ ".");
+									}
+									break;
+								} while (true);
+								break;
+							} while (true);
+							break;
+						} while (true);
 						break;
 					} while (true);
 					break;
-				} while (true);
-				break;
-			} while (true);
+				}
+			}
 			break;
 		} while (true);
 	}
