@@ -52,7 +52,7 @@ public final class Pin {
 	 * @throws IllegalArgumentException Thrown if the PIN is invalid.
 	 */
 	public static boolean IS_VALID_PIN(String pin) throws IllegalArgumentException {
-		try {      // Short.parseShort() could throw NumberFormatException.
+		try {
 			boolean pinContainsOnlyNumbers = false;
 			for (int i = 0; i < pin.length(); i++) {
 				if (Character.isDigit(pin.charAt(i))) {
@@ -61,7 +61,7 @@ public final class Pin {
 					pinContainsOnlyNumbers = false;
 					break;
 				}
-			}
+			}	// Short.parseShort() could throw NumberFormatException.
 			if ((Short.parseShort(pin) >= 0) && (pin.length() == 4) && pinContainsOnlyNumbers) {	// PIN must be 4 digits and cannot be negative.
 				return true;
 			} else {
