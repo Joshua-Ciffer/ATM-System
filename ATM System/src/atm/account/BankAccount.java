@@ -11,7 +11,7 @@ import java.util.Locale;
  * This class inherits src.atm.account.Account.
  * 
  * @author Joshua Ciffer
- * @version 01/20/2018
+ * @version 01/30/2018
  */
 public class BankAccount extends Account {
 
@@ -97,7 +97,7 @@ public class BankAccount extends Account {
 	 * @throws IllegalArgumentException Thrown if the amount the user needs is greater than their balance.
 	 */
 	public final boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
-		if (accountBalance.compareTo(new BigDecimal(amount)) > 0) {
+		if (accountBalance.compareTo(new BigDecimal(amount)) >= 0) {
 			return true;
 		} else {
 			throw new IllegalArgumentException("You have an insufficient balance to complete this transaction.");
