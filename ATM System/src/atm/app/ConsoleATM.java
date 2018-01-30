@@ -8,6 +8,11 @@ import src.atm.account.SavingsAccount;
 import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * This class contains methods and an entry point that runs a command line based interface which interacts with Account back-end code.
  * <br><br>
@@ -18,6 +23,26 @@ import src.atm.account.Pin;
  */
 public abstract class ConsoleATM {
 
+	public static File accountList;
+	
+	public static PrintStream fileWriter;
+	
+	public static void fileSetup() throws IOException {
+		accountList = new File("C:\\Users\\Joshua\\Desktop\\Account List.txt");
+		fileWriter = new PrintStream(new FileOutputStream(accountList));
+	}
+	
+	public static void writeAccountMapToDisk() {
+		Account[] accountsInMemory = Account.GET_ACCOUNT_MAP().values().toArray(new Account[Account.GET_ACCOUNT_MAP().size()]);
+		for (int i = 0; i < accountsInMemory.length; i++) {
+			fileWriter.println(accountsInMemory[i].toString());
+		}
+	}
+	
+	public static void readAccountsFromDisk() {
+		
+	}
+	
 	/**
 	 * Accepts all user input for menu prompts.
 	 */
@@ -42,8 +67,10 @@ public abstract class ConsoleATM {
 	 * Main entry point for the program.
 	 * 
 	 * @param args - Any command line arguments.
+	 * @throws IOException 
 	 */
-	public static final void main(String[] args) {
+	public static final void main(String[] args) throws IOException {
+		fileSetup();
 		MAIN_MENU();
 	}
 
@@ -217,6 +244,7 @@ public abstract class ConsoleATM {
 	 * Terminates the program.
 	 */
 	private static final void EXIT() {
+		writeAccountMapToDisk();
 		System.exit(0);
 	}
 

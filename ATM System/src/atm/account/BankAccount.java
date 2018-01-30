@@ -181,8 +181,8 @@ public class BankAccount extends Account {
 	 */
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + "\nAccount Name: " + accountName + "\nAccount Pin: " + accountPin.getPin() + "\nAccount Balance: "
-				+ TO_CURRENCY_FORMAT(accountBalance) + "\nAccount History: " + accountHistory;
+		return "Account Number: " + ACCOUNT_NUMBER + " \nAccount Name: " + accountName + " \nAccount Pin: " + accountPin.getPin() + " \nAccount Balance: "
+				+ TO_CURRENCY_FORMAT(accountBalance) + " \nAccount History: " + accountHistory + " ";
 	}
 
 	/**

@@ -154,7 +154,7 @@ public abstract class Account {
 	 * 
 	 * @return A reference to the account map.
 	 */
-	static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
+	public static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
 		return ACCOUNT_MAP;
 	}
 
