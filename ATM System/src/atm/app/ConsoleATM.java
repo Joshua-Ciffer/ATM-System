@@ -114,7 +114,7 @@ public abstract class ConsoleATM {
 				currentAccount = Account.GET_ACCOUNT(accountNumber, accountPin);
 				loggedIn = true;
 				if (currentAccount instanceof BankAccount) {
-					BANK_ACCOUNT_MENU();
+					ACCOUNT_MENU();
 				} else if (currentAccount instanceof AdminAccount) {
 					ADMIN_ACCOUNT_MENU();
 				}
@@ -223,7 +223,7 @@ public abstract class ConsoleATM {
 	/**
 	 * Displays options the user can select when they are logged into their account.
 	 */
-	private static final void BANK_ACCOUNT_MENU() {
+	private static final void ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Deposit\n (2) Withdraw\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
