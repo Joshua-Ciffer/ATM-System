@@ -22,7 +22,6 @@
 hs_err_pid*
 
 # IDE Files #
-/.gitignore.txt
+/bin/
 /.project
 /.classpath
-/bin/
