@@ -11,7 +11,7 @@ import java.util.Locale;
  * This class inherits src.atm.account.Account.
  * 
  * @author Joshua Ciffer
- * @version 01/30/2018
+ * @version 02/26/2018
  */
 public class BankAccount extends Account {
 
@@ -32,7 +32,7 @@ public class BankAccount extends Account {
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The user's 4 digit PIN.
 	 * @param accountBalance - The account's starting balance.
-	 * @throws IllegalArgumentException Thrown if a negative amount is entered for the account's balance.
+	 * @throws IllegalArgumentException - Thrown if a negative amount is entered for the account's balance.
 	 */
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) throws IllegalArgumentException {
 		super(accountName, accountPin);
@@ -77,7 +77,7 @@ public class BankAccount extends Account {
 	 * 
 	 * @param amount - The amount to check if positive.
 	 * @return True - If the amount is greater than zero.
-	 * @throws IllegalArgumentException Thrown if the amount is less than zero.
+	 * @throws IllegalArgumentException - Thrown if the amount is less than zero.
 	 */
 	public static final boolean IS_POSITIVE_AMOUNT(double amount) throws IllegalArgumentException {
 		if (amount >= 0) {
@@ -93,8 +93,8 @@ public class BankAccount extends Account {
 	 * This method cannot be overridden.
 	 * 
 	 * @param amount - The amount to see if the user has in their account balance.
-	 * @return - True if the user has enough money in their balance to complete a transaction.
-	 * @throws IllegalArgumentException Thrown if the amount the user needs is greater than their balance.
+	 * @return True - If the user has enough money in their balance to complete a transaction.
+	 * @throws IllegalArgumentException - Thrown if the amount the user needs is greater than their balance.
 	 */
 	public final boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
 		if (accountBalance.compareTo(new BigDecimal(amount)) >= 0) {
@@ -105,14 +105,18 @@ public class BankAccount extends Account {
 	}
 
 	/**
-	 * User chooses another account to send money to. Money is withdrawn from their account and deposited in the account they specify.
+	 * User chooses another account to send money to. Money is withdrawn from their account and deposited in the account they specify. This method adds interest if
+	 * the
+	 * accounts in use are savings accounts.
+	 * <br><br>
+	 * This method cannot be overridden.
 	 * 
 	 * @param receivingAccount - The account to receive the money.
 	 * @param transferAmount - The amount of money to transfer.
-	 * @throws IllegalArgumentException Thrown if the user enters a negative amount of money to transfer, or they have an insufficient balance.
-	 * @throws NullPointerException Thrown if the account the user wants to transfer money to does not exist.
+	 * @throws IllegalArgumentException - Thrown if the user enters a negative amount of money to transfer, or they have an insufficient balance.
+	 * @throws NullPointerException - Thrown if the account the user wants to transfer money to does not exist.
 	 */
-	public void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
+	public final void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
 			accountBalance = accountBalance.subtract(new BigDecimal(transferAmount));
 			accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Transfered " + TO_CURRENCY_FORMAT(transferAmount) + " to account #"
@@ -136,7 +140,7 @@ public class BankAccount extends Account {
 	 * Deposits a specified amount of money into the user's account.
 	 * 
 	 * @param depositAmount - The amount to deposit.
-	 * @throws IllegalArgumentException Thrown if the deposit amount is negative.
+	 * @throws IllegalArgumentException - Thrown if the deposit amount is negative.
 	 */
 	public void deposit(double depositAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(depositAmount)) {
@@ -149,7 +153,7 @@ public class BankAccount extends Account {
 	 * Withdrawals a specified amount of money from the user's account.
 	 * 
 	 * @param withdrawalAmount - The amount to withdrawal.
-	 * @throws IllegalArgumentException Thrown if the withdrawal amount is negative or the user has an insufficient balance.
+	 * @throws IllegalArgumentException - Thrown if the withdrawal amount is negative or the user has an insufficient balance.
 	 */
 	public void withdraw(double withdrawalAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(withdrawalAmount) && hasSufficientBalance(withdrawalAmount)) {

@@ -88,9 +88,9 @@ public abstract class Account {
 	 * 
 	 * @param accountNumber - The account to be returned.
 	 * @param accountPin - The account's PIN.
-	 * @return Returns the account with the given login credentials.
-	 * @throws IllegalArgumentException Thrown if an incorrect PIN is entered.
-	 * @throws NullPointerException Thrown if an account with the given account number cannot be found or does not exist.
+	 * @return The account with the given login credentials.
+	 * @throws IllegalArgumentException - Thrown if an incorrect PIN is entered.
+	 * @throws NullPointerException - Thrown if an account with the given account number cannot be found or does not exist.
 	 */
 	public static final Account GET_ACCOUNT(int accountNumber, String accountPin) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber) && Pin.IS_CORRECT_PIN(accountNumber, accountPin)) {
@@ -106,8 +106,8 @@ public abstract class Account {
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountNumber - The account number to check for.
-	 * @return True - Returns true if an account with the given account number has been found in the account map.
-	 * @throws NullPointerException Thrown if an account with the given account number cannot be found or does not exist.
+	 * @return True - If an account with the given account number has been found in the account map.
+	 * @throws NullPointerException - Thrown if an account with the given account number cannot be found or does not exist.
 	 */
 	public static final boolean ACCOUNT_EXISTS(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_MAP.containsKey(accountNumber)) {
@@ -125,7 +125,7 @@ public abstract class Account {
 	 * @param oldPin - The current PIN.
 	 * @param newPin - The new PIN.
 	 * @param confirmPin - The new PIN entered again for confirmation.
-	 * @throws IllegalArgumentException Thrown if the current PIN is incorrect, or the new PIN is not valid, or if the new PIN and confirm PIN do not match.
+	 * @throws IllegalArgumentException - Thrown if the current PIN is incorrect, or the new PIN is not valid, or if the new PIN and confirm PIN do not match.
 	 */
 	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
 		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin);
@@ -138,7 +138,7 @@ public abstract class Account {
 	 * This method cannot be overridden.
 	 * 
 	 * @param accountPin - The user's PIN.
-	 * @throws IllegalArgumentException Thrown if the PIN is incorrect.
+	 * @throws IllegalArgumentException - Thrown if the PIN is incorrect.
 	 */
 	public final void closeAccount(String accountPin) throws IllegalArgumentException {
 		if (Pin.IS_CORRECT_PIN(ACCOUNT_NUMBER, accountPin)) {
@@ -149,7 +149,6 @@ public abstract class Account {
 	/**
 	 * Returns an instance of the account map.
 	 * <br><br>
-	 * This method is only accessible from within src.atm.account.
 	 * This method cannot be overridden.
 	 * 
 	 * @return A reference to the account map.

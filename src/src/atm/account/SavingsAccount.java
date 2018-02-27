@@ -9,12 +9,12 @@ import java.text.NumberFormat;
  * This class inherits src.atm.account.BankAccount.
  * 
  * @author Joshua Ciffer
- * @version 01/21/2018
+ * @version 02/26/2018
  */
 public final class SavingsAccount extends BankAccount {
 
 	/**
-	 * Formats numerical values to percentage values. Uses the pattern: 34.241 ==> 34.241%
+	 * Formats numerical values to percentage values. Uses the pattern: 34.241 to 34.241%
 	 */
 	private static final NumberFormat PERCENTAGE = NumberFormat.getPercentInstance();
 
@@ -31,7 +31,7 @@ public final class SavingsAccount extends BankAccount {
 	 * @param accountPin - The account's PIN.
 	 * @param accountBalance - The account's starting balance.
 	 * @param interestRate - The account's interest rate to be applied to any transactions.
-	 * @throws IllegalArgumentException Thrown if the account balance or interest rate is negative.
+	 * @throws IllegalArgumentException - Thrown if the account balance or interest rate is negative.
 	 */
 	public SavingsAccount(String accountName, Pin accountPin, BigDecimal accountBalance, double interestRate) throws IllegalArgumentException {
 		super(accountName, accountPin, accountBalance);
@@ -46,7 +46,7 @@ public final class SavingsAccount extends BankAccount {
 	}
 
 	/**
-	 * Formats numerical percentage values to a formatted string. Example: 45.34 ==> 45.34%, 12.375 ==> 12.375%.
+	 * Formats numerical percentage values to a formatted string. Example: 45.34 to 45.34%, 12.375 to 12.375%.
 	 * 
 	 * @param percentage - The numerical percentage value to format.
 	 * @return A string with a formatted percentage value.
@@ -61,7 +61,7 @@ public final class SavingsAccount extends BankAccount {
 	 * Returns the interest added on during a transaction.
 	 * 
 	 * @param amount - The amount of the transaction.
-	 * @return The amount of interest calculated for the transact
+	 * @return The amount of interest calculated for the transaction.
 	 */
 	public double getInterest(double amount) {
 		return (amount * (interestRate / 100));
@@ -71,7 +71,7 @@ public final class SavingsAccount extends BankAccount {
 	 * Deposits a specified amount to this savings account with interest added on.
 	 * 
 	 * @param depositAmount - The amount to deposit to this account.
-	 * @throws IllegalArgumentException Thrown if the deposit amount is negative.
+	 * @throws IllegalArgumentException - Thrown if the deposit amount is negative.
 	 */
 	@Override
 	public void deposit(double depositAmount) throws IllegalArgumentException {
