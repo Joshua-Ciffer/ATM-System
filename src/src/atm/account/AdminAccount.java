@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * This class inherits Account.
  * 
  * @author Joshua Ciffer
- * @version 01/21/2018
+ * @version 02/26/2018
  */
 public final class AdminAccount extends Account {
 
@@ -27,6 +27,12 @@ public final class AdminAccount extends Account {
 	public int createBankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) throws IllegalArgumentException {
 		int newAccountNumber = new BankAccount(accountName, accountPin, accountBalance).getAccountNumber();
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Bank Account #" + newAccountNumber + ".\n";
+		return newAccountNumber;
+	}
+	
+	public int createSavingsAccount(String accountName, Pin accountPin, BigDecimal accountBalance, double interestRate) throws IllegalArgumentException {
+		int newAccountNumber = new SavingsAccount(accountName, accountPin, accountBalance, interestRate).getAccountNumber();
+		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Savings Account #" + newAccountNumber + ".\n";
 		return newAccountNumber;
 	}
 
@@ -63,6 +69,19 @@ public final class AdminAccount extends Account {
 			}
 		}
 	}
+	
+	public void editInterestRate(int accountNumber, double interestRate) throws NullPointerException, IllegalArgumentException {
+		if (ACCOUNT_EXISTS(accountNumber)) {
+			if (GET_ACCOUNT_MAP().get(accountNumber) instanceof SavingsAccount) {
+				if (BankAccount.IS_POSITIVE_AMOUNT(interestRate)) {
+					((SavingsAccount)GET_ACCOUNT_MAP().get(accountNumber)).setInterestRate(interestRate);
+					accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Changed Interest Rate On Account #" + accountNumber + ".\n";
+				}
+			} else {
+				throw new IllegalArgumentException("This account is not a savings account.");
+			}
+		}
+	}
 
 	public void deleteAccount(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
@@ -82,7 +101,7 @@ public final class AdminAccount extends Account {
 
 	@Override
 	public boolean equals(Object adminAccount) {
-		if (this.toString().equalsIgnoreCase(((AdminAccount)adminAccount).toString())) {	// Casts adminAccount to type AdminAccount
+		if (this.toString().equalsIgnoreCase(((AdminAccount)adminAccount).toString())) {
 			return true;
 		} else {
 			return false;
