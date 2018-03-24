@@ -17,6 +17,10 @@ import src.atm.account.Pin;
 
 public final class GUI extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MainMenu mainMenuPanel;
 	private Login loginPanel;
 	private CreateAccount createAccountPanel;

@@ -9,6 +9,10 @@ import java.awt.Font;
 
 final class MainMenu extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Font labelFont = new Font("Dialog", Font.BOLD, 14);
 	private JLabel mainMenuLabel;
 	private JButton loginButton, createAccountButton, exitButton;

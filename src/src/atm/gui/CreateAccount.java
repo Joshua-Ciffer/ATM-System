@@ -15,6 +15,10 @@ import java.awt.Font;
 
 final class CreateAccount extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Font labelFont = new Font("Dialog", Font.BOLD, 14);
 	private JLabel createAccountLabel, accountNameLabel, accountPinLabel, confirmPinLabel;
 	private JTextField accountNameField;

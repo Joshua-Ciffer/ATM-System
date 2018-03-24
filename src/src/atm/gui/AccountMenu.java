@@ -11,6 +11,10 @@ import java.awt.Font;
 
 final class AccountMenu extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Font labelFont = new Font("Dialog", Font.BOLD, 14);
 	private JLabel accountMenuLabel;
 	private JButton makeDepositButton, makeWithdrawalButton, makeTransferButton, checkBalanceButton, accountOptionsButton, logoutButton;
