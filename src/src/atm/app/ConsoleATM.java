@@ -21,6 +21,7 @@ import java.io.IOException;
  * @author Joshua Ciffer
  * @version 01/30/2018
  */
+@SuppressWarnings("javadoc")
 public abstract class ConsoleATM {
 
 	public static File accountList;

@@ -1,8 +1,3 @@
-// ============================================================================//
-// Name : Login.java //
-// Author : Joshua Ciffer //
-// Date : 11/30/2017 //
-// ============================================================================//
 
 package src.atm.gui;
 import javax.swing.JPanel;
@@ -13,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
+@SuppressWarnings("javadoc")
 final class Login extends JPanel {
 
 	/**

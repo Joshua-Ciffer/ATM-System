@@ -49,7 +49,6 @@ public abstract class Account {
 	 * 
 	 * @param accountName - The account holder's name.
 	 * @param accountPin - The account's 4 digit PIN.
-	 * @param accountHistory - A log of all transaction history and account changes.
 	 */
 	Account(String accountName, Pin accountPin) {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER();

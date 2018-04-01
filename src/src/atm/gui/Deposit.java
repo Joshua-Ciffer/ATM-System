@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
+@SuppressWarnings("javadoc")
 final class Deposit extends JPanel {
 
 	/**

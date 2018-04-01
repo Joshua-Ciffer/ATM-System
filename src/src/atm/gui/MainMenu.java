@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
+@SuppressWarnings("javadoc")
 final class MainMenu extends JPanel {
 
 	/**

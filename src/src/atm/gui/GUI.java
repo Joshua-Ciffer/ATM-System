@@ -1,8 +1,3 @@
-// ============================================================================//
-// Name : GUI.java //
-// Author : Joshua Ciffer //
-// Date : 11/30/2017 //
-// ============================================================================//
 
 package src.atm.gui;
 import javax.swing.JFrame;
@@ -15,6 +10,7 @@ import src.atm.account.Account;
 import src.atm.account.BankAccount;
 import src.atm.account.Pin;
 
+@SuppressWarnings("javadoc")
 public final class GUI extends JFrame implements ActionListener {
 
 	/**

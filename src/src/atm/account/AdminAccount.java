@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * @author Joshua Ciffer
  * @version 02/26/2018
  */
+@SuppressWarnings("javadoc")
 public final class AdminAccount extends Account {
 
 	public AdminAccount(String accountName, Pin accountPin) {
