@@ -1,49 +1,51 @@
-package src.atm.app;
+package src.atm;
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.math.BigDecimal;
+import java.io.File;
+import java.io.PrintStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import src.atm.account.Account;
 import src.atm.account.BankAccount;
 import src.atm.account.SavingsAccount;
 import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 
-import java.io.File;
-import java.io.PrintStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 /**
  * This class contains methods and an entry point that runs a command line based interface which interacts with Account back-end code.
- * <br><br>
- * This class is abstract because it does not need to be instantiated.
  * 
  * @author Joshua Ciffer
  * @version 01/30/2018
  */
-@SuppressWarnings("javadoc")
-public abstract class ConsoleATM {
+public final class Main {
+
+	/**
+	 * Don't let anyone instantiate this class.
+	 */
+	private Main() {}
 
 	public static File accountList;
-	
+
 	public static PrintStream fileWriter;
-	
+
 	public static void fileSetup() throws IOException {
 		accountList = new File("C:\\Users\\Joshua\\Desktop\\Account List.txt");
 		fileWriter = new PrintStream(new FileOutputStream(accountList));
 	}
-	
+
 	public static void writeAccountMapToDisk() {
 		Account[] accountsInMemory = Account.GET_ACCOUNT_MAP().values().toArray(new Account[Account.GET_ACCOUNT_MAP().size()]);
 		for (int i = 0; i < accountsInMemory.length; i++) {
 			fileWriter.println(accountsInMemory[i].toString());
 		}
 	}
-	
+
 	public static void readAccountsFromDisk() {
-		
+
 	}
-	
+
 	/**
 	 * Accepts all user input for menu prompts.
 	 */
@@ -67,8 +69,9 @@ public abstract class ConsoleATM {
 	/**
 	 * Main entry point for the program.
 	 * 
-	 * @param args - Any command line arguments.
-	 * @throws IOException 
+	 * @param args
+	 *        - Any command line arguments.
+	 * @throws IOException
 	 */
 	public static final void main(String[] args) throws IOException {
 		fileSetup();
@@ -223,8 +226,7 @@ public abstract class ConsoleATM {
 														.getAccountNumber());
 									} else {
 										System.out.println("\nAccount created. Your account number is #"
-												+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber()
-												+ ".");
+												+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
 									}
 									break;
 								} while (true);
@@ -619,8 +621,7 @@ public abstract class ConsoleATM {
 			} while (true);
 			switch (accountType.toLowerCase()) {
 				case "admin": {
-					System.out.println(
-							"\nAccount created. The account number is #" + new AdminAccount(accountName, new Pin(accountPin, confirmPin)).getAccountNumber() + ".");
+					System.out.println("\nAccount created. The account number is #" + new AdminAccount(accountName, new Pin(accountPin, confirmPin)).getAccountNumber() + ".");
 					break;
 				}
 				case "savings": {
@@ -656,9 +657,7 @@ public abstract class ConsoleATM {
 						}
 						if (accountType.equalsIgnoreCase("savings")) {
 							System.out.println("\nAccount created. The account number is #"
-									+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate)
-											.getAccountNumber()
-									+ ".");
+									+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate).getAccountNumber() + ".");
 						} else {
 							System.out.println("\nAccount created. The account number is #"
 									+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
