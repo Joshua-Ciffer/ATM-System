@@ -3,21 +3,23 @@ package src.atm;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.math.BigDecimal;
-import java.io.File;
-import java.io.PrintStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import src.atm.account.Account;
 import src.atm.account.BankAccount;
 import src.atm.account.SavingsAccount;
 import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
+import src.atm.gui.GUI;
+
+import static src.atm.util.Constants.INVALID_COMMAND_ARGS_CODE;
 
 /**
- * This class contains methods and an entry point that runs a command line based interface which interacts with Account back-end code.
+ * This class contains the main entry point for the ATM System program. By default the main() method will create a GUI frame to interface with the
+ * program. This class also contains methods to provide a command line implementation of the program if the command line argument "--no-gui" is
+ * passed.
  * 
  * @author Joshua Ciffer
- * @version 01/30/2018
+ * @version 04/06/2018
  */
 public final class Main {
 
@@ -26,30 +28,10 @@ public final class Main {
 	 */
 	private Main() {}
 
-	public static File accountList;
-
-	public static PrintStream fileWriter;
-
-	public static void fileSetup() throws IOException {
-		accountList = new File("C:\\Users\\Joshua\\Desktop\\Account List.txt");
-		fileWriter = new PrintStream(new FileOutputStream(accountList));
-	}
-
-	public static void writeAccountMapToDisk() {
-		Account[] accountsInMemory = Account.GET_ACCOUNT_MAP().values().toArray(new Account[Account.GET_ACCOUNT_MAP().size()]);
-		for (int i = 0; i < accountsInMemory.length; i++) {
-			fileWriter.println(accountsInMemory[i].toString());
-		}
-	}
-
-	public static void readAccountsFromDisk() {
-
-	}
-
 	/**
 	 * Accepts all user input for menu prompts.
 	 */
-	private static final Scanner userInput = new Scanner(System.in);
+	private static Scanner userInput;
 
 	/**
 	 * Stores user responses for picking menu options.
@@ -70,18 +52,26 @@ public final class Main {
 	 * Main entry point for the program.
 	 * 
 	 * @param args
-	 *        - Any command line arguments.
-	 * @throws IOException
+	 *        Command line arguments.
 	 */
-	public static final void main(String[] args) throws IOException {
-		fileSetup();
-		MAIN_MENU();
+	public static void main(String[] args) {
+		if (args.length == 0) {
+			new GUI();
+		} else if (args[0].equalsIgnoreCase("--no-gui")) {
+			System.out.println("Launching in no GUI mode.\n");
+			userInput = new Scanner(System.in);
+			CLI_MAIN_MENU();
+		} else {
+			System.out.println("Invalid command line arguments.");
+			System.exit(INVALID_COMMAND_ARGS_CODE);
+		}
 	}
 
 	/**
 	 * The main menu that displays when a user is not logged in. The user has the options to login to an account, create an account, or exit.
+	 * This method is only used in command line mode.
 	 */
-	private static final void MAIN_MENU() {
+	private static void CLI_MAIN_MENU() {
 		do {
 			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an option: ");
 			try {
@@ -93,15 +83,15 @@ public final class Main {
 			}
 			switch (userResponse) {
 				case 1: {	// Login.
-					LOGIN();
+					CLI_LOGIN();
 					break;
 				}
 				case 2: {	// Create account.
-					CREATE_ACCOUNT();
+					CLI_CREATE_ACCOUNT();
 					break;
 				}
 				case 3: {	// Exit.
-					EXIT();
+					CLI_EXIT();
 					break;
 				}
 				default: {	 // Error.
@@ -115,8 +105,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to enter their login credentials. If the correct information has been entered, they log into their account.
+	 * This method is only used in command line mode.
 	 */
-	private static final void LOGIN() {
+	private static void CLI_LOGIN() {
 		int accountNumber;
 		String accountPin;
 		System.out.print("\n");
@@ -145,9 +136,9 @@ public final class Main {
 				currentAccount = Account.GET_ACCOUNT(accountNumber, accountPin);
 				loggedIn = true;
 				if (currentAccount instanceof BankAccount) {
-					ACCOUNT_MENU();
+					CLI_ACCOUNT_MENU();
 				} else if (currentAccount instanceof AdminAccount) {
-					ADMIN_ACCOUNT_MENU();
+					CLI_ADMIN_ACCOUNT_MENU();
 				}
 				break;
 			} while (true);
@@ -157,8 +148,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to enter information to open a bank account. An account is created and added to the account database.
+	 * This method is only used in command line mode.
 	 */
-	private static final void CREATE_ACCOUNT() {
+	private static void CLI_CREATE_ACCOUNT() {
 		String accountType, accountName, accountPin, confirmPin;
 		double accountBalance, interestRate = 0;
 		userInput.nextLine();
@@ -169,7 +161,7 @@ public final class Main {
 			switch (accountType.toLowerCase()) {
 				case "savings account": {
 					do {
-						System.out.print("Please enter the interest rate for your account: ");
+						System.out.print("Please enter the interest rate for your account: %");
 						try {
 							interestRate = userInput.nextDouble();
 							BankAccount.IS_POSITIVE_AMOUNT(interestRate);
@@ -238,6 +230,10 @@ public final class Main {
 					} while (true);
 					break;
 				}
+				default: {
+					System.out.println("\nPlease specify the type of account you would like to create.");
+					break;
+				}
 			}
 			break;
 		} while (true);
@@ -245,16 +241,17 @@ public final class Main {
 
 	/**
 	 * Terminates the program.
+	 * This method is only used in command line mode.
 	 */
-	private static final void EXIT() {
-		writeAccountMapToDisk();
+	private static void CLI_EXIT() {
 		System.exit(0);
 	}
 
 	/**
 	 * Displays options the user can select when they are logged into their account.
+	 * This method is only used in command line mode.
 	 */
-	private static final void ACCOUNT_MENU() {
+	private static void CLI_ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Deposit\n (2) Withdraw\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
@@ -267,27 +264,27 @@ public final class Main {
 			}
 			switch (userResponse) {
 				case 1: {	// Deposit.
-					DEPOSIT();
+					CLI_DEPOSIT();
 					break;
 				}
 				case 2: {	// Withdraw.
-					WITHDRAW();
+					CLI_WITHDRAW();
 					break;
 				}
 				case 3: {	// Transfer.
-					TRANSFER();
+					CLI_TRANSFER();
 					break;
 				}
 				case 4: {	// Check balance.
-					CHECK_BALANCE();
+					CLI_CHECK_BALANCE();
 					break;
 				}
 				case 5: {	// Account options.
-					ACCOUNT_OPTIONS();
+					CLI_ACCOUNT_OPTIONS();
 					break;
 				}
 				case 6: {	// Logout.
-					LOGOUT();
+					CLI_LOGOUT();
 					break;
 				}
 				default: {	// Error.
@@ -300,8 +297,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to enter an amount of money to be deposited to their account.
+	 * This method is only used in command line mode.
 	 */
-	private static final void DEPOSIT() {
+	private static void CLI_DEPOSIT() {
 		double depositAmount;
 		System.out.print("\n");
 		do {
@@ -329,8 +327,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to enter an amount of money that will be withdrawn from their account if they have a sufficient balance.
+	 * This method is only used in command line mode.
 	 */
-	private static final void WITHDRAW() {
+	private static void CLI_WITHDRAW() {
 		double withdrawAmount;
 		System.out.print("\n");
 		do {
@@ -359,8 +358,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to enter an account number to transfer a specified amount of money to.
+	 * This method is only used in command line mode.
 	 */
-	private static final void TRANSFER() {
+	private static void CLI_TRANSFER() {
 		int receivingAccount;
 		double transferAmount;
 		System.out.print("\n");
@@ -405,15 +405,17 @@ public final class Main {
 
 	/**
 	 * Displays the account's balance.
+	 * This method is only used in command line mode.
 	 */
-	private static final void CHECK_BALANCE() {
+	private static void CLI_CHECK_BALANCE() {
 		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)currentAccount).getAccountBalance()) + ".\n");
 	}
 
 	/**
 	 * Displays additional options for accounts of any type.
+	 * This method is only used in command line mode.
 	 */
-	private static final void ACCOUNT_OPTIONS() {
+	private static void CLI_ACCOUNT_OPTIONS() {
 		boolean exitAccountOptions = false;
 		System.out.print("\n");
 		do {
@@ -427,15 +429,15 @@ public final class Main {
 			}
 			switch (userResponse) {
 				case 1: {	// Change PIN.
-					CHANGE_PIN();
+					CLI_CHANGE_PIN();
 					break;
 				}
 				case 2: {	// View account history.
-					VIEW_ACCOUNT_HISTORY();
+					CLI_VIEW_ACCOUNT_HISTORY();
 					break;
 				}
 				case 3: {	// Delete account.
-					DELETE_ACCOUNT();
+					CLI_DELETE_ACCOUNT();
 					if (currentAccount == null) {
 						exitAccountOptions = true;
 					}
@@ -456,8 +458,9 @@ public final class Main {
 
 	/**
 	 * Prompts the user to create and confirm a new account PIN.
+	 * This method is only used in command line mode.
 	 */
-	private static final void CHANGE_PIN() {
+	private static void CLI_CHANGE_PIN() {
 		String currentPin, newPin, confirmPin;
 		System.out.print("\n");
 		do {
@@ -499,15 +502,17 @@ public final class Main {
 
 	/**
 	 * Displays a record of account information and transaction history.
+	 * This method is only used in command line mode.
 	 */
-	private static final void VIEW_ACCOUNT_HISTORY() {
+	private static void CLI_VIEW_ACCOUNT_HISTORY() {
 		System.out.println("\nAccount History\n" + currentAccount.getAccountHistory());
 	}
 
 	/**
 	 * Prompts the user to confirm whether or not they want their account to be deleted.
+	 * This method is only used in command line mode.
 	 */
-	private static final void DELETE_ACCOUNT() {
+	private static void CLI_DELETE_ACCOUNT() {
 		String confirmAccountDeletion, accountPin;
 		userInput.nextLine();
 		System.out.print("\n");
@@ -522,7 +527,7 @@ public final class Main {
 						if (Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), accountPin)) {
 							currentAccount.closeAccount(accountPin);
 							System.out.println("\nYour account has been deleted.");
-							LOGOUT();
+							CLI_LOGOUT();
 							break;
 						}
 					} catch (IllegalArgumentException e) {
@@ -540,16 +545,18 @@ public final class Main {
 
 	/**
 	 * Removes any pointers to the current account and sets the login status to false.
+	 * This method is only used in command line mode.
 	 */
-	private static final void LOGOUT() {
+	private static void CLI_LOGOUT() {
 		currentAccount = null;
 		loggedIn = false;
 	}
 
 	/**
 	 * Displays administrator options with additional permissions.
+	 * This method is only used in command line mode.
 	 */
-	private static final void ADMIN_ACCOUNT_MENU() {
+	private static void CLI_ADMIN_ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Create Account\n (2) Edit Account\n (3) Delete Account\n (4) Account Options\n (5) Logout\nEnter an option: ");
@@ -562,30 +569,37 @@ public final class Main {
 			}
 			switch (userResponse) {
 				case 1: {	// Create account.
-					ADMIN_CREATE_ACCOUNT();
+					CLI_ADMIN_CREATE_ACCOUNT();
 					break;
 				}
 				case 2: {	// Edit account.
-					ADMIN_EDIT_ACCOUNT();
+					CLI_ADMIN_EDIT_ACCOUNT();
 					break;
 				}
 				case 3: {	// Delete account.
-					ADMIN_DELETE_ACCOUNT();
+					CLI_ADMIN_DELETE_ACCOUNT();
 					break;
 				}
 				case 4: {	// Account options.
-					ACCOUNT_OPTIONS();
+					CLI_ACCOUNT_OPTIONS();
 					break;
 				}
 				case 5: {	// Logout.
-					LOGOUT();
+					CLI_LOGOUT();
 					break;
 				}
 			}
 		} while (loggedIn);
 	}
 
-	private static final void ADMIN_CREATE_ACCOUNT() {
+	// TODO: Review admin method code.
+	// TODO: Write admin account method javadoc.
+
+	/**
+	 *
+	 *
+	 */
+	private static void CLI_ADMIN_CREATE_ACCOUNT() {
 		String accountType, accountName, accountPin, confirmPin;
 		double accountBalance, interestRate = 0;
 		System.out.print("\n");
@@ -675,7 +689,11 @@ public final class Main {
 		} while (true);
 	}
 
-	private static final void ADMIN_EDIT_ACCOUNT() {
+	/**
+	 *
+	 *
+	 */
+	private static void CLI_ADMIN_EDIT_ACCOUNT() {
 		int accountNumber;
 		Account editAccount = null;
 		System.out.print("\n");
@@ -708,7 +726,11 @@ public final class Main {
 		} while (true);
 	}
 
-	private static final void ADMIN_DELETE_ACCOUNT() {
+	/**
+	 *
+	 *
+	 */
+	private static void CLI_ADMIN_DELETE_ACCOUNT() {
 		int accountNumber;
 		System.out.print("\n");
 		do {
