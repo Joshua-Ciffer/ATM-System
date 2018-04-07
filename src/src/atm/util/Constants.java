@@ -6,7 +6,7 @@ package src.atm.util;
  * @author Joshua
  * @version 04/06/2018
  */
-interface Constants {
+public interface Constants {
 
 	/**
 	 * The exit code used when invalid command line arguments are passed to the main entry point.
