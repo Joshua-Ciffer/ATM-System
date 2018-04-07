@@ -1,19 +1,20 @@
 package src.atm.account;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
  * This class provides special functionality and privileges that allow direct access and control of other bank accounts. An admin account can change values
  * stored in the accounts and view account information.
- * <br><br>
- * This class cannot be inherited.
- * This class inherits Account.
  * 
  * @author Joshua Ciffer
  * @version 02/26/2018
  */
-@SuppressWarnings("javadoc")
 public final class AdminAccount extends Account {
+
+	// TODO: Finish writing admin methods.
+	// TODO: Review admin code.
+	// TODO: Write admin javadoc.
 
 	public AdminAccount(String accountName, Pin accountPin) {
 		super(accountName, accountPin);
@@ -30,7 +31,7 @@ public final class AdminAccount extends Account {
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Bank Account #" + newAccountNumber + ".\n";
 		return newAccountNumber;
 	}
-	
+
 	public int createSavingsAccount(String accountName, Pin accountPin, BigDecimal accountBalance, double interestRate) throws IllegalArgumentException {
 		int newAccountNumber = new SavingsAccount(accountName, accountPin, accountBalance, interestRate).getAccountNumber();
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Savings Account #" + newAccountNumber + ".\n";
@@ -70,7 +71,7 @@ public final class AdminAccount extends Account {
 			}
 		}
 	}
-	
+
 	public void editInterestRate(int accountNumber, double interestRate) throws NullPointerException, IllegalArgumentException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (GET_ACCOUNT_MAP().get(accountNumber) instanceof SavingsAccount) {

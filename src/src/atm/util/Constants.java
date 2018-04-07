@@ -3,7 +3,7 @@ package src.atm.util;
 /**
  * This interface contains project wide values and objects.
  *
- * @author Joshua
+ * @author Joshua 
  * @version 04/06/2018
  */
 public interface Constants {

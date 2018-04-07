@@ -1,4 +1,5 @@
 package src.atm.account;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
@@ -7,8 +8,6 @@ import java.util.Locale;
 
 /**
  * This class provides methods and functionality for users to have bank accounts that can store their balances and make deposits, withdrawals, or transfers.
- * <br><br>
- * This class inherits src.atm.account.Account.
  * 
  * @author Joshua Ciffer
  * @version 02/26/2018
@@ -29,10 +28,14 @@ public class BankAccount extends Account {
 	 * Opens a new bank account with the user's name, PIN, and starting balance. Upon calling the constructor in Account, this account is added to the account map.
 	 * If any of the parameters are not valid, the account is closed and removed from the account map.
 	 * 
-	 * @param accountName - The account holder's name.
-	 * @param accountPin - The user's 4 digit PIN.
-	 * @param accountBalance - The account's starting balance.
-	 * @throws IllegalArgumentException - Thrown if a negative amount is entered for the account's balance.
+	 * @param accountName
+	 *        The account holder's name.
+	 * @param accountPin
+	 *        The user's 4 digit PIN.
+	 * @param accountBalance
+	 *        The account's starting balance.
+	 * @throws IllegalArgumentException
+	 *         Thrown if a negative amount is entered for the account's balance.
 	 */
 	public BankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) throws IllegalArgumentException {
 		super(accountName, accountPin);
@@ -48,10 +51,9 @@ public class BankAccount extends Account {
 
 	/**
 	 * Formats a numerical amount into a USD currency format.
-	 * <br><br>
-	 * This method cannot be overridden.
 	 * 
-	 * @param amount - The number to be formatted.
+	 * @param amount
+	 *        The number to be formatted.
 	 * @return A string in USD currency format.
 	 */
 	public static final String TO_CURRENCY_FORMAT(double amount) {
@@ -60,10 +62,9 @@ public class BankAccount extends Account {
 
 	/**
 	 * Formats a numerical amount into a USD currency format.
-	 * <br><br>
-	 * This method cannot be overridden.
 	 * 
-	 * @param amount - The number to be formatted.
+	 * @param amount
+	 *        The number to be formatted.
 	 * @return A string in USD currency format.
 	 */
 	public static final String TO_CURRENCY_FORMAT(BigDecimal amount) {
@@ -72,12 +73,12 @@ public class BankAccount extends Account {
 
 	/**
 	 * Performs a check to see if the user has entered a positive amount for any currency values.
-	 * <br><br>
-	 * This method cannot be overridden.
 	 * 
-	 * @param amount - The amount to check if positive.
-	 * @return True - If the amount is greater than zero.
-	 * @throws IllegalArgumentException - Thrown if the amount is less than zero.
+	 * @param amount
+	 *        The amount to check if positive.
+	 * @return True, if the amount is greater than zero.
+	 * @throws IllegalArgumentException
+	 *         Thrown if the amount is less than zero.
 	 */
 	public static final boolean IS_POSITIVE_AMOUNT(double amount) throws IllegalArgumentException {
 		if (amount >= 0) {
@@ -89,12 +90,12 @@ public class BankAccount extends Account {
 
 	/**
 	 * Performs a check to see if the user has a sufficient balance to complete a transaction.
-	 * <br><br>
-	 * This method cannot be overridden.
 	 * 
-	 * @param amount - The amount to see if the user has in their account balance.
-	 * @return True - If the user has enough money in their balance to complete a transaction.
-	 * @throws IllegalArgumentException - Thrown if the amount the user needs is greater than their balance.
+	 * @param amount
+	 *        The amount to see if the user has in their account balance.
+	 * @return True, if the user has enough money in their balance to complete a transaction.
+	 * @throws IllegalArgumentException
+	 *         Thrown if the amount the user needs is greater than their balance.
 	 */
 	public final boolean hasSufficientBalance(double amount) throws IllegalArgumentException {
 		if (accountBalance.compareTo(new BigDecimal(amount)) >= 0) {
@@ -108,13 +109,15 @@ public class BankAccount extends Account {
 	 * User chooses another account to send money to. Money is withdrawn from their account and deposited in the account they specify. This method adds interest if
 	 * the
 	 * accounts in use are savings accounts.
-	 * <br><br>
-	 * This method cannot be overridden.
 	 * 
-	 * @param receivingAccount - The account to receive the money.
-	 * @param transferAmount - The amount of money to transfer.
-	 * @throws IllegalArgumentException - Thrown if the user enters a negative amount of money to transfer, or they have an insufficient balance.
-	 * @throws NullPointerException - Thrown if the account the user wants to transfer money to does not exist.
+	 * @param receivingAccount
+	 *        The account to receive the money.
+	 * @param transferAmount
+	 *        The amount of money to transfer.
+	 * @throws IllegalArgumentException
+	 *         Thrown if the user enters a negative amount of money to transfer, or they have an insufficient balance.
+	 * @throws NullPointerException
+	 *         Thrown if the account the user wants to transfer money to does not exist.
 	 */
 	public final void transfer(int receivingAccount, double transferAmount) throws IllegalArgumentException, NullPointerException {
 		if (ACCOUNT_EXISTS(receivingAccount) && IS_POSITIVE_AMOUNT(transferAmount) && hasSufficientBalance(transferAmount)) {
@@ -139,8 +142,10 @@ public class BankAccount extends Account {
 	/**
 	 * Deposits a specified amount of money into the user's account.
 	 * 
-	 * @param depositAmount - The amount to deposit.
-	 * @throws IllegalArgumentException - Thrown if the deposit amount is negative.
+	 * @param depositAmount
+	 *        The amount to deposit.
+	 * @throws IllegalArgumentException
+	 *         Thrown if the deposit amount is negative.
 	 */
 	public void deposit(double depositAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(depositAmount)) {
@@ -152,8 +157,10 @@ public class BankAccount extends Account {
 	/**
 	 * Withdrawals a specified amount of money from the user's account.
 	 * 
-	 * @param withdrawalAmount - The amount to withdrawal.
-	 * @throws IllegalArgumentException - Thrown if the withdrawal amount is negative or the user has an insufficient balance.
+	 * @param withdrawalAmount
+	 *        The amount to withdrawal.
+	 * @throws IllegalArgumentException
+	 *         Thrown if the withdrawal amount is negative or the user has an insufficient balance.
 	 */
 	public void withdraw(double withdrawalAmount) throws IllegalArgumentException {
 		if (IS_POSITIVE_AMOUNT(withdrawalAmount) && hasSufficientBalance(withdrawalAmount)) {
@@ -165,9 +172,9 @@ public class BankAccount extends Account {
 	/**
 	 * Compares the contents of two bank account objects to test for equality.
 	 * 
-	 * @param bankAccount - The account to test equality with.
-	 * @return True - If the account's contents are equal.
-	 * <br> False - If the account's contents are not equal.
+	 * @param bankAccount
+	 *        The account to test equality with.
+	 * @return True, if the account's contents are equal, false if otherwise.
 	 */
 	@Override
 	public boolean equals(Object bankAccount) {
@@ -179,8 +186,6 @@ public class BankAccount extends Account {
 	}
 
 	/**
-	 * Provides a string representation of the content of this object.
-	 * 
 	 * @return A concatenated string with all of the information stored in the account.
 	 */
 	@Override
@@ -190,23 +195,15 @@ public class BankAccount extends Account {
 	}
 
 	/**
-	 * Returns the account's balance.
-	 * <br><br>
-	 * This method cannot be overridden.
-	 * 
-	 * @return Returns the account's balance.
+	 * @return The account's balance.
 	 */
 	public final BigDecimal getAccountBalance() {
 		return accountBalance;
 	}
 
 	/**
-	 * Sets the account's balance.
-	 * <br><br>
-	 * This method is only accessible from src.atm.account.
-	 * This method cannot be overridden.
-	 * 
-	 * @param accountBalance - The account's new balance.
+	 * @param accountBalance
+	 *        The new account balance.
 	 */
 	final void setAccountBalance(BigDecimal accountBalance) {
 		this.accountBalance = accountBalance.setScale(2, RoundingMode.HALF_UP);	  // Sets two significant decimal places.
