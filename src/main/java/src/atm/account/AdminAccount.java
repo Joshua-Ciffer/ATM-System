@@ -16,28 +16,68 @@ public final class AdminAccount extends Account {
 	// TODO: Review admin code.
 	// TODO: Write admin javadoc.
 
+	/**
+	 *
+	 *
+	 * @param accountName
+	 * @param accountPin
+	 */
 	public AdminAccount(String accountName, Pin accountPin) {
 		super(accountName, accountPin);
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountName
+	 * @param accountPin
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public int createAdminAccount(String accountName, Pin accountPin) throws IllegalArgumentException {
 		int newAccountNumber = new AdminAccount(accountName, accountPin).getAccountNumber();
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Admin Account #" + newAccountNumber + ".\n";
 		return newAccountNumber;
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountName
+	 * @param accountPin
+	 * @param accountBalance
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public int createBankAccount(String accountName, Pin accountPin, BigDecimal accountBalance) throws IllegalArgumentException {
 		int newAccountNumber = new BankAccount(accountName, accountPin, accountBalance).getAccountNumber();
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Bank Account #" + newAccountNumber + ".\n";
 		return newAccountNumber;
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountName
+	 * @param accountPin
+	 * @param accountBalance
+	 * @param interestRate
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public int createSavingsAccount(String accountName, Pin accountPin, BigDecimal accountBalance, double interestRate) throws IllegalArgumentException {
 		int newAccountNumber = new SavingsAccount(accountName, accountPin, accountBalance, interestRate).getAccountNumber();
 		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Created Savings Account #" + newAccountNumber + ".\n";
 		return newAccountNumber;
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @param accountName
+	 * @throws NullPointerException
+	 */
 	public void editAccountName(int accountNumber, String accountName) throws NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			GET_ACCOUNT_MAP().get(accountNumber).setAccountName(accountName);
@@ -45,6 +85,14 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @param accountPin
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 */
 	public void editAccountPin(int accountNumber, Pin accountPin) throws NullPointerException, IllegalArgumentException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			GET_ACCOUNT_MAP().get(accountNumber).setAccountPin(accountPin);
@@ -52,6 +100,13 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @param accountHistory
+	 * @throws NullPointerException
+	 */
 	public void editAccountHistory(int accountNumber, String accountHistory) throws NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			GET_ACCOUNT_MAP().get(accountNumber).setAccountHistory(accountHistory);
@@ -59,6 +114,14 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @param accountBalance
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 */
 	public void editAccountBalance(int accountNumber, BigDecimal accountBalance) throws NullPointerException, IllegalArgumentException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (GET_ACCOUNT_MAP().get(accountNumber) instanceof BankAccount) {
@@ -72,6 +135,14 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @param interestRate
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 */
 	public void editInterestRate(int accountNumber, double interestRate) throws NullPointerException, IllegalArgumentException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			if (GET_ACCOUNT_MAP().get(accountNumber) instanceof SavingsAccount) {
@@ -85,6 +156,12 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @param accountNumber
+	 * @throws NullPointerException
+	 */
 	public void deleteAccount(int accountNumber) throws NullPointerException {
 		if (ACCOUNT_EXISTS(accountNumber)) {
 			GET_ACCOUNT_MAP().remove(accountNumber, GET_ACCOUNT_MAP().get(accountNumber));
@@ -92,6 +169,11 @@ public final class AdminAccount extends Account {
 		}
 	}
 
+	/**
+	 *
+	 *
+	 * @return
+	 */
 	public String getListOfAccounts() {
 		Account[] listOfAccounts = GET_ACCOUNT_MAP().values().toArray(new Account[GET_ACCOUNT_MAP().size()]);	 // HashMap to Collection, to Account[]
 		String accountList = listOfAccounts.length + " in the system.\n";
