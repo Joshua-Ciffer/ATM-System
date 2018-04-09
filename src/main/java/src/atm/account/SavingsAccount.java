@@ -22,7 +22,7 @@ public final class SavingsAccount extends BankAccount {
 	private double interestRate;
 
 	/**
-	 * Constructs a new savings account. If all of the parameters are valid, the savings account is added to the account map. If any parameters are not valid, the
+	 * Constructs a new savings account. If all of the parameters are valid, the savings account is added to the account database. If any parameters are not valid, the
 	 * account is removed from the account map and destroyed.
 	 * 
 	 * @param accountName
@@ -106,8 +106,8 @@ public final class SavingsAccount extends BankAccount {
 	 */
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + " \nAccount Name: " + accountName + " \nAccount Pin: " + accountPin.getPin() + " \nAccount Balance: "
-				+ TO_CURRENCY_FORMAT(accountBalance) + " \nInterest Rate: " + TO_PERCENTAGE_FORMAT(interestRate) + " \nAccount History: " + accountHistory + " ";
+		return "Account Number: " + ACCOUNT_NUMBER + " \nAccount Name: " + accountName + " \nAccount Pin: " + accountPin + " \nAccount Balance: "
+				+ TO_CURRENCY_FORMAT(accountBalance) + " \nInterest Rate: " + TO_PERCENTAGE_FORMAT(interestRate) + " \nAccount History: " + accountHistory;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package src.atm.account;
 
 /**
- * This class acts as a wrapper object for a 4 digit numerical PIN. It also provides methods for validating Pin parameters and throwing appropriate exceptions.
+ * This class acts as a wrapper object for a 4 digit numerical PIN. It also provides methods for validating Pin parameters.
  * 
  * @author Joshua Ciffer
  * @version 02/26/2018
@@ -9,7 +9,7 @@ package src.atm.account;
 public final class Pin {
 
 	/**
-	 * The 4 digit numerical PIN stored.
+	 * The 4 digit numerical PIN.
 	 */
 	private String pin;
 
@@ -54,7 +54,7 @@ public final class Pin {
 	 * 
 	 * @param pin
 	 *        The PIN to be validated.
-	 * @return True, if the PIN is valid, false if otherwise.
+	 * @return True, if the PIN is valid.
 	 * @throws IllegalArgumentException
 	 *         Thrown if the PIN is invalid.
 	 */
@@ -140,7 +140,7 @@ public final class Pin {
 	 */
 	@Override
 	public String toString() {
-		return "PIN: " + pin;
+		return pin;
 	}
 
 	/**

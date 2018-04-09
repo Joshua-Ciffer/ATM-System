@@ -44,7 +44,7 @@ public abstract class Account {
 
 	/**
 	 * Constructor called by subclasses that creates an account with the user's name, 4 digit PIN, and account history. The account history for all of accounts
-	 * starts with an entry with the date and time the account was created. When the account is created, it is added to the account map.
+	 * starts with an entry with the date and time the account was created. When the account is created, it is added to the account database.
 	 * 
 	 * @param accountName
 	 *        The account holder's name.
@@ -55,12 +55,12 @@ public abstract class Account {
 		ACCOUNT_NUMBER = GENERATE_ACCOUNT_NUMBER();
 		this.accountName = accountName;
 		this.accountPin = accountPin;
-		accountHistory = DATE_TIME.format(LocalDateTime.now()) + " - Account Opened.\n";
+		accountHistory = DATE_TIME.format(LocalDateTime.now()) + " - Account opened.\n";
 		ACCOUNT_MAP.put(ACCOUNT_NUMBER, this);
 	}
 
 	/**
-	 * Generates a random 6 digit account number that is currently not in use by any accounts in the account map.
+	 * Generates a random 6 digit account number that is currently not in use by any accounts in the account database.
 	 * 
 	 * @return Unique 6 digit account number.
 	 */
@@ -80,7 +80,7 @@ public abstract class Account {
 	}
 
 	/**
-	 * Retrieves an account from the account map with a specified account number. The method also checks to make sure the correct PIN has been entered.
+	 * Retrieves an account from the account database with a specified account number. The method also checks to make sure the correct PIN has been entered.
 	 * 
 	 * @param accountNumber
 	 *        The account to be returned.
@@ -101,7 +101,7 @@ public abstract class Account {
 	}
 
 	/**
-	 * Checks the account map to see if an account with the given account number has been created.
+	 * Checks the account database to see if an account with the given account number has been created.
 	 * 
 	 * @param accountNumber
 	 *        The account number to check for.
@@ -131,7 +131,7 @@ public abstract class Account {
 	 */
 	public final void changeAccountPin(String oldPin, String newPin, String confirmPin) throws IllegalArgumentException {
 		accountPin.changePin(ACCOUNT_NUMBER, oldPin, newPin, confirmPin);
-		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin Changed.\n";
+		accountHistory = accountHistory + DATE_TIME.format(LocalDateTime.now()) + " - Pin changed.\n";
 	}
 
 	/**
@@ -149,8 +149,6 @@ public abstract class Account {
 	}
 
 	/**
-	 * Returns an instance of the account map.
-	 * 
 	 * @return A reference to the account map.
 	 */
 	public static final HashMap<Integer, Account> GET_ACCOUNT_MAP() {
@@ -219,7 +217,7 @@ public abstract class Account {
 
 	/**
 	 * @param accountHistory
-	 *        he new account history log.
+	 *        The new account history log.
 	 */
 	final void setAccountHistory(String accountHistory) {
 		this.accountHistory = accountHistory;

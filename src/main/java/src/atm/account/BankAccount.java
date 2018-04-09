@@ -25,7 +25,7 @@ public class BankAccount extends Account {
 	BigDecimal accountBalance;
 
 	/**
-	 * Opens a new bank account with the user's name, PIN, and starting balance. Upon calling the constructor in Account, this account is added to the account map.
+	 * Opens a new bank account with the user's name, PIN, and starting balance. Upon calling the constructor in Account, this account is added to the account database.
 	 * If any of the parameters are not valid, the account is closed and removed from the account map.
 	 * 
 	 * @param accountName
@@ -107,8 +107,7 @@ public class BankAccount extends Account {
 
 	/**
 	 * User chooses another account to send money to. Money is withdrawn from their account and deposited in the account they specify. This method adds interest if
-	 * the
-	 * accounts in use are savings accounts.
+	 * the accounts in use are savings accounts.
 	 * 
 	 * @param receivingAccount
 	 *        The account to receive the money.
@@ -190,8 +189,8 @@ public class BankAccount extends Account {
 	 */
 	@Override
 	public String toString() {
-		return "Account Number: " + ACCOUNT_NUMBER + " \nAccount Name: " + accountName + " \nAccount Pin: " + accountPin.getPin() + " \nAccount Balance: "
-				+ TO_CURRENCY_FORMAT(accountBalance) + " \nAccount History: " + accountHistory + " ";
+		return "Account Number: " + ACCOUNT_NUMBER + " \nAccount Name: " + accountName + " \nAccount Pin: " + accountPin + " \nAccount Balance: "
+				+ TO_CURRENCY_FORMAT(accountBalance) + " \nAccount History: " + accountHistory;
 	}
 
 	/**
