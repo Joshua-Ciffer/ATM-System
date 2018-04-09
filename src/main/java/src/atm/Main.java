@@ -5,12 +5,13 @@ import java.util.InputMismatchException;
 import java.math.BigDecimal;
 
 import src.atm.account.Account;
+import src.atm.account.AdminAccount;
 import src.atm.account.BankAccount;
 import src.atm.account.SavingsAccount;
-import src.atm.account.AdminAccount;
 import src.atm.account.Pin;
 import src.atm.gui.GUI;
 
+import static src.atm.util.Constants.SUCCESSFUL_EXECUTION_CODE;
 import static src.atm.util.Constants.INVALID_COMMAND_ARGS_CODE;
 
 /**
@@ -19,7 +20,7 @@ import static src.atm.util.Constants.INVALID_COMMAND_ARGS_CODE;
  * passed.
  * 
  * @author Joshua Ciffer
- * @version 04/06/2018
+ * @version 04/08/2018
  */
 public final class Main {
 
@@ -27,26 +28,6 @@ public final class Main {
 	 * Don't let anyone instantiate this class.
 	 */
 	private Main() {}
-
-	/**
-	 * Accepts all user input for menu prompts.
-	 */
-	private static Scanner userInput;
-
-	/**
-	 * Stores user responses for picking menu options.
-	 */
-	private static short userResponse;
-
-	/**
-	 * Temporary storage for the account that is currently logged in.
-	 */
-	private static Account currentAccount;
-
-	/**
-	 * Keeps track of whether a user is logged in.
-	 */
-	private static boolean loggedIn;
 
 	/**
 	 * Main entry point for the program.
@@ -59,13 +40,37 @@ public final class Main {
 			new GUI();
 		} else if (args[0].equalsIgnoreCase("--no-gui")) {
 			System.out.println("Launching in no GUI mode.\n");
-			userInput = new Scanner(System.in);
+			cli_userInput = new Scanner(System.in);
 			CLI_MAIN_MENU();
 		} else {
 			System.out.println("Invalid command line arguments.");
 			System.exit(INVALID_COMMAND_ARGS_CODE);
 		}
 	}
+
+	/**
+	 * Accepts all user input for menu prompts.
+	 * This object is only used in command line mode.
+	 */
+	private static Scanner cli_userInput;
+
+	/**
+	 * Stores user responses for picking menu options.
+	 * This variable is only used in command line mode.
+	 */
+	private static short cli_userResponse;
+
+	/**
+	 * Temporary storage for the account that is currently logged in.
+	 * This object is only used in command line mode.
+	 */
+	private static Account cli_currentAccount;
+
+	/**
+	 * Keeps track of whether a user is logged in.
+	 * This variable is only used in command line mode.
+	 */
+	private static boolean cli_loggedIn;
 
 	/**
 	 * The main menu that displays when a user is not logged in. The user has the options to login to an account, create an account, or exit.
@@ -75,13 +80,13 @@ public final class Main {
 		do {
 			System.out.print("ATM Main Menu\n (1) Login\n (2) Create Account\n (3) Exit\nEnter an option: ");
 			try {
-				userResponse = userInput.nextShort();
+				cli_userResponse = cli_userInput.nextShort();
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter one of the given options.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			}
-			switch (userResponse) {
+			switch (cli_userResponse) {
 				case 1: {	// Login.
 					CLI_LOGIN();
 					break;
@@ -114,11 +119,11 @@ public final class Main {
 		do {
 			System.out.print("Enter your account number: #");
 			try {
-				accountNumber = userInput.nextInt();
+				accountNumber = cli_userInput.nextInt();
 				Account.ACCOUNT_EXISTS(accountNumber);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter your account number.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (NullPointerException e) {
 				System.out.println("\n" + e.getMessage());
@@ -127,17 +132,17 @@ public final class Main {
 			do {
 				System.out.print("Enter your account PIN: ");
 				try {
-					accountPin = userInput.next();
+					accountPin = cli_userInput.next();
 					Pin.IS_CORRECT_PIN(accountNumber, accountPin);
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage());
 					break;
 				}
-				currentAccount = Account.GET_ACCOUNT(accountNumber, accountPin);
-				loggedIn = true;
-				if (currentAccount instanceof BankAccount) {
-					CLI_ACCOUNT_MENU();
-				} else if (currentAccount instanceof AdminAccount) {
+				cli_currentAccount = Account.GET_ACCOUNT(accountNumber, accountPin);
+				cli_loggedIn = true;
+				if (cli_currentAccount instanceof BankAccount) {
+					CLI_BANK_ACCOUNT_MENU();
+				} else if (cli_currentAccount instanceof AdminAccount) {
 					CLI_ADMIN_ACCOUNT_MENU();
 				}
 				break;
@@ -152,22 +157,22 @@ public final class Main {
 	 */
 	private static void CLI_CREATE_ACCOUNT() {
 		String accountType, accountName, accountPin, confirmPin;
-		double accountBalance, interestRate = 0;
-		userInput.nextLine();
+		double accountBalance = 0, interestRate = 0;
+		cli_userInput.nextLine();
 		System.out.print("\n");
 		do {
 			System.out.print("Would you like to create a bank account or a savings account?: ");
-			accountType = userInput.nextLine();
+			accountType = cli_userInput.nextLine();
 			switch (accountType.toLowerCase()) {
 				case "savings account": {
 					do {
 						System.out.print("Please enter the interest rate for your account: %");
 						try {
-							interestRate = userInput.nextDouble();
+							interestRate = cli_userInput.nextDouble();
 							BankAccount.IS_POSITIVE_AMOUNT(interestRate);
 						} catch (InputMismatchException e) {
 							System.out.println("\nPlease enter the interest rate for your account.\n");
-							userInput.next();
+							cli_userInput.next();
 							continue;
 						} catch (IllegalArgumentException e) {
 							System.out.println("\n" + e.getMessage() + "\n");
@@ -175,16 +180,33 @@ public final class Main {
 						}
 						break;
 					} while (true);
-					userInput.nextLine();
 				}
 				case "bank account": {
 					do {
+						System.out.print("Enter your starting balance: $");
+						try {
+							accountBalance = cli_userInput.nextDouble();
+							BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
+						} catch (InputMismatchException e) {
+							System.out.println("\nPlease enter your account's starting balance.\n");
+							cli_userInput.next();
+							continue;
+						} catch (IllegalArgumentException e) {
+							System.out.println("\n" + e.getMessage() + "\n");
+							continue;
+						}
+						break;
+					} while (true);
+				}
+				case "admin account": {
+					cli_userInput.nextLine();
+					do {
 						System.out.print("Enter your name: ");
-						accountName = userInput.nextLine();
+						accountName = cli_userInput.nextLine();
 						do {
 							System.out.print("Create an account PIN: ");
 							try {
-								accountPin = userInput.next();
+								accountPin = cli_userInput.next();
 								Pin.IS_VALID_PIN(accountPin);
 							} catch (IllegalArgumentException e) {
 								System.out.println("\n" + e.getMessage() + "\n");
@@ -193,41 +215,28 @@ public final class Main {
 							do {
 								System.out.print("Confirm your account PIN: ");
 								try {
-									confirmPin = userInput.next();
+									confirmPin = cli_userInput.next();
 									Pin.PINs_MATCH(accountPin, confirmPin);
 								} catch (IllegalArgumentException e) {
 									System.out.println("\n" + e.getMessage() + "\n");
 									continue;
 								}
-								do {
-									System.out.print("Enter your starting balance: $");
-									try {
-										accountBalance = userInput.nextDouble();
-										BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
-									} catch (InputMismatchException e) {
-										System.out.println("\nPlease enter your account's starting balance.\n");
-										userInput.next();
-										continue;
-									} catch (IllegalArgumentException e) {
-										System.out.println("\n" + e.getMessage() + "\n");
-										continue;
-									}
-									if (accountType.equalsIgnoreCase("savings account")) {
-										System.out.println("\nAccount created. Your account number is #"
-												+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate)
-														.getAccountNumber());
-									} else {
-										System.out.println("\nAccount created. Your account number is #"
-												+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
-									}
-									break;
-								} while (true);
 								break;
 							} while (true);
 							break;
 						} while (true);
 						break;
 					} while (true);
+					if (accountType.equalsIgnoreCase("savings account")) {
+						System.out.println("\nAccount created. Your account number is #"
+								+ new SavingsAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance), interestRate).getAccountNumber() + ".");
+					} else if (accountType.equalsIgnoreCase("bank account")) {
+						System.out.println("\nAccount created. Your account number is #"
+								+ new BankAccount(accountName, new Pin(accountPin, confirmPin), new BigDecimal(accountBalance)).getAccountNumber() + ".");
+					} else if (accountType.equalsIgnoreCase("admin account")) {
+						System.out.println(
+								"\nAccount created. Your account number is #" + new AdminAccount(accountName, new Pin(accountPin, confirmPin)).getAccountNumber() + ".");
+					}
 					break;
 				}
 				default: {
@@ -244,25 +253,25 @@ public final class Main {
 	 * This method is only used in command line mode.
 	 */
 	private static void CLI_EXIT() {
-		System.exit(0);
+		System.exit(SUCCESSFUL_EXECUTION_CODE);
 	}
 
 	/**
 	 * Displays options the user can select when they are logged into their account.
 	 * This method is only used in command line mode.
 	 */
-	private static void CLI_ACCOUNT_MENU() {
+	private static void CLI_BANK_ACCOUNT_MENU() {
 		System.out.print("\n");
 		do {
 			System.out.print("Account Menu\n (1) Deposit\n (2) Withdraw\n (3) Transfer\n (4) Check Balance\n (5) Account Options\n (6) Logout\nEnter an option: ");
 			try {
-				userResponse = userInput.nextShort();
+				cli_userResponse = cli_userInput.nextShort();
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter one of the given options.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			}
-			switch (userResponse) {
+			switch (cli_userResponse) {
 				case 1: {	// Deposit.
 					CLI_DEPOSIT();
 					break;
@@ -292,7 +301,7 @@ public final class Main {
 					continue;
 				}
 			}
-		} while (loggedIn);
+		} while (cli_loggedIn);
 	}
 
 	/**
@@ -305,20 +314,20 @@ public final class Main {
 		do {
 			System.out.print("Enter the amount you want to deposit: $");
 			try {
-				depositAmount = userInput.nextDouble();
+				depositAmount = cli_userInput.nextDouble();
 				BankAccount.IS_POSITIVE_AMOUNT(depositAmount);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter the amount you want to deposit.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
 				continue;
 			}
-			if (currentAccount instanceof SavingsAccount) {
-				((SavingsAccount)currentAccount).deposit(depositAmount);
+			if (cli_currentAccount instanceof SavingsAccount) {
+				((SavingsAccount)cli_currentAccount).deposit(depositAmount);
 			} else {
-				((BankAccount)currentAccount).deposit(depositAmount);
+				((BankAccount)cli_currentAccount).deposit(depositAmount);
 			}
 			System.out.println("\nDeposited " + BankAccount.TO_CURRENCY_FORMAT(depositAmount) + " to your account.\n");
 			break;
@@ -335,12 +344,12 @@ public final class Main {
 		do {
 			System.out.print("Enter the amount you want to withdraw: $");
 			try {
-				withdrawAmount = userInput.nextDouble();
+				withdrawAmount = cli_userInput.nextDouble();
 				BankAccount.IS_POSITIVE_AMOUNT(withdrawAmount);
-				((BankAccount)currentAccount).hasSufficientBalance(withdrawAmount);
+				((BankAccount)cli_currentAccount).hasSufficientBalance(withdrawAmount);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter the amount you want to withdraw.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
@@ -350,7 +359,7 @@ public final class Main {
 					continue;
 				}
 			}
-			((BankAccount)currentAccount).withdraw(withdrawAmount);
+			((BankAccount)cli_currentAccount).withdraw(withdrawAmount);
 			System.out.println("\nWithdrew " + BankAccount.TO_CURRENCY_FORMAT(withdrawAmount) + " from your account.\n");
 			break;
 		} while (true);
@@ -367,11 +376,11 @@ public final class Main {
 		do {
 			System.out.print("Enter the account number that you want to transfer to: #");
 			try {
-				receivingAccount = userInput.nextInt();
+				receivingAccount = cli_userInput.nextInt();
 				Account.ACCOUNT_EXISTS(receivingAccount);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter the account number that you want to transfer to.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (NullPointerException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
@@ -380,12 +389,12 @@ public final class Main {
 			do {
 				System.out.print("Enter the amount that you want to transfer: $");
 				try {
-					transferAmount = userInput.nextDouble();
+					transferAmount = cli_userInput.nextDouble();
 					BankAccount.IS_POSITIVE_AMOUNT(transferAmount);
-					((BankAccount)currentAccount).hasSufficientBalance(transferAmount);
+					((BankAccount)cli_currentAccount).hasSufficientBalance(transferAmount);
 				} catch (InputMismatchException e) {
 					System.out.println("\nPlease enter the amount that you want to transfer.\n");
-					userInput.next();
+					cli_userInput.next();
 					continue;
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
@@ -395,7 +404,7 @@ public final class Main {
 						continue;
 					}
 				}
-				((BankAccount)currentAccount).transfer(receivingAccount, transferAmount);
+				((BankAccount)cli_currentAccount).transfer(receivingAccount, transferAmount);
 				System.out.println("\nTransfered " + BankAccount.TO_CURRENCY_FORMAT(transferAmount) + " from your account to account #" + receivingAccount + ".\n");
 				break;
 			} while (true);
@@ -408,7 +417,7 @@ public final class Main {
 	 * This method is only used in command line mode.
 	 */
 	private static void CLI_CHECK_BALANCE() {
-		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)currentAccount).getAccountBalance()) + ".\n");
+		System.out.println("\nYour account balance is " + BankAccount.TO_CURRENCY_FORMAT(((BankAccount)cli_currentAccount).getAccountBalance()) + ".\n");
 	}
 
 	/**
@@ -421,13 +430,13 @@ public final class Main {
 		do {
 			System.out.print("Account Options\n (1) Change PIN\n (2) View Account History\n (3) Delete Account\n (4) Back\nEnter an option: ");
 			try {
-				userResponse = userInput.nextShort();
+				cli_userResponse = cli_userInput.nextShort();
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter one of the given options.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			}
-			switch (userResponse) {
+			switch (cli_userResponse) {
 				case 1: {	// Change PIN.
 					CLI_CHANGE_PIN();
 					break;
@@ -438,7 +447,7 @@ public final class Main {
 				}
 				case 3: {	// Delete account.
 					CLI_DELETE_ACCOUNT();
-					if (currentAccount == null) {
+					if (cli_currentAccount == null) {
 						exitAccountOptions = true;
 					}
 					break;
@@ -466,8 +475,8 @@ public final class Main {
 		do {
 			System.out.print("Enter your current PIN: ");
 			try {
-				currentPin = userInput.next();
-				Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), currentPin);
+				currentPin = cli_userInput.next();
+				Pin.IS_CORRECT_PIN(cli_currentAccount.getAccountNumber(), currentPin);
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
 				break;
@@ -475,7 +484,7 @@ public final class Main {
 			do {
 				System.out.print("Create your new PIN: ");
 				try {
-					newPin = userInput.next();
+					newPin = cli_userInput.next();
 					Pin.IS_VALID_PIN(newPin);
 				} catch (IllegalArgumentException e) {
 					System.out.println("\n" + e.getMessage() + "\n");
@@ -484,13 +493,13 @@ public final class Main {
 				do {
 					System.out.print("Confirm your new PIN: ");
 					try {
-						confirmPin = userInput.next();
+						confirmPin = cli_userInput.next();
 						Pin.PINs_MATCH(newPin, confirmPin);
 					} catch (IllegalArgumentException e) {
 						System.out.println("\n" + e.getMessage() + "\n");
 						continue;
 					}
-					currentAccount.changeAccountPin(currentPin, newPin, confirmPin);
+					cli_currentAccount.changeAccountPin(currentPin, newPin, confirmPin);
 					System.out.println("\nYour account PIN has been changed.\n");
 					break;
 				} while (true);
@@ -505,7 +514,7 @@ public final class Main {
 	 * This method is only used in command line mode.
 	 */
 	private static void CLI_VIEW_ACCOUNT_HISTORY() {
-		System.out.println("\nAccount History\n" + currentAccount.getAccountHistory());
+		System.out.println("\nAccount History\n" + cli_currentAccount.getAccountHistory());
 	}
 
 	/**
@@ -514,18 +523,18 @@ public final class Main {
 	 */
 	private static void CLI_DELETE_ACCOUNT() {
 		String confirmAccountDeletion, accountPin;
-		userInput.nextLine();
+		cli_userInput.nextLine();
 		System.out.print("\n");
 		do {
 			System.out.print("Are you sure you want to delete your account?\nType \"YES\" to confirm: ");
-			confirmAccountDeletion = userInput.next();
+			confirmAccountDeletion = cli_userInput.next();
 			if (confirmAccountDeletion.equalsIgnoreCase("YES")) {
 				do {
 					System.out.print("Enter your PIN to complete your account deletion: ");
 					try {
-						accountPin = userInput.next();
-						if (Pin.IS_CORRECT_PIN(currentAccount.getAccountNumber(), accountPin)) {
-							currentAccount.closeAccount(accountPin);
+						accountPin = cli_userInput.next();
+						if (Pin.IS_CORRECT_PIN(cli_currentAccount.getAccountNumber(), accountPin)) {
+							cli_currentAccount.closeAccount(accountPin);
 							System.out.println("\nYour account has been deleted.");
 							CLI_LOGOUT();
 							break;
@@ -548,8 +557,8 @@ public final class Main {
 	 * This method is only used in command line mode.
 	 */
 	private static void CLI_LOGOUT() {
-		currentAccount = null;
-		loggedIn = false;
+		cli_currentAccount = null;
+		cli_loggedIn = false;
 	}
 
 	/**
@@ -561,13 +570,13 @@ public final class Main {
 		do {
 			System.out.print("Account Menu\n (1) Create Account\n (2) Edit Account\n (3) Delete Account\n (4) Account Options\n (5) Logout\nEnter an option: ");
 			try {
-				userResponse = userInput.nextShort();
+				cli_userResponse = cli_userInput.nextShort();
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter one of the given options.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			}
-			switch (userResponse) {
+			switch (cli_userResponse) {
 				case 1: {	// Create account.
 					CLI_ADMIN_CREATE_ACCOUNT();
 					break;
@@ -589,7 +598,7 @@ public final class Main {
 					break;
 				}
 			}
-		} while (loggedIn);
+		} while (cli_loggedIn);
 	}
 
 	// TODO: Review admin method code.
@@ -605,14 +614,14 @@ public final class Main {
 		System.out.print("\n");
 		do {
 			System.out.print("Enter the type of account you would like to create. Admin, Bank, or Savings?: ");
-			accountType = userInput.next();
+			accountType = cli_userInput.next();
 			do {
 				System.out.print("Enter the name: ");
-				accountName = userInput.nextLine();
+				accountName = cli_userInput.nextLine();
 				do {
 					System.out.print("Create an account PIN: ");
 					try {
-						accountPin = userInput.next();
+						accountPin = cli_userInput.next();
 						Pin.IS_VALID_PIN(accountPin);
 					} catch (IllegalArgumentException e) {
 						System.out.println("\n" + e.getMessage() + "\n");
@@ -621,7 +630,7 @@ public final class Main {
 					do {
 						System.out.print("Confirm the account PIN: ");
 						try {
-							confirmPin = userInput.next();
+							confirmPin = cli_userInput.next();
 							Pin.PINs_MATCH(accountPin, confirmPin);
 						} catch (IllegalArgumentException e) {
 							System.out.println("\n" + e.getMessage() + "\n");
@@ -642,11 +651,11 @@ public final class Main {
 					do {
 						System.out.print("Enter the account's interest rate: ");
 						try {
-							interestRate = userInput.nextDouble();
+							interestRate = cli_userInput.nextDouble();
 							BankAccount.IS_POSITIVE_AMOUNT(interestRate);
 						} catch (InputMismatchException e) {
 							System.out.println("\nPlease enter the account's interest rate.\n");
-							userInput.next();
+							cli_userInput.next();
 							continue;
 						} catch (IllegalArgumentException e) {
 							System.out.println("\n" + e.getMessage() + "\n");
@@ -659,11 +668,11 @@ public final class Main {
 					do {
 						System.out.print("Enter the starting balance: $");
 						try {
-							accountBalance = userInput.nextDouble();
+							accountBalance = cli_userInput.nextDouble();
 							BankAccount.IS_POSITIVE_AMOUNT(accountBalance);
 						} catch (InputMismatchException e) {
 							System.out.println("\nPlease enter the account's starting balance.\n");
-							userInput.next();
+							cli_userInput.next();
 							continue;
 						} catch (IllegalArgumentException e) {
 							System.out.println("\n" + e.getMessage() + "\n");
@@ -700,11 +709,11 @@ public final class Main {
 		do {
 			System.out.print("Enter the number of the account you want to edit: #");
 			try {
-				accountNumber = userInput.nextInt();
+				accountNumber = cli_userInput.nextInt();
 				Account.ACCOUNT_EXISTS(accountNumber);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter the number of the account you want to edit.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (IllegalArgumentException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
@@ -736,17 +745,17 @@ public final class Main {
 		do {
 			System.out.print("Enter the number of the account that you want to delete: #");
 			try {
-				accountNumber = userInput.nextInt();
+				accountNumber = cli_userInput.nextInt();
 				Account.ACCOUNT_EXISTS(accountNumber);
 			} catch (InputMismatchException e) {
 				System.out.println("\nPlease enter the number of the account that you want to delete.\n");
-				userInput.next();
+				cli_userInput.next();
 				continue;
 			} catch (NullPointerException e) {
 				System.out.println("\n" + e.getMessage() + "\n");
 				break;
 			}
-			((AdminAccount)currentAccount).deleteAccount(accountNumber);
+			((AdminAccount)cli_currentAccount).deleteAccount(accountNumber);
 			System.out.println("\nDeleted account #" + accountNumber + ".\n");
 			break;
 		} while (true);
